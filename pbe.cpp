@@ -4,7 +4,7 @@
 // Order the Premium Edition at https://www.tangiblesoftwaresolutions.com
 //========================================================================
 
-#include "PolarisBiosEditor.App.h"
+#include "pbe.h"
 
 
 namespace PolarisBiosEditor

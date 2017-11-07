@@ -14,6 +14,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include "exceptionhelper.h"
+#include <cstdint>
 
 //C# TO C++ CONVERTER NOTE: Forward class declarations:
 namespace PolarisBiosEditor { class ATOM_MCLK_ENTRY; }
@@ -22,11 +23,41 @@ namespace PolarisBiosEditor { class ATOM_VOLTAGE_ENTRY; }
 namespace PolarisBiosEditor { class ATOM_VRAM_ENTRY; }
 namespace PolarisBiosEditor { class ATOM_VRAM_TIMING_ENTRY; }
 
-using namespace Microsoft::Win32;
-
 namespace PolarisBiosEditor
 {
-	class MainWindow : public Window
+
+	struct ATOM_COMMON_TABLE_HEADER
+	{
+		int16_t usStructureSize;
+		unsigned char ucTableFormatRevision;
+		unsigned char ucTableContentRevision;
+	};
+
+	struct ATOM_ROM_HEADER
+	{
+		ATOM_COMMON_TABLE_HEADER sHeader;
+		int32_t uaFirmWareSignature;
+		int16_t usBiosRuntimeSegmentAddress;
+		int16_t usProtectedModeInfoOffset;
+		int16_t usConfigFilenameOffset;
+		int16_t usCRC_BlockOffset;
+		int16_t usBIOS_BootupMessageOffset;
+		int16_t usInt10Offset;
+		int16_t usPciBusDevInitCode;
+		int16_t usIoBaseAddress;
+		int16_t usSubsystemVendorID;
+		int16_t usSubsystemID;
+		int16_t usPCI_InfoOffset;
+		int16_t usMasterCommandTableOffset;
+		int16_t usMasterDataTableOffset;
+		unsigned char ucExtendedFunctionCode;
+		unsigned char ucReserved;
+		int32_t ulPSPDirTableOffset;
+		int16_t usVendorID;
+		int16_t usDeviceID;
+	};
+
+	class MainWindow
 	{
 	private:
 		std::vector<unsigned char> buffer;
@@ -83,25 +114,25 @@ namespace PolarisBiosEditor
 //		unsafe struct ATOM_ROM_HEADER
 //		{
 //			public ATOM_COMMON_TABLE_HEADER sHeader;
-//			public UInt32 uaFirmWareSignature;
-//			public UInt16 usBiosRuntimeSegmentAddress;
-//			public UInt16 usProtectedModeInfoOffset;
-//			public UInt16 usConfigFilenameOffset;
-//			public UInt16 usCRC_BlockOffset;
-//			public UInt16 usBIOS_BootupMessageOffset;
-//			public UInt16 usInt10Offset;
-//			public UInt16 usPciBusDevInitCode;
-//			public UInt16 usIoBaseAddress;
-//			public UInt16 usSubsystemVendorID;
-//			public UInt16 usSubsystemID;
-//			public UInt16 usPCI_InfoOffset;
-//			public UInt16 usMasterCommandTableOffset;
-//			public UInt16 usMasterDataTableOffset;
+//			public int32_t uaFirmWareSignature;
+//			public int16_t usBiosRuntimeSegmentAddress;
+//			public int16_t usProtectedModeInfoOffset;
+//			public int16_t usConfigFilenameOffset;
+//			public int16_t usCRC_BlockOffset;
+//			public int16_t usBIOS_BootupMessageOffset;
+//			public int16_t usInt10Offset;
+//			public int16_t usPciBusDevInitCode;
+//			public int16_t usIoBaseAddress;
+//			public int16_t usSubsystemVendorID;
+//			public int16_t usSubsystemID;
+//			public int16_t usPCI_InfoOffset;
+//			public int16_t usMasterCommandTableOffset;
+//			public int16_t usMasterDataTableOffset;
 //			public Byte ucExtendedFunctionCode;
 //			public Byte ucReserved;
-//			public UInt32 ulPSPDirTableOffset;
-//			public UInt16 usVendorID;
-//			public UInt16 usDeviceID;
+//			public int32_t ulPSPDirTableOffset;
+//			public int16_t usVendorID;
+//			public int16_t usDeviceID;
 //		}
 
 //C# TO C++ CONVERTER TODO TASK: C# 'unsafe' code is not converted by C# to C++ Converter:
@@ -110,41 +141,41 @@ namespace PolarisBiosEditor
 //		unsafe struct ATOM_DATA_TABLES
 //		{
 //			public ATOM_COMMON_TABLE_HEADER sHeader;
-//			public UInt16 UtilityPipeLine;
-//			public UInt16 MultimediaCapabilityInfo;
-//			public UInt16 MultimediaConfigInfo;
-//			public UInt16 StandardVESA_Timing;
-//			public UInt16 FirmwareInfo;
-//			public UInt16 PaletteData;
-//			public UInt16 LCD_Info;
-//			public UInt16 DIGTransmitterInfo;
-//			public UInt16 SMU_Info;
-//			public UInt16 SupportedDevicesInfo;
-//			public UInt16 GPIO_I2C_Info;
-//			public UInt16 VRAM_UsageByFirmware;
-//			public UInt16 GPIO_Pin_LUT;
-//			public UInt16 VESA_ToInternalModeLUT;
-//			public UInt16 GFX_Info;
-//			public UInt16 PowerPlayInfo;
-//			public UInt16 GPUVirtualizationInfo;
-//			public UInt16 SaveRestoreInfo;
-//			public UInt16 PPLL_SS_Info;
-//			public UInt16 OemInfo;
-//			public UInt16 XTMDS_Info;
-//			public UInt16 MclkSS_Info;
-//			public UInt16 Object_Header;
-//			public UInt16 IndirectIOAccess;
-//			public UInt16 MC_InitParameter;
-//			public UInt16 ASIC_VDDC_Info;
-//			public UInt16 ASIC_InternalSS_Info;
-//			public UInt16 TV_VideoMode;
-//			public UInt16 VRAM_Info;
-//			public UInt16 MemoryTrainingInfo;
-//			public UInt16 IntegratedSystemInfo;
-//			public UInt16 ASIC_ProfilingInfo;
-//			public UInt16 VoltageObjectInfo;
-//			public UInt16 PowerSourceInfo;
-//			public UInt16 ServiceInfo;
+//			public int16_t UtilityPipeLine;
+//			public int16_t MultimediaCapabilityInfo;
+//			public int16_t MultimediaConfigInfo;
+//			public int16_t StandardVESA_Timing;
+//			public int16_t FirmwareInfo;
+//			public int16_t PaletteData;
+//			public int16_t LCD_Info;
+//			public int16_t DIGTransmitterInfo;
+//			public int16_t SMU_Info;
+//			public int16_t SupportedDevicesInfo;
+//			public int16_t GPIO_I2C_Info;
+//			public int16_t VRAM_UsageByFirmware;
+//			public int16_t GPIO_Pin_LUT;
+//			public int16_t VESA_ToInternalModeLUT;
+//			public int16_t GFX_Info;
+//			public int16_t PowerPlayInfo;
+//			public int16_t GPUVirtualizationInfo;
+//			public int16_t SaveRestoreInfo;
+//			public int16_t PPLL_SS_Info;
+//			public int16_t OemInfo;
+//			public int16_t XTMDS_Info;
+//			public int16_t MclkSS_Info;
+//			public int16_t Object_Header;
+//			public int16_t IndirectIOAccess;
+//			public int16_t MC_InitParameter;
+//			public int16_t ASIC_VDDC_Info;
+//			public int16_t ASIC_InternalSS_Info;
+//			public int16_t TV_VideoMode;
+//			public int16_t VRAM_Info;
+//			public int16_t MemoryTrainingInfo;
+//			public int16_t IntegratedSystemInfo;
+//			public int16_t ASIC_ProfilingInfo;
+//			public int16_t VoltageObjectInfo;
+//			public int16_t PowerSourceInfo;
+//			public int16_t ServiceInfo;
 //		};
 
 //C# TO C++ CONVERTER TODO TASK: C# 'unsafe' code is not converted by C# to C++ Converter:
@@ -154,32 +185,32 @@ namespace PolarisBiosEditor
 //		{
 //			public ATOM_COMMON_TABLE_HEADER sHeader;
 //			public Byte ucTableRevision;
-//			public UInt16 usTableSize;
-//			public UInt32 ulGoldenPPID;
-//			public UInt32 ulGoldenRevision;
-//			public UInt16 usFormatID;
-//			public UInt16 usVoltageTime;
-//			public UInt32 ulPlatformCaps;
-//			public UInt32 ulMaxODEngineClock;
-//			public UInt32 ulMaxODMemoryClock;
-//			public UInt16 usPowerControlLimit;
-//			public UInt16 usUlvVoltageOffset;
-//			public UInt16 usStateArrayOffset;
-//			public UInt16 usFanTableOffset;
-//			public UInt16 usThermalControllerOffset;
-//			public UInt16 usReserv;
-//			public UInt16 usMclkDependencyTableOffset;
-//			public UInt16 usSclkDependencyTableOffset;
-//			public UInt16 usVddcLookupTableOffset;
-//			public UInt16 usVddgfxLookupTableOffset;
-//			public UInt16 usMMDependencyTableOffset;
-//			public UInt16 usVCEStateTableOffset;
-//			public UInt16 usPPMTableOffset;
-//			public UInt16 usPowerTuneTableOffset;
-//			public UInt16 usHardLimitTableOffset;
-//			public UInt16 usPCIETableOffset;
-//			public UInt16 usGPIOTableOffset;
-//			public fixed UInt16 usReserved[6];
+//			public int16_t usTableSize;
+//			public int32_t ulGoldenPPID;
+//			public int32_t ulGoldenRevision;
+//			public int16_t usFormatID;
+//			public int16_t usVoltageTime;
+//			public int32_t ulPlatformCaps;
+//			public int32_t ulMaxODEngineClock;
+//			public int32_t ulMaxODMemoryClock;
+//			public int16_t usPowerControlLimit;
+//			public int16_t usUlvVoltageOffset;
+//			public int16_t usStateArrayOffset;
+//			public int16_t usFanTableOffset;
+//			public int16_t usThermalControllerOffset;
+//			public int16_t usReserv;
+//			public int16_t usMclkDependencyTableOffset;
+//			public int16_t usSclkDependencyTableOffset;
+//			public int16_t usVddcLookupTableOffset;
+//			public int16_t usVddgfxLookupTableOffset;
+//			public int16_t usMMDependencyTableOffset;
+//			public int16_t usVCEStateTableOffset;
+//			public int16_t usPPMTableOffset;
+//			public int16_t usPowerTuneTableOffset;
+//			public int16_t usHardLimitTableOffset;
+//			public int16_t usPCIETableOffset;
+//			public int16_t usGPIOTableOffset;
+//			public fixed int16_t usReserved[6];
 //		};
 
 //C# TO C++ CONVERTER TODO TASK: C# 'unsafe' code is not converted by C# to C++ Converter:
@@ -188,11 +219,11 @@ namespace PolarisBiosEditor
 //		unsafe struct ATOM_MCLK_ENTRY
 //		{
 //			public Byte ucVddcInd;
-//			public UInt16 usVddci;
-//			public UInt16 usVddgfxOffset;
-//			public UInt16 usMvdd;
-//			public UInt32 ulMclk;
-//			public UInt16 usReserved;
+//			public int16_t usVddci;
+//			public int16_t usVddgfxOffset;
+//			public int16_t usMvdd;
+//			public int32_t ulMclk;
+//			public int16_t usReserved;
 //		};
 
 //C# TO C++ CONVERTER TODO TASK: C# 'unsafe' code is not converted by C# to C++ Converter:
@@ -211,12 +242,12 @@ namespace PolarisBiosEditor
 //		unsafe struct ATOM_SCLK_ENTRY
 //		{
 //			public Byte ucVddInd;
-//			public UInt16 usVddcOffset;
-//			public UInt32 ulSclk;
-//			public UInt16 usEdcCurrent;
+//			public int16_t usVddcOffset;
+//			public int32_t ulSclk;
+//			public int16_t usEdcCurrent;
 //			public Byte ucReliabilityTemperature;
 //			public Byte ucCKSVOffsetandDisable;
-//			public UInt32 ulSclkOffset; // Polaris Only, remove for compatibility with Fiji
+//			public int32_t ulSclkOffset; // Polaris Only, remove for compatibility with Fiji
 //		};
 
 //C# TO C++ CONVERTER TODO TASK: C# 'unsafe' code is not converted by C# to C++ Converter:
@@ -234,10 +265,10 @@ namespace PolarisBiosEditor
 //ORIGINAL LINE: [StructLayout(LayoutKind.Sequential, Pack = 1)] unsafe struct ATOM_VOLTAGE_ENTRY
 //		unsafe struct ATOM_VOLTAGE_ENTRY
 //		{
-//			public UInt16 usVdd;
-//			public UInt16 usCACLow;
-//			public UInt16 usCACMid;
-//			public UInt16 usCACHigh;
+//			public int16_t usVdd;
+//			public int16_t usCACLow;
+//			public int16_t usCACMid;
+//			public int16_t usCACHigh;
 //		};
 
 //C# TO C++ CONVERTER TODO TASK: C# 'unsafe' code is not converted by C# to C++ Converter:
@@ -257,28 +288,28 @@ namespace PolarisBiosEditor
 //		{
 //			public Byte ucRevId;
 //			public Byte ucTHyst;
-//			public UInt16 usTMin;
-//			public UInt16 usTMed;
-//			public UInt16 usTHigh;
-//			public UInt16 usPWMMin;
-//			public UInt16 usPWMMed;
-//			public UInt16 usPWMHigh;
-//			public UInt16 usTMax;
+//			public int16_t usTMin;
+//			public int16_t usTMed;
+//			public int16_t usTHigh;
+//			public int16_t usPWMMin;
+//			public int16_t usPWMMed;
+//			public int16_t usPWMHigh;
+//			public int16_t usTMax;
 //			public Byte ucFanControlMode;
-//			public UInt16 usFanPWMMax;
-//			public UInt16 usFanOutputSensitivity;
-//			public UInt16 usFanRPMMax;
-//			public UInt32 ulMinFanSCLKAcousticLimit;
+//			public int16_t usFanPWMMax;
+//			public int16_t usFanOutputSensitivity;
+//			public int16_t usFanRPMMax;
+//			public int32_t ulMinFanSCLKAcousticLimit;
 //			public Byte ucTargetTemperature;
 //			public Byte ucMinimumPWMLimit;
-//			public UInt16 usFanGainEdge;
-//			public UInt16 usFanGainHotspot;
-//			public UInt16 usFanGainLiquid;
-//			public UInt16 usFanGainVrVddc;
-//			public UInt16 usFanGainVrMvdd;
-//			public UInt16 usFanGainPlx;
-//			public UInt16 usFanGainHbm;
-//			public UInt16 usReserved;
+//			public int16_t usFanGainEdge;
+//			public int16_t usFanGainHotspot;
+//			public int16_t usFanGainLiquid;
+//			public int16_t usFanGainVrVddc;
+//			public int16_t usFanGainVrMvdd;
+//			public int16_t usFanGainPlx;
+//			public int16_t usFanGainHbm;
+//			public int16_t usReserved;
 //		};
 
 //C# TO C++ CONVERTER TODO TASK: C# 'unsafe' code is not converted by C# to C++ Converter:
@@ -287,25 +318,25 @@ namespace PolarisBiosEditor
 //		unsafe struct ATOM_POWERTUNE_TABLE
 //		{
 //			public Byte ucRevId;
-//			public UInt16 usTDP;
-//			public UInt16 usConfigurableTDP;
-//			public UInt16 usTDC;
-//			public UInt16 usBatteryPowerLimit;
-//			public UInt16 usSmallPowerLimit;
-//			public UInt16 usLowCACLeakage;
-//			public UInt16 usHighCACLeakage;
-//			public UInt16 usMaximumPowerDeliveryLimit;
-//			public UInt16 usTjMax;
-//			public UInt16 usPowerTuneDataSetID;
-//			public UInt16 usEDCLimit;
-//			public UInt16 usSoftwareShutdownTemp;
-//			public UInt16 usClockStretchAmount;
-//			public UInt16 usTemperatureLimitHotspot;
-//			public UInt16 usTemperatureLimitLiquid1;
-//			public UInt16 usTemperatureLimitLiquid2;
-//			public UInt16 usTemperatureLimitVrVddc;
-//			public UInt16 usTemperatureLimitVrMvdd;
-//			public UInt16 usTemperatureLimitPlx;
+//			public int16_t usTDP;
+//			public int16_t usConfigurableTDP;
+//			public int16_t usTDC;
+//			public int16_t usBatteryPowerLimit;
+//			public int16_t usSmallPowerLimit;
+//			public int16_t usLowCACLeakage;
+//			public int16_t usHighCACLeakage;
+//			public int16_t usMaximumPowerDeliveryLimit;
+//			public int16_t usTjMax;
+//			public int16_t usPowerTuneDataSetID;
+//			public int16_t usEDCLimit;
+//			public int16_t usSoftwareShutdownTemp;
+//			public int16_t usClockStretchAmount;
+//			public int16_t usTemperatureLimitHotspot;
+//			public int16_t usTemperatureLimitLiquid1;
+//			public int16_t usTemperatureLimitLiquid2;
+//			public int16_t usTemperatureLimitVrVddc;
+//			public int16_t usTemperatureLimitVrMvdd;
+//			public int16_t usTemperatureLimitPlx;
 //			public Byte ucLiquid1_I2C_address;
 //			public Byte ucLiquid2_I2C_address;
 //			public Byte ucLiquid_I2C_Line;
@@ -313,7 +344,7 @@ namespace PolarisBiosEditor
 //			public Byte ucVr_I2C_Line;
 //			public Byte ucPlx_I2C_address;
 //			public Byte ucPlx_I2C_Line;
-//			public UInt16 usReserved;
+//			public int16_t usReserved;
 //		};
 
 //C# TO C++ CONVERTER TODO TASK: C# 'unsafe' code is not converted by C# to C++ Converter:
@@ -321,7 +352,7 @@ namespace PolarisBiosEditor
 //ORIGINAL LINE: [StructLayout(LayoutKind.Sequential, Pack = 1)] unsafe struct ATOM_VRAM_TIMING_ENTRY
 //		unsafe struct ATOM_VRAM_TIMING_ENTRY
 //		{
-//			public UInt32 ulClkRange;
+//			public int32_t ulClkRange;
 //			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x30)] public Byte[] ucLatency;
 //		};
 
@@ -330,10 +361,10 @@ namespace PolarisBiosEditor
 //ORIGINAL LINE: [StructLayout(LayoutKind.Sequential, Pack = 1)] unsafe struct ATOM_VRAM_ENTRY
 //		unsafe struct ATOM_VRAM_ENTRY
 //		{
-//			public UInt32 ulChannelMapCfg;
-//			public UInt16 usModuleSize;
-//			public UInt16 usMcRamCfg;
-//			public UInt16 usEnableChannels;
+//			public int32_t ulChannelMapCfg;
+//			public int16_t usModuleSize;
+//			public int16_t usMcRamCfg;
+//			public int16_t usEnableChannels;
 //			public Byte ucExtMemoryID;
 //			public Byte ucMemoryType;
 //			public Byte ucChannelNum;
@@ -342,19 +373,19 @@ namespace PolarisBiosEditor
 //			public Byte ucBankCol;
 //			public Byte ucMisc;
 //			public Byte ucVREFI;
-//			public UInt16 usReserved;
-//			public UInt16 usMemorySize;
+//			public int16_t usReserved;
+//			public int16_t usMemorySize;
 //			public Byte ucMcTunningSetId;
 //			public Byte ucRowNum;
-//			public UInt16 usEMRS2Value;
-//			public UInt16 usEMRS3Value;
+//			public int16_t usEMRS2Value;
+//			public int16_t usEMRS3Value;
 //			public Byte ucMemoryVenderID;
 //			public Byte ucRefreshRateFactor;
 //			public Byte ucFIFODepth;
 //			public Byte ucCDR_Bandwidth;
-//			public UInt32 ulChannelMapCfg1;
-//			public UInt32 ulBankMapCfg;
-//			public UInt32 ulReserved;
+//			public int32_t ulChannelMapCfg1;
+//			public int32_t ulBankMapCfg;
+//			public int32_t ulReserved;
 //			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)] public Byte[] strMemPNString;
 //		};
 
@@ -364,12 +395,12 @@ namespace PolarisBiosEditor
 //		unsafe struct ATOM_VRAM_INFO
 //		{
 //			public ATOM_COMMON_TABLE_HEADER sHeader;
-//			public UInt16 usMemAdjustTblOffset;
-//			public UInt16 usMemClkPatchTblOffset;
-//			public UInt16 usMcAdjustPerTileTblOffset;
-//			public UInt16 usMcPhyInitTableOffset;
-//			public UInt16 usDramDataRemapTblOffset;
-//			public UInt16 usReserved1;
+//			public int16_t usMemAdjustTblOffset;
+//			public int16_t usMemClkPatchTblOffset;
+//			public int16_t usMcAdjustPerTileTblOffset;
+//			public int16_t usMcPhyInitTableOffset;
+//			public int16_t usDramDataRemapTblOffset;
+//			public int16_t usReserved1;
 //			public Byte ucNumOfVRAMModule;
 //			public Byte ucMemoryClkPatchTblVer;
 //			public Byte ucVramModuleVer;

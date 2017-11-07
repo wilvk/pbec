@@ -8,7 +8,7 @@
 
 namespace PolarisBiosEditor
 {
-	class App : public Application
+	class App
 	{
 	};
 }

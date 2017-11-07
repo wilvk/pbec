@@ -4,9 +4,7 @@
 // Order the Premium Edition at https://www.tangiblesoftwaresolutions.com
 //========================================================================
 
-#include "PolarisBiosEditor.MainWindow.h"
-
-using namespace Microsoft::Win32;
+#include "pbemain.h"
 
 namespace PolarisBiosEditor
 {

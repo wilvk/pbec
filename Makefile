@@ -25,7 +25,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
 clean:
-	rm -f *.o *.d pbe
+	rm -f *.o *.d pbl
 
 CXXFLAGS += -MMD
 -include $(OBJ_FILES:.o=.d)

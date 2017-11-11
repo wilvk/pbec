@@ -189,20 +189,20 @@
 //
 // 		for (int i = 0; i < atom_mclk_table.ucNumEntries; i++)
 // 		{
-// 			setBytesAtPosition(buffer, atom_mclk_table_offset + sizeof(ATOM_MCLK_TABLE::typeid) + sizeof(ATOM_MCLK_ENTRY::typeid)*i, getBytes(atom_mclk_entries[i]));
+// 			setBytesAtPosition(buffer, atom_mclk_table_offset + sizeof(ATOM_MCLK_TABLE) + sizeof(ATOM_MCLK_ENTRY)*i, getBytes(atom_mclk_entries[i]));
 // 		}
 //
 // 		for (int i = 0; i < atom_sclk_table.ucNumEntries; i++)
 // 		{
-// 			setBytesAtPosition(buffer, atom_sclk_table_offset + sizeof(ATOM_SCLK_TABLE::typeid) + sizeof(ATOM_SCLK_ENTRY::typeid)*i, getBytes(atom_sclk_entries[i]));
+// 			setBytesAtPosition(buffer, atom_sclk_table_offset + sizeof(ATOM_SCLK_TABLE) + sizeof(ATOM_SCLK_ENTRY)*i, getBytes(atom_sclk_entries[i]));
 // 		}
 //
 // 		for (int i = 0; i < atom_vddc_table.ucNumEntries; i++)
 // 		{
-// 			setBytesAtPosition(buffer, atom_vddc_table_offset + sizeof(ATOM_VOLTAGE_TABLE::typeid) + sizeof(ATOM_VOLTAGE_ENTRY::typeid)*i, getBytes(atom_vddc_entries[i]));
+// 			setBytesAtPosition(buffer, atom_vddc_table_offset + sizeof(ATOM_VOLTAGE_TABLE) + sizeof(ATOM_VOLTAGE_ENTRY)*i, getBytes(atom_vddc_entries[i]));
 // 		}
 //
-// 		auto atom_vram_entry_offset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO::typeid);
+// 		auto atom_vram_entry_offset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO);
 // 		for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
 // 		{
 // 			setBytesAtPosition(buffer, atom_vram_entry_offset, getBytes(atom_vram_entries[i]));
@@ -210,7 +210,7 @@
 // 		}
 // 		for (int i = 0; i < atom_vram_timing_entries.size(); i++)
 // 		{
-// 			setBytesAtPosition(buffer, atom_vram_entry_offset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY::typeid)*i, getBytes(atom_vram_timing_entries[i]));
+// 			setBytesAtPosition(buffer, atom_vram_entry_offset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY)*i, getBytes(atom_vram_timing_entries[i]));
 // 		}
 //
 // 		fixChecksum(true);

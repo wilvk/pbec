@@ -13,7 +13,7 @@ std::vector<BYTE> MainWindow::getBytes(void *obj)
 template<typename T> T MainWindow::fromBytes(std::vector<BYTE> arr)
 {
 		T obj = T();
-		obj = reinterpret_cast<T>(arr);
+		obj = reinterpret_cast<T*>(arr);
 
 		return obj;
 }
@@ -86,7 +86,7 @@ void MainWindow::OpenFile(const char* Filename)
 		for (int i = 0; i < atom_mclk_entries.size(); i++)
 		{
 				atom_mclk_entries[i] = fromBytes<ATOM_MCLK_ENTRY>(
-					buffer->GetSubset(atom_mclk_table_offset + sizeof(ATOM_MCLK_TABLE::typeid) + sizeof(ATOM_MCLK_ENTRY::typeid)*i));
+					buffer->GetSubset(atom_mclk_table_offset + sizeof(ATOM_MCLK_TABLE) + sizeof(ATOM_MCLK_ENTRY) * i));
 		}
 
 		atom_sclk_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usSclkDependencyTableOffset;
@@ -96,7 +96,7 @@ void MainWindow::OpenFile(const char* Filename)
 		for (int i = 0; i < atom_sclk_entries.size(); i++)
 		{
 			atom_sclk_entries[i] = fromBytes<ATOM_SCLK_ENTRY>(
-				buffer->GetSubset(atom_sclk_table_offset + sizeof(ATOM_SCLK_TABLE::typeid) + sizeof(ATOM_SCLK_ENTRY::typeid)*i);
+				buffer->GetSubset(atom_sclk_table_offset + sizeof(ATOM_SCLK_TABLE) + sizeof(ATOM_SCLK_ENTRY) * i));
 		}
 
 		atom_vddc_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usVddcLookupTableOffset;
@@ -106,13 +106,13 @@ void MainWindow::OpenFile(const char* Filename)
 		for (int i = 0; i < atom_vddc_table.ucNumEntries; i++)
 		{
 			atom_vddc_entries[i] = fromBytes<ATOM_VOLTAGE_ENTRY>(
-				buffer->GetSubset(atom_vddc_table_offset + sizeof(ATOM_VOLTAGE_TABLE::typeid) + sizeof(ATOM_VOLTAGE_ENTRY::typeid)*i));
+				buffer->GetSubset(atom_vddc_table_offset + sizeof(ATOM_VOLTAGE_TABLE) + sizeof(ATOM_VOLTAGE_ENTRY) * i));
 		}
 
 		atom_vram_info_offset = atom_data_table.VRAM_Info;
 		atom_vram_info = fromBytes<ATOM_VRAM_INFO>(buffer->GetSubset(atom_vram_info_offset));
 		atom_vram_entries = std::vector<ATOM_VRAM_ENTRY>(atom_vram_info.ucNumOfVRAMModule);
-		auto atom_vram_entry_offset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO::typeid);
+		auto atom_vram_entry_offset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO);
 
 		for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
 		{
@@ -124,17 +124,15 @@ void MainWindow::OpenFile(const char* Filename)
 		for (int i = 0; i < 16; i++)
 		{
 			atom_vram_timing_entries[i] = fromBytes<ATOM_VRAM_TIMING_ENTRY>(
-				buffer->GetSubset(atom_vram_entry_offset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY::typeid)*i));
+				buffer->GetSubset(atom_vram_entry_offset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY) * i));
 
-			// atom_vram_timing_entries have an undetermined length
-			// attempt to determine the last entry in the array
+			// atom_vram_timing_entries have an undetermined length. Attempt to determine the last entry in the array.
 			if (atom_vram_timing_entries[i].ulClkRange == 0)
 			{
 				Array::Resize(atom_vram_timing_entries, i);
 				break;
 			}
 		}
-
 
 			//TODO: output these to stdout
 			// tableROM::Items->Add(new {NAME = L"VendorID", VALUE = L"0x" + atom_rom_header.usVendorID.ToString(L"X")});
@@ -194,7 +192,7 @@ template< typename T > std::string int_to_hex( T i )
 {
 	  std::stringstream stream;
 	  stream << "0x"
-	         << std::setfill ('0') << std::setw(sizeof(T)*2)
+	         << std::setfill ('0') << std::setw(sizeof(T) * 2)
 	         << std::hex << i;
 	  return stream.str();
 }
@@ -236,7 +234,7 @@ std::vector<BYTE> MainWindow::StringToByteArray(const std::wstring &hex)
 {
 		if (hex.length() % 2 != 0)
 		{
-			MessageBox::Show(L"Invalid hex string", L"Error", MessageBoxButton::OK, MessageBoxImage::Error);
+			std::cout << "ERROR: Invalid hex string";
 			throw InvalidDataException();
 		}
 		std::vector<BYTE> bytes(hex.length() / 2);
@@ -294,4 +292,4 @@ std::vector<BYTE> MainWindow::StringToByteArray(const std::wstring &hex)
 // //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
 // 		tableVRAM::Items->Add(new {NAME = L"Type", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucMemoryType.ToString(L"X")});
 // 	}
-}
+//}

@@ -76,24 +76,20 @@ void MainWindow::OpenFile(std::string FileName)
 		// tableVRAM_TIMING::Items->Clear();
 
 		std::ifstream file(FileName, std::ios::binary | std::ios::ate);
-    int fileSize = file.tellg();
+		std::streamsize fileSize = file.tellg();
+		file.seekg(0, std::ios::beg);
 
-		std::fstream fileStream;
-		fileStream.open(FileName, std::fstream::in | std::fstream::out | std::fstream::app);
+		std::vector<char> buffer(fileSize);
+		file.read(buffer.data(), fileSize);
 
 		if (fileSize < 524288)
 		{
 			std::cout << "Warning: This BIOS is less than the standard 512KB size.\nFlashing this BIOS may corrupt your graphics card.";
 		}
-//C# TO C++ CONVERTER NOTE: The following 'using' block is replaced by its C++ equivalent:
-//ORIGINAL LINE: using (BinaryReader br = new BinaryReader(fileStream))
-		{
-			BinaryReader *br = new BinaryReader(fileStream);
-			buffer = br->ReadBytes(static_cast<int>(fileStream->Length));
 
-			atom_rom_header_offset = getValueAtPosition(16, atom_rom_header_ptr);
-			atom_rom_header = fromBytes<ATOM_ROM_HEADER>(buffer.Skip(atom_rom_header_offset)->ToArray());
-//C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
+			int atom_rom_header_offset = getValueAtPosition(16, atom_rom_header_ptr);
+			ATOM_ROM_HEADER atom_rom_header = fromBytes<ATOM_ROM_HEADER>(buffer.Skip(atom_rom_header_offset)->ToArray());
+
 			deviceID = atom_rom_header.usDeviceID.ToString(L"X");
 			fixChecksum(false);
 
@@ -117,7 +113,7 @@ void MainWindow::OpenFile(std::string FileName)
 			atom_mclk_table = fromBytes<ATOM_MCLK_TABLE>(buffer.Skip(atom_mclk_table_offset)->ToArray());
 			atom_mclk_entries = std::vector<ATOM_MCLK_ENTRY>(atom_mclk_table.ucNumEntries);
 
-			for (var i = 0; i < atom_mclk_entries.size(); i++)
+			for (int i = 0; i < atom_mclk_entries.size(); i++)
 			{
 				atom_mclk_entries[i] = fromBytes<ATOM_MCLK_ENTRY>(buffer.Skip(atom_mclk_table_offset + sizeof(ATOM_MCLK_TABLE::typeid) + sizeof(ATOM_MCLK_ENTRY::typeid)*i)->ToArray());
 			}
@@ -126,7 +122,7 @@ void MainWindow::OpenFile(std::string FileName)
 			atom_sclk_table = fromBytes<ATOM_SCLK_TABLE>(buffer.Skip(atom_sclk_table_offset)->ToArray());
 			atom_sclk_entries = std::vector<ATOM_SCLK_ENTRY>(atom_sclk_table.ucNumEntries);
 
-			for (var i = 0; i < atom_sclk_entries.size(); i++)
+			for (int i = 0; i < atom_sclk_entries.size(); i++)
 			{
 				atom_sclk_entries[i] = fromBytes<ATOM_SCLK_ENTRY>(buffer.Skip(atom_sclk_table_offset + sizeof(ATOM_SCLK_TABLE::typeid) + sizeof(ATOM_SCLK_ENTRY::typeid)*i)->ToArray());
 			}
@@ -135,7 +131,7 @@ void MainWindow::OpenFile(std::string FileName)
 			atom_vddc_table = fromBytes<ATOM_VOLTAGE_TABLE>(buffer.Skip(atom_vddc_table_offset)->ToArray());
 			atom_vddc_entries = std::vector<ATOM_VOLTAGE_ENTRY>(atom_vddc_table.ucNumEntries);
 
-			for (var i = 0; i < atom_vddc_table.ucNumEntries; i++)
+			for (int i = 0; i < atom_vddc_table.ucNumEntries; i++)
 			{
 				atom_vddc_entries[i] = fromBytes<ATOM_VOLTAGE_ENTRY>(buffer.Skip(atom_vddc_table_offset + sizeof(ATOM_VOLTAGE_TABLE::typeid) + sizeof(ATOM_VOLTAGE_ENTRY::typeid)*i)->ToArray());
 			}
@@ -145,14 +141,14 @@ void MainWindow::OpenFile(std::string FileName)
 			atom_vram_entries = std::vector<ATOM_VRAM_ENTRY>(atom_vram_info.ucNumOfVRAMModule);
 			auto atom_vram_entry_offset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO::typeid);
 
-			for (var i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
+			for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
 			{
 				atom_vram_entries[i] = fromBytes<ATOM_VRAM_ENTRY>(buffer.Skip(atom_vram_entry_offset)->ToArray());
 				atom_vram_entry_offset += atom_vram_entries[i].usModuleSize;
 			}
 			atom_vram_timing_entries = std::vector<ATOM_VRAM_TIMING_ENTRY>(16);
 
-			for (var i = 0; i < 16; i++)
+			for (int i = 0; i < 16; i++)
 			{
 				atom_vram_timing_entries[i] = fromBytes<ATOM_VRAM_TIMING_ENTRY>(buffer.Skip(atom_vram_entry_offset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY::typeid)*i)->ToArray());
 
@@ -165,112 +161,59 @@ void MainWindow::OpenFile(std::string FileName)
 				}
 			}
 
-			tableROM::Items->Clear();
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-//C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
-			tableROM::Items->Add(new {NAME = L"VendorID", VALUE = L"0x" + atom_rom_header.usVendorID.ToString(L"X")});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-//C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
-			tableROM::Items->Add(new {NAME = L"DeviceID", VALUE = L"0x" + atom_rom_header.usDeviceID.ToString(L"X")});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-//C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
-			tableROM::Items->Add(new {NAME = L"Sub ID", VALUE = L"0x" + atom_rom_header.usSubsystemID.ToString(L"X")});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-//C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
-			tableROM::Items->Add(new {NAME = L"Sub VendorID", VALUE = L"0x" + atom_rom_header.usSubsystemVendorID.ToString(L"X")});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-//C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
-			tableROM::Items->Add(new {NAME = L"Firmware Signature", VALUE = L"0x" + atom_rom_header.uaFirmWareSignature.ToString(L"X")});
 
-			tablePOWERPLAY::Items->Clear();
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tablePOWERPLAY::Items->Add(new {NAME = L"Max GPU Freq. (MHz)", VALUE = atom_powerplay_table.ulMaxODEngineClock / 100});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tablePOWERPLAY::Items->Add(new {NAME = L"Max Memory Freq. (MHz)", VALUE = atom_powerplay_table.ulMaxODMemoryClock / 100});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tablePOWERPLAY::Items->Add(new {NAME = L"Power Control Limit (%)", VALUE = atom_powerplay_table.usPowerControlLimit});
+			//TODO: output these to stdout
+			// tableROM::Items->Add(new {NAME = L"VendorID", VALUE = L"0x" + atom_rom_header.usVendorID.ToString(L"X")});
+			// tableROM::Items->Add(new {NAME = L"DeviceID", VALUE = L"0x" + atom_rom_header.usDeviceID.ToString(L"X")});
+			// tableROM::Items->Add(new {NAME = L"Sub ID", VALUE = L"0x" + atom_rom_header.usSubsystemID.ToString(L"X")});
+			// tableROM::Items->Add(new {NAME = L"Sub VendorID", VALUE = L"0x" + atom_rom_header.usSubsystemVendorID.ToString(L"X")});
+			// tableROM::Items->Add(new {NAME = L"Firmware Signature", VALUE = L"0x" + atom_rom_header.uaFirmWareSignature.ToString(L"X")});
+			// tablePOWERPLAY::Items->Add(new {NAME = L"Max GPU Freq. (MHz)", VALUE = atom_powerplay_table.ulMaxODEngineClock / 100});
+			// tablePOWERPLAY::Items->Add(new {NAME = L"Max Memory Freq. (MHz)", VALUE = atom_powerplay_table.ulMaxODMemoryClock / 100});
+			// tablePOWERPLAY::Items->Add(new {NAME = L"Power Control Limit (%)", VALUE = atom_powerplay_table.usPowerControlLimit});
+			// tablePOWERTUNE::Items->Add(new {NAME = L"TDP (W)", VALUE = atom_powertune_table.usTDP});
+			// tablePOWERTUNE::Items->Add(new {NAME = L"TDC (A)", VALUE = atom_powertune_table.usTDC});
+			// tablePOWERTUNE::Items->Add(new {NAME = L"Max Power Limit (W)", VALUE = atom_powertune_table.usMaximumPowerDeliveryLimit});
+			// tablePOWERTUNE::Items->Add(new {NAME = L"Max Temp. (C)", VALUE = atom_powertune_table.usTjMax});
+			// tablePOWERTUNE::Items->Add(new {NAME = L"Shutdown Temp. (C)", VALUE = atom_powertune_table.usSoftwareShutdownTemp});
+			// tablePOWERTUNE::Items->Add(new {NAME = L"Hotspot Temp. (C)", VALUE = atom_powertune_table.usTemperatureLimitHotspot});
+			// tableFAN::Items->Add(new {NAME = L"Temp. Hysteresis", VALUE = atom_fan_table.ucTHyst});
+			// tableFAN::Items->Add(new {NAME = L"Min Temp. (C)", VALUE = atom_fan_table.usTMin / 100});
+			// tableFAN::Items->Add(new {NAME = L"Med Temp. (C)", VALUE = atom_fan_table.usTMed / 100});
+			// tableFAN::Items->Add(new {NAME = L"High Temp. (C)", VALUE = atom_fan_table.usTHigh / 100});
+			// tableFAN::Items->Add(new {NAME = L"Max Temp. (C)", VALUE = atom_fan_table.usTMax / 100});
+			// tableFAN::Items->Add(new {NAME = L"Min PWM (%)", VALUE = atom_fan_table.usPWMMin / 100});
+			// tableFAN::Items->Add(new {NAME = L"Med PWM (%)", VALUE = atom_fan_table.usPWMMed / 100});
+			// tableFAN::Items->Add(new {NAME = L"High PWM (%)", VALUE = atom_fan_table.usPWMHigh / 100});
+			// tableFAN::Items->Add(new {NAME = L"Max PWM (%)", VALUE = atom_fan_table.usFanPWMMax});
+			// tableFAN::Items->Add(new {NAME = L"Max RPM", VALUE = atom_fan_table.usFanRPMMax});
+			// tableFAN::Items->Add(new {NAME = L"Sensitivity", VALUE = atom_fan_table.usFanOutputSensitivity});
+			// tableFAN::Items->Add(new {NAME = L"Acoustic Limit (MHz)", VALUE = atom_fan_table.ulMinFanSCLKAcousticLimit / 100});
 
-			tablePOWERTUNE::Items->Clear();
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tablePOWERTUNE::Items->Add(new {NAME = L"TDP (W)", VALUE = atom_powertune_table.usTDP});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tablePOWERTUNE::Items->Add(new {NAME = L"TDC (A)", VALUE = atom_powertune_table.usTDC});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tablePOWERTUNE::Items->Add(new {NAME = L"Max Power Limit (W)", VALUE = atom_powertune_table.usMaximumPowerDeliveryLimit});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tablePOWERTUNE::Items->Add(new {NAME = L"Max Temp. (C)", VALUE = atom_powertune_table.usTjMax});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tablePOWERTUNE::Items->Add(new {NAME = L"Shutdown Temp. (C)", VALUE = atom_powertune_table.usSoftwareShutdownTemp});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tablePOWERTUNE::Items->Add(new {NAME = L"Hotspot Temp. (C)", VALUE = atom_powertune_table.usTemperatureLimitHotspot});
-
-			tableFAN::Items->Clear();
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tableFAN::Items->Add(new {NAME = L"Temp. Hysteresis", VALUE = atom_fan_table.ucTHyst});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tableFAN::Items->Add(new {NAME = L"Min Temp. (C)", VALUE = atom_fan_table.usTMin / 100});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tableFAN::Items->Add(new {NAME = L"Med Temp. (C)", VALUE = atom_fan_table.usTMed / 100});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tableFAN::Items->Add(new {NAME = L"High Temp. (C)", VALUE = atom_fan_table.usTHigh / 100});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tableFAN::Items->Add(new {NAME = L"Max Temp. (C)", VALUE = atom_fan_table.usTMax / 100});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tableFAN::Items->Add(new {NAME = L"Min PWM (%)", VALUE = atom_fan_table.usPWMMin / 100});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tableFAN::Items->Add(new {NAME = L"Med PWM (%)", VALUE = atom_fan_table.usPWMMed / 100});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tableFAN::Items->Add(new {NAME = L"High PWM (%)", VALUE = atom_fan_table.usPWMHigh / 100});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tableFAN::Items->Add(new {NAME = L"Max PWM (%)", VALUE = atom_fan_table.usFanPWMMax});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tableFAN::Items->Add(new {NAME = L"Max RPM", VALUE = atom_fan_table.usFanRPMMax});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tableFAN::Items->Add(new {NAME = L"Sensitivity", VALUE = atom_fan_table.usFanOutputSensitivity});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-			tableFAN::Items->Add(new {NAME = L"Acoustic Limit (MHz)", VALUE = atom_fan_table.ulMinFanSCLKAcousticLimit / 100});
-
-			tableGPU::Items->Clear();
-			for (var i = 0; i < atom_sclk_table.ucNumEntries; i++)
+			for (int i = 0; i < atom_sclk_table.ucNumEntries; i++)
 			{
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-				tableGPU::Items->Add(new {MHZ = atom_sclk_entries[i].ulSclk / 100, MV = atom_vddc_entries[atom_sclk_entries[i].ucVddInd].usVdd});
+				//tableGPU::Items->Add(new {MHZ = atom_sclk_entries[i].ulSclk / 100, MV = atom_vddc_entries[atom_sclk_entries[i].ucVddInd].usVdd});
 			}
 
-			tableMEMORY::Items->Clear();
-			for (var i = 0; i < atom_mclk_table.ucNumEntries; i++)
+			for (int i = 0; i < atom_mclk_table.ucNumEntries; i++)
 			{
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-				tableMEMORY::Items->Add(new {MHZ = atom_mclk_entries[i].ulMclk / 100, MV = atom_mclk_entries[i].usMvdd});
+				//tableMEMORY::Items->Add(new {MHZ = atom_mclk_entries[i].ulMclk / 100, MV = atom_mclk_entries[i].usMvdd});
 			}
 
-			listVRAM::Items->Clear();
-			for (var i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
+			for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
 			{
-				listVRAM::Items->Add(Encoding::UTF8->GetString(atom_vram_entries[i].strMemPNString));
+				//listVRAM::Items->Add(Encoding::UTF8->GetString(atom_vram_entries[i].strMemPNString));
 			}
 
-			listVRAM->SelectedIndex = 0;
-			atom_vram_index = listVRAM::SelectedIndex;
+			//listVRAM->SelectedIndex = 0;
+			//atom_vram_index = listVRAM::SelectedIndex;
 
-			tableVRAM_TIMING::Items->Clear();
-
-			for (var i = 0; i < atom_vram_timing_entries.size(); i++)
+			for (int i = 0; i < atom_vram_timing_entries.size(); i++)
 			{
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-				tableVRAM_TIMING::Items->Add(new {MHZ = atom_vram_timing_entries[i].ulClkRange / 100, VALUE = ByteArrayToString(atom_vram_timing_entries[i].ucLatency)});
+				//tableVRAM_TIMING::Items->Add(new {MHZ = atom_vram_timing_entries[i].ulClkRange / 100, VALUE = ByteArrayToString(atom_vram_timing_entries[i].ucLatency)});
 			}
 
-			save->IsEnabled = true;
-			boxROM->IsEnabled = true;
-			boxPOWERPLAY->IsEnabled = true;
-			boxPOWERTUNE->IsEnabled = true;
-			boxFAN->IsEnabled = true;
-			boxGPU->IsEnabled = true;
-			boxMEM->IsEnabled = true;
-			boxVRAM->IsEnabled = true;
-		}
-		fileStream->Close();
+		delete fileStream;
 		delete br;
 }
 
@@ -355,7 +298,7 @@ bool MainWindow::setValueAtPosition(const std::wstring &text, int bits, int posi
 // 		FileStream *fs = new FileStream(SaveFileDialog->FileName, FileMode::Create);
 // 		BinaryWriter *bw = new BinaryWriter(fs);
 //
-// 		for (var i = 0; i < tableROM::Items->Count; i++)
+// 		for (int i = 0; i < tableROM::Items->Count; i++)
 // 		{
 // 			auto container = dynamic_cast<FrameworkElement*>(tableROM::ItemContainerGenerator->ContainerFromIndex(i));
 // 			auto name = (dynamic_cast<TextBlock*>(FindByName(L"NAME", container)))->Text;
@@ -384,7 +327,7 @@ bool MainWindow::setValueAtPosition(const std::wstring &text, int bits, int posi
 // 			}
 // 		}
 //
-// 		for (var i = 0; i < tablePOWERPLAY::Items->Count; i++)
+// 		for (int i = 0; i < tablePOWERPLAY::Items->Count; i++)
 // 		{
 // 			auto container = dynamic_cast<FrameworkElement*>(tablePOWERPLAY::ItemContainerGenerator->ContainerFromIndex(i));
 // 			auto name = (dynamic_cast<TextBlock*>(FindByName(L"NAME", container)))->Text;
@@ -405,7 +348,7 @@ bool MainWindow::setValueAtPosition(const std::wstring &text, int bits, int posi
 // 			}
 // 		}
 //
-// 		for (var i = 0; i < tablePOWERTUNE::Items->Count; i++)
+// 		for (int i = 0; i < tablePOWERTUNE::Items->Count; i++)
 // 		{
 // 			auto container = dynamic_cast<FrameworkElement*>(tablePOWERTUNE::ItemContainerGenerator->ContainerFromIndex(i));
 // 			auto name = (dynamic_cast<TextBlock*>(FindByName(L"NAME", container)))->Text;
@@ -438,7 +381,7 @@ bool MainWindow::setValueAtPosition(const std::wstring &text, int bits, int posi
 // 			}
 // 		}
 //
-// 		for (var i = 0; i < tableFAN::Items->Count; i++)
+// 		for (int i = 0; i < tableFAN::Items->Count; i++)
 // 		{
 // 			auto container = dynamic_cast<FrameworkElement*>(tableFAN::ItemContainerGenerator->ContainerFromIndex(i));
 // 			auto name = (dynamic_cast<TextBlock*>(FindByName(L"NAME", container)))->Text;
@@ -495,7 +438,7 @@ bool MainWindow::setValueAtPosition(const std::wstring &text, int bits, int posi
 // 			}
 // 		}
 //
-// 		for (var i = 0; i < tableGPU::Items->Count; i++)
+// 		for (int i = 0; i < tableGPU::Items->Count; i++)
 // 		{
 // 			auto container = dynamic_cast<FrameworkElement*>(tableGPU::ItemContainerGenerator->ContainerFromIndex(i));
 //
@@ -510,7 +453,7 @@ bool MainWindow::setValueAtPosition(const std::wstring &text, int bits, int posi
 // 			}
 // 		}
 //
-// 		for (var i = 0; i < tableMEMORY::Items->Count; i++)
+// 		for (int i = 0; i < tableMEMORY::Items->Count; i++)
 // 		{
 // 			auto container = dynamic_cast<FrameworkElement*>(tableMEMORY::ItemContainerGenerator->ContainerFromIndex(i));
 // 			//TODO: auto mhz = static_cast<int>(int32->ConvertFromString((static_cast<TextBox*>(FindByName(L"MHZ", container)))->Text)) * 100;
@@ -521,7 +464,7 @@ bool MainWindow::setValueAtPosition(const std::wstring &text, int bits, int posi
 // 		}
 //
 // 		updateVRAM_entries();
-// 		for (var i = 0; i < tableVRAM_TIMING::Items->Count; i++)
+// 		for (int i = 0; i < tableVRAM_TIMING::Items->Count; i++)
 // 		{
 // 			auto container = dynamic_cast<FrameworkElement*>(tableVRAM_TIMING::ItemContainerGenerator->ContainerFromIndex(i));
 // 			auto name = (dynamic_cast<TextBlock*>(FindByName(L"MHZ", container)))->Text;
@@ -538,28 +481,28 @@ bool MainWindow::setValueAtPosition(const std::wstring &text, int bits, int posi
 // 		setBytesAtPosition(buffer, atom_powertune_offset, getBytes(atom_powertune_table));
 // 		setBytesAtPosition(buffer, atom_fan_offset, getBytes(atom_fan_table));
 //
-// 		for (var i = 0; i < atom_mclk_table.ucNumEntries; i++)
+// 		for (int i = 0; i < atom_mclk_table.ucNumEntries; i++)
 // 		{
 // 			setBytesAtPosition(buffer, atom_mclk_table_offset + sizeof(ATOM_MCLK_TABLE::typeid) + sizeof(ATOM_MCLK_ENTRY::typeid)*i, getBytes(atom_mclk_entries[i]));
 // 		}
 //
-// 		for (var i = 0; i < atom_sclk_table.ucNumEntries; i++)
+// 		for (int i = 0; i < atom_sclk_table.ucNumEntries; i++)
 // 		{
 // 			setBytesAtPosition(buffer, atom_sclk_table_offset + sizeof(ATOM_SCLK_TABLE::typeid) + sizeof(ATOM_SCLK_ENTRY::typeid)*i, getBytes(atom_sclk_entries[i]));
 // 		}
 //
-// 		for (var i = 0; i < atom_vddc_table.ucNumEntries; i++)
+// 		for (int i = 0; i < atom_vddc_table.ucNumEntries; i++)
 // 		{
 // 			setBytesAtPosition(buffer, atom_vddc_table_offset + sizeof(ATOM_VOLTAGE_TABLE::typeid) + sizeof(ATOM_VOLTAGE_ENTRY::typeid)*i, getBytes(atom_vddc_entries[i]));
 // 		}
 //
 // 		auto atom_vram_entry_offset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO::typeid);
-// 		for (var i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
+// 		for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
 // 		{
 // 			setBytesAtPosition(buffer, atom_vram_entry_offset, getBytes(atom_vram_entries[i]));
 // 			atom_vram_entry_offset += atom_vram_entries[i].usModuleSize;
 // 		}
-// 		for (var i = 0; i < atom_vram_timing_entries.size(); i++)
+// 		for (int i = 0; i < atom_vram_timing_entries.size(); i++)
 // 		{
 // 			setBytesAtPosition(buffer, atom_vram_entry_offset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY::typeid)*i, getBytes(atom_vram_timing_entries[i]));
 // 		}
@@ -651,7 +594,7 @@ std::vector<unsigned char> MainWindow::StringToByteArray(const std::wstring &hex
 
 void MainWindow::updateVRAM_entries()
 {
-	for (var i = 0; i < tableVRAM::Items->Count; i++)
+	for (int i = 0; i < tableVRAM::Items->Count; i++)
 	{
 		auto container = dynamic_cast<FrameworkElement*>(tableVRAM::ItemContainerGenerator->ContainerFromIndex(i));
 		auto name = (dynamic_cast<TextBlock*>(FindByName(L"NAME", container)))->Text;
@@ -677,23 +620,23 @@ void MainWindow::updateVRAM_entries()
 	}
 }
 
-void MainWindow::listVRAM_SelectionChanged(void *sender, SelectionChangedEventArgs *e)
-{
-	updateVRAM_entries();
-	tableVRAM::Items->Clear();
-	if (listVRAM::SelectedIndex >= 0 && listVRAM::SelectedIndex < listVRAM::Items->Count)
-	{
-		atom_vram_index = listVRAM::SelectedIndex;
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-//C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
-		tableVRAM::Items->Add(new {NAME = L"VendorID", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucMemoryVenderID.ToString(L"X")});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-		tableVRAM::Items->Add(new {NAME = L"Size (MB)", VALUE = atom_vram_entries[atom_vram_index].usMemorySize});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-//C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
-		tableVRAM::Items->Add(new {NAME = L"Density", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucDensity.ToString(L"X")});
-//C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-//C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
-		tableVRAM::Items->Add(new {NAME = L"Type", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucMemoryType.ToString(L"X")});
-	}
+// void MainWindow::listVRAM_SelectionChanged(void *sender, SelectionChangedEventArgs *e)
+// {
+// 	updateVRAM_entries();
+// 	tableVRAM::Items->Clear();
+// 	if (listVRAM::SelectedIndex >= 0 && listVRAM::SelectedIndex < listVRAM::Items->Count)
+// 	{
+// 		atom_vram_index = listVRAM::SelectedIndex;
+// //C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
+// //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
+// 		tableVRAM::Items->Add(new {NAME = L"VendorID", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucMemoryVenderID.ToString(L"X")});
+// //C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
+// 		tableVRAM::Items->Add(new {NAME = L"Size (MB)", VALUE = atom_vram_entries[atom_vram_index].usMemorySize});
+// //C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
+// //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
+// 		tableVRAM::Items->Add(new {NAME = L"Density", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucDensity.ToString(L"X")});
+// //C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
+// //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
+// 		tableVRAM::Items->Add(new {NAME = L"Type", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucMemoryType.ToString(L"X")});
+// 	}
 }

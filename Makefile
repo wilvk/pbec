@@ -5,7 +5,7 @@
 
 CXX = g++
 CXXFLAGS = -Wall -O3 -std=c++11
-LDFLAGS = -Wall -O3 -std=c++11
+LDFLAGS = -Wall -O3 -std=c++11 -Wc++14-extensions
 SRC_DIR = ./
 OBJ_DIR = ./
 SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)

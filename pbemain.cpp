@@ -4,46 +4,45 @@
 // converts from a struct to bytes
 std::vector<unsigned char> MainWindow::getBytes(void *obj)
 {
-	int size = System::Runtime::InteropServices::Marshal::SizeOf(obj);
-	std::vector<unsigned char> arr(size);
-	void* ptr = Marshal::AllocHGlobal(size);
-
-	Marshal::StructureToPtr(obj, ptr, true);
-	Marshal::Copy(ptr, arr, 0, size);
-	Marshal::FreeHGlobal(ptr);
+		int size = sizeof(obj);
+		unsigned char* buffer = reinterpret_cast<unsigned char*>(&obj);
+		std::vector<unsigned char> arr(buffer, buffer + size);
 
 	return arr;
 }
 
 // converts from bytes to a struct
-template<typename T> T MainWindow::fromBytes(std::vector<unsigned char> &arr)
+template<typename T>
+T MainWindow::fromBytes(std::vector<unsigned char> &arr)
 {
 	T obj = T();
-	int size = System::Runtime::InteropServices::Marshal::SizeOf(obj);
-	void* ptr = Marshal::AllocHGlobal(size);
+	//int size = sizeof(obj);
+	//void* ptr = malloc(size);
 
-	Marshal::Copy(arr, 0, ptr, size);
-	obj = static_cast<T>(Marshal::PtrToStructure(ptr, obj.GetType()));
-	Marshal::FreeHGlobal(ptr);
+	//Marshal::Copy(arr, 0, ptr, size);
+	obj = static_cast<T>(arr);
+	//free(ptr);
 
 	return obj;
 }
 
-template<typename T> std::wstring MainWindow::GetPropertyName(Expression<std::function<T()>*> *propertyLambda)
-{
-	auto me = dynamic_cast<MemberExpression*>(propertyLambda->Body);
-	if (me == nullptr)
-	{
-//C# TO C++ CONVERTER TODO TASK: This exception's constructor requires an argument:
-//ORIGINAL LINE: throw new ArgumentException();
-		throw std::invalid_argument();
-	}
-	return me->Member->Name;
-}
+// template<typename T>
+// std::wstring MainWindow::GetPropertyName(Expression<std::function<T()>*> *propertyLambda)
+// {
+// 	auto me = dynamic_cast<MemberExpression*>(propertyLambda->Body);
+//
+// 	if (me == nullptr)
+// 	{
+// //C# TO C++ CONVERTER TODO TASK: This exception's constructor requires an argument:
+// //ORIGINAL LINE: throw new ArgumentException();
+// 		throw std::invalid_argument();
+// 	}
+// 	return me->Member->Name;
+// }
 
 void MainWindow::setBytesAtPosition(std::vector<unsigned char> &dest, int ptr, std::vector<unsigned char> &src)
 {
-	for (var i = 0; i < src.size(); i++)
+	for (int i = 0; i < src.size(); i++)
 	{
 		dest[ptr + i] = src[i];
 	}
@@ -51,37 +50,40 @@ void MainWindow::setBytesAtPosition(std::vector<unsigned char> &dest, int ptr, s
 
 MainWindow::MainWindow()
 {
-	save->IsEnabled = false;
-	boxROM->IsEnabled = false;
-	boxPOWERPLAY->IsEnabled = false;
-	boxPOWERTUNE->IsEnabled = false;
-	boxFAN->IsEnabled = false;
-	boxGPU->IsEnabled = false;
-	boxMEM->IsEnabled = false;
-	boxVRAM->IsEnabled = false;
+	// save->IsEnabled = false;
+	// boxROM->IsEnabled = false;
+	// boxPOWERPLAY->IsEnabled = false;
+	// boxPOWERTUNE->IsEnabled = false;
+	// boxFAN->IsEnabled = false;
+	// boxGPU->IsEnabled = false;
+	// boxMEM->IsEnabled = false;
+	// boxVRAM->IsEnabled = false;
 
-	std:cout << "Modifying your BIOS is dangerous and could cause irreversible damage to your GPU.\n
-	Using a modified BIOS may void your warranty.\nThe author will not be held accountable for your actions.";
+	std::cout << "Modifying your BIOS is dangerous and could cause irreversible damage to your GPU.\n"
+			"Using a modified BIOS may void your warranty.\nThe author will not be held accountable for your actions.";
 }
 
 // from click dialog
-void MainWindow::OpenFile(std::std::vector<char> FileName)
+void MainWindow::OpenFile(std::string FileName)
 {
-		tableROM::Items->Clear();
-		tablePOWERPLAY::Items->Clear();
-		tablePOWERTUNE::Items->Clear();
-		tableFAN::Items->Clear();
-		tableGPU::Items->Clear();
-		tableMEMORY::Items->Clear();
-		tableVRAM::Items->Clear();
-		tableVRAM_TIMING::Items->Clear();
+		// tableROM::Items->Clear();
+		// tablePOWERPLAY::Items->Clear();
+		// tablePOWERTUNE::Items->Clear();
+		// tableFAN::Items->Clear();
+		// tableGPU::Items->Clear();
+		// tableMEMORY::Items->Clear();
+		// tableVRAM::Items->Clear();
+		// tableVRAM_TIMING::Items->Clear();
 
-		ifstream fileStream;
-		fileStream.open(FileName);
+		std::ifstream file(FileName, std::ios::binary | std::ios::ate);
+    int fileSize = file.tellg();
 
-		if (fileStream->Length < 524288)
+		std::fstream fileStream;
+		fileStream.open(FileName, std::fstream::in | std::fstream::out | std::fstream::app);
+
+		if (fileSize < 524288)
 		{
-			std:cout << "Warning: This BIOS is less than the standard 512KB size.\nFlashing this BIOS may corrupt your graphics card.";
+			std::cout << "Warning: This BIOS is less than the standard 512KB size.\nFlashing this BIOS may corrupt your graphics card.";
 		}
 //C# TO C++ CONVERTER NOTE: The following 'using' block is replaced by its C++ equivalent:
 //ORIGINAL LINE: using (BinaryReader br = new BinaryReader(fileStream))
@@ -117,7 +119,7 @@ void MainWindow::OpenFile(std::std::vector<char> FileName)
 
 			for (var i = 0; i < atom_mclk_entries.size(); i++)
 			{
-				atom_mclk_entries[i] = fromBytes<ATOM_MCLK_ENTRY>(buffer.Skip(atom_mclk_table_offset + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_MCLK_TABLE::typeid) + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_MCLK_ENTRY::typeid)*i)->ToArray());
+				atom_mclk_entries[i] = fromBytes<ATOM_MCLK_ENTRY>(buffer.Skip(atom_mclk_table_offset + sizeof(ATOM_MCLK_TABLE::typeid) + sizeof(ATOM_MCLK_ENTRY::typeid)*i)->ToArray());
 			}
 
 			atom_sclk_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usSclkDependencyTableOffset;
@@ -126,7 +128,7 @@ void MainWindow::OpenFile(std::std::vector<char> FileName)
 
 			for (var i = 0; i < atom_sclk_entries.size(); i++)
 			{
-				atom_sclk_entries[i] = fromBytes<ATOM_SCLK_ENTRY>(buffer.Skip(atom_sclk_table_offset + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_SCLK_TABLE::typeid) + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_SCLK_ENTRY::typeid)*i)->ToArray());
+				atom_sclk_entries[i] = fromBytes<ATOM_SCLK_ENTRY>(buffer.Skip(atom_sclk_table_offset + sizeof(ATOM_SCLK_TABLE::typeid) + sizeof(ATOM_SCLK_ENTRY::typeid)*i)->ToArray());
 			}
 
 			atom_vddc_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usVddcLookupTableOffset;
@@ -135,13 +137,13 @@ void MainWindow::OpenFile(std::std::vector<char> FileName)
 
 			for (var i = 0; i < atom_vddc_table.ucNumEntries; i++)
 			{
-				atom_vddc_entries[i] = fromBytes<ATOM_VOLTAGE_ENTRY>(buffer.Skip(atom_vddc_table_offset + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_VOLTAGE_TABLE::typeid) + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_VOLTAGE_ENTRY::typeid)*i)->ToArray());
+				atom_vddc_entries[i] = fromBytes<ATOM_VOLTAGE_ENTRY>(buffer.Skip(atom_vddc_table_offset + sizeof(ATOM_VOLTAGE_TABLE::typeid) + sizeof(ATOM_VOLTAGE_ENTRY::typeid)*i)->ToArray());
 			}
 
 			atom_vram_info_offset = atom_data_table.VRAM_Info;
 			atom_vram_info = fromBytes<ATOM_VRAM_INFO>(buffer.Skip(atom_vram_info_offset)->ToArray());
 			atom_vram_entries = std::vector<ATOM_VRAM_ENTRY>(atom_vram_info.ucNumOfVRAMModule);
-			auto atom_vram_entry_offset = atom_vram_info_offset + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_VRAM_INFO::typeid);
+			auto atom_vram_entry_offset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO::typeid);
 
 			for (var i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
 			{
@@ -152,7 +154,7 @@ void MainWindow::OpenFile(std::std::vector<char> FileName)
 
 			for (var i = 0; i < 16; i++)
 			{
-				atom_vram_timing_entries[i] = fromBytes<ATOM_VRAM_TIMING_ENTRY>(buffer.Skip(atom_vram_entry_offset + 0x3D + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_VRAM_TIMING_ENTRY::typeid)*i)->ToArray());
+				atom_vram_timing_entries[i] = fromBytes<ATOM_VRAM_TIMING_ENTRY>(buffer.Skip(atom_vram_entry_offset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY::typeid)*i)->ToArray());
 
 				// atom_vram_timing_entries have an undetermined length
 				// attempt to determine the last entry in the array
@@ -538,20 +540,20 @@ bool MainWindow::setValueAtPosition(const std::wstring &text, int bits, int posi
 //
 // 		for (var i = 0; i < atom_mclk_table.ucNumEntries; i++)
 // 		{
-// 			setBytesAtPosition(buffer, atom_mclk_table_offset + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_MCLK_TABLE::typeid) + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_MCLK_ENTRY::typeid)*i, getBytes(atom_mclk_entries[i]));
+// 			setBytesAtPosition(buffer, atom_mclk_table_offset + sizeof(ATOM_MCLK_TABLE::typeid) + sizeof(ATOM_MCLK_ENTRY::typeid)*i, getBytes(atom_mclk_entries[i]));
 // 		}
 //
 // 		for (var i = 0; i < atom_sclk_table.ucNumEntries; i++)
 // 		{
-// 			setBytesAtPosition(buffer, atom_sclk_table_offset + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_SCLK_TABLE::typeid) + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_SCLK_ENTRY::typeid)*i, getBytes(atom_sclk_entries[i]));
+// 			setBytesAtPosition(buffer, atom_sclk_table_offset + sizeof(ATOM_SCLK_TABLE::typeid) + sizeof(ATOM_SCLK_ENTRY::typeid)*i, getBytes(atom_sclk_entries[i]));
 // 		}
 //
 // 		for (var i = 0; i < atom_vddc_table.ucNumEntries; i++)
 // 		{
-// 			setBytesAtPosition(buffer, atom_vddc_table_offset + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_VOLTAGE_TABLE::typeid) + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_VOLTAGE_ENTRY::typeid)*i, getBytes(atom_vddc_entries[i]));
+// 			setBytesAtPosition(buffer, atom_vddc_table_offset + sizeof(ATOM_VOLTAGE_TABLE::typeid) + sizeof(ATOM_VOLTAGE_ENTRY::typeid)*i, getBytes(atom_vddc_entries[i]));
 // 		}
 //
-// 		auto atom_vram_entry_offset = atom_vram_info_offset + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_VRAM_INFO::typeid);
+// 		auto atom_vram_entry_offset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO::typeid);
 // 		for (var i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
 // 		{
 // 			setBytesAtPosition(buffer, atom_vram_entry_offset, getBytes(atom_vram_entries[i]));
@@ -559,7 +561,7 @@ bool MainWindow::setValueAtPosition(const std::wstring &text, int bits, int posi
 // 		}
 // 		for (var i = 0; i < atom_vram_timing_entries.size(); i++)
 // 		{
-// 			setBytesAtPosition(buffer, atom_vram_entry_offset + 0x3D + System::Runtime::InteropServices::Marshal::SizeOf(ATOM_VRAM_TIMING_ENTRY::typeid)*i, getBytes(atom_vram_timing_entries[i]));
+// 			setBytesAtPosition(buffer, atom_vram_entry_offset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY::typeid)*i, getBytes(atom_vram_timing_entries[i]));
 // 		}
 //
 // 		fixChecksum(true);

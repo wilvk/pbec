@@ -1,0 +1,222 @@
+//TODO: just focus on reading the file to begin with
+// void MainWindow::SaveFileDialog_Click(void *sender, RoutedEventArgs *e)
+// {
+// 		FileStream *fs = new FileStream(SaveFileDialog->FileName, FileMode::Create);
+// 		BinaryWriter *bw = new BinaryWriter(fs);
+//
+// 		for (int i = 0; i < tableROM::Items->Count; i++)
+// 		{
+// 			auto container = dynamic_cast<FrameworkElement*>(tableROM::ItemContainerGenerator->ContainerFromIndex(i));
+// 			auto name = (dynamic_cast<TextBlock*>(FindByName(L"NAME", container)))->Text;
+// 			auto value = (dynamic_cast<TextBox*>(FindByName(L"VALUE", container)))->Text;
+// 			auto num = atoi( value.c_str() );
+//
+// 			if (name == L"VendorID")
+// 			{
+// 				atom_rom_header.usVendorID = static_cast<unsigned short>(num);
+// 			}
+// 			else if (name == L"DeviceID")
+// 			{
+// 				atom_rom_header.usDeviceID = static_cast<unsigned short>(num);
+// 			}
+// 			else if (name == L"Sub ID")
+// 			{
+// 				atom_rom_header.usSubsystemID = static_cast<unsigned short>(num);
+// 			}
+// 			else if (name == L"Sub VendorID")
+// 			{
+// 				atom_rom_header.usSubsystemVendorID = static_cast<unsigned short>(num);
+// 			}
+// 			else if (name == L"Firmware Signature")
+// 			{
+// 				atom_rom_header.uaFirmWareSignature = static_cast<unsigned int>(num);
+// 			}
+// 		}
+//
+// 		for (int i = 0; i < tablePOWERPLAY::Items->Count; i++)
+// 		{
+// 			auto container = dynamic_cast<FrameworkElement*>(tablePOWERPLAY::ItemContainerGenerator->ContainerFromIndex(i));
+// 			auto name = (dynamic_cast<TextBlock*>(FindByName(L"NAME", container)))->Text;
+// 			auto value = (dynamic_cast<TextBox*>(FindByName(L"VALUE", container)))->Text;
+// 			auto num = atoi( value.c_str() );
+//
+// 			if (name == L"Max GPU Freq. (MHz)")
+// 			{
+// 				atom_powerplay_table.ulMaxODEngineClock = static_cast<unsigned int>(num * 100);
+// 			}
+// 			else if (name == L"Max Memory Freq. (MHz)")
+// 			{
+// 				atom_powerplay_table.ulMaxODMemoryClock = static_cast<unsigned int>(num * 100);
+// 			}
+// 			else if (name == L"Power Control Limit (%)")
+// 			{
+// 				atom_powerplay_table.usPowerControlLimit = static_cast<unsigned short>(num);
+// 			}
+// 		}
+//
+// 		for (int i = 0; i < tablePOWERTUNE::Items->Count; i++)
+// 		{
+// 			auto container = dynamic_cast<FrameworkElement*>(tablePOWERTUNE::ItemContainerGenerator->ContainerFromIndex(i));
+// 			auto name = (dynamic_cast<TextBlock*>(FindByName(L"NAME", container)))->Text;
+// 			auto value = (dynamic_cast<TextBox*>(FindByName(L"VALUE", container)))->Text;
+// 			auto num = atoi( value.c_str() );
+//
+// 			if (name == L"TDP (W)")
+// 			{
+// 				atom_powertune_table.usTDP = static_cast<unsigned short>(num);
+// 			}
+// 			else if (name == L"TDC (A)")
+// 			{
+// 				atom_powertune_table.usTDC = static_cast<unsigned short>(num);
+// 			}
+// 			else if (name == L"Max Power Limit (W)")
+// 			{
+// 				atom_powertune_table.usMaximumPowerDeliveryLimit = static_cast<unsigned short>(num);
+// 			}
+// 			else if (name == L"Max Temp. (C)")
+// 			{
+// 				atom_powertune_table.usTjMax = static_cast<unsigned short>(num);
+// 			}
+// 			else if (name == L"Shutdown Temp. (C)")
+// 			{
+// 				atom_powertune_table.usSoftwareShutdownTemp = static_cast<unsigned short>(num);
+// 			}
+// 			else if (name == L"Hotspot Temp. (C)")
+// 			{
+// 				atom_powertune_table.usTemperatureLimitHotspot = static_cast<unsigned short>(num);
+// 			}
+// 		}
+//
+// 		for (int i = 0; i < tableFAN::Items->Count; i++)
+// 		{
+// 			auto container = dynamic_cast<FrameworkElement*>(tableFAN::ItemContainerGenerator->ContainerFromIndex(i));
+// 			auto name = (dynamic_cast<TextBlock*>(FindByName(L"NAME", container)))->Text;
+// 			auto value = (dynamic_cast<TextBox*>(FindByName(L"VALUE", container)))->Text;
+// 			auto num = atoi( value.c_str() );
+//
+// 			if (name == L"Temp. Hysteresis")
+// 			{
+// 				atom_fan_table.ucTHyst = static_cast<unsigned char>(num);
+// 			}
+// 			else if (name == L"Min Temp. (C)")
+// 			{
+// 				atom_fan_table.usTMin = static_cast<unsigned short>(num * 100);
+// 			}
+// 			else if (name == L"Med Temp. (C)")
+// 			{
+// 				atom_fan_table.usTMed = static_cast<unsigned short>(num * 100);
+// 			}
+// 			else if (name == L"High Temp. (C)")
+// 			{
+// 				atom_fan_table.usTHigh = static_cast<unsigned short>(num * 100);
+// 			}
+// 			else if (name == L"Max Temp. (C)")
+// 			{
+// 				atom_fan_table.usTMax = static_cast<unsigned short>(num * 100);
+// 			}
+// 			else if (name == L"Min PWM (%)")
+// 			{
+// 				atom_fan_table.usPWMMin = static_cast<unsigned short>(num * 100);
+// 			}
+// 			else if (name == L"Med PWM (%)")
+// 			{
+// 				atom_fan_table.usPWMMed = static_cast<unsigned short>(num * 100);
+// 			}
+// 			else if (name == L"High PWM (%)")
+// 			{
+// 				atom_fan_table.usPWMHigh = static_cast<unsigned short>(num * 100);
+// 			}
+// 			else if (name == L"Max PWM (%)")
+// 			{
+// 				atom_fan_table.usFanPWMMax = static_cast<unsigned short>(num);
+// 			}
+// 			else if (name == L"Max RPM")
+// 			{
+// 				atom_fan_table.usFanRPMMax = static_cast<unsigned short>(num);
+// 			}
+// 			else if (name == L"Sensitivity")
+// 			{
+// 				atom_fan_table.usFanOutputSensitivity = static_cast<unsigned short>(num);
+// 			}
+// 			else if (name == L"Acoustic Limit (MHz)")
+// 			{
+// 				atom_fan_table.ulMinFanSCLKAcousticLimit = static_cast<unsigned int>(num * 100);
+// 			}
+// 		}
+//
+// 		for (int i = 0; i < tableGPU::Items->Count; i++)
+// 		{
+// 			auto container = dynamic_cast<FrameworkElement*>(tableGPU::ItemContainerGenerator->ContainerFromIndex(i));
+//
+// 			//TODO:  auto mhz = static_cast<int>(int32->ConvertFromString((static_cast<TextBox*>(FindByName(L"MHZ", container)))->Text)) * 100;
+// 			//TODO: auto mv = static_cast<int>(int32->ConvertFromString((static_cast<TextBox*>(FindByName(L"MV", container)))->Text));
+//
+// 			atom_sclk_entries[i].ulSclk = static_cast<unsigned int>(mhz);
+// 			atom_vddc_entries[atom_sclk_entries[i].ucVddInd].usVdd = static_cast<unsigned short>(mv);
+// 			if (mv < 0xFF00)
+// 			{
+// 				atom_sclk_entries[i].usVddcOffset = 0;
+// 			}
+// 		}
+//
+// 		for (int i = 0; i < tableMEMORY::Items->Count; i++)
+// 		{
+// 			auto container = dynamic_cast<FrameworkElement*>(tableMEMORY::ItemContainerGenerator->ContainerFromIndex(i));
+// 			//TODO: auto mhz = static_cast<int>(int32->ConvertFromString((static_cast<TextBox*>(FindByName(L"MHZ", container)))->Text)) * 100;
+// 			//TODO: auto mv = static_cast<int>(int32->ConvertFromString((static_cast<TextBox*>(FindByName(L"MV", container)))->Text));
+//
+// 			atom_mclk_entries[i].ulMclk = static_cast<unsigned int>(mhz);
+// 			atom_mclk_entries[i].usMvdd = static_cast<unsigned short>(mv);
+// 		}
+//
+// 		updateVRAM_entries();
+// 		for (int i = 0; i < tableVRAM_TIMING::Items->Count; i++)
+// 		{
+// 			auto container = dynamic_cast<FrameworkElement*>(tableVRAM_TIMING::ItemContainerGenerator->ContainerFromIndex(i));
+// 			auto name = (dynamic_cast<TextBlock*>(FindByName(L"MHZ", container)))->Text;
+// 			auto value = (dynamic_cast<TextBox*>(FindByName(L"VALUE", container)))->Text;
+// 			auto mhz = atoi( name.c_str() ); * 100;
+// 			auto arr = StringToByteArray(value);
+//
+// 			atom_vram_timing_entries[i].ulClkRange = static_cast<unsigned int>(mhz);
+// 			atom_vram_timing_entries[i].ucLatency = arr;
+// 		}
+//
+// 		setBytesAtPosition(buffer, atom_rom_header_offset, getBytes(atom_rom_header));
+// 		setBytesAtPosition(buffer, atom_powerplay_offset, getBytes(atom_powerplay_table));
+// 		setBytesAtPosition(buffer, atom_powertune_offset, getBytes(atom_powertune_table));
+// 		setBytesAtPosition(buffer, atom_fan_offset, getBytes(atom_fan_table));
+//
+// 		for (int i = 0; i < atom_mclk_table.ucNumEntries; i++)
+// 		{
+// 			setBytesAtPosition(buffer, atom_mclk_table_offset + sizeof(ATOM_MCLK_TABLE::typeid) + sizeof(ATOM_MCLK_ENTRY::typeid)*i, getBytes(atom_mclk_entries[i]));
+// 		}
+//
+// 		for (int i = 0; i < atom_sclk_table.ucNumEntries; i++)
+// 		{
+// 			setBytesAtPosition(buffer, atom_sclk_table_offset + sizeof(ATOM_SCLK_TABLE::typeid) + sizeof(ATOM_SCLK_ENTRY::typeid)*i, getBytes(atom_sclk_entries[i]));
+// 		}
+//
+// 		for (int i = 0; i < atom_vddc_table.ucNumEntries; i++)
+// 		{
+// 			setBytesAtPosition(buffer, atom_vddc_table_offset + sizeof(ATOM_VOLTAGE_TABLE::typeid) + sizeof(ATOM_VOLTAGE_ENTRY::typeid)*i, getBytes(atom_vddc_entries[i]));
+// 		}
+//
+// 		auto atom_vram_entry_offset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO::typeid);
+// 		for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
+// 		{
+// 			setBytesAtPosition(buffer, atom_vram_entry_offset, getBytes(atom_vram_entries[i]));
+// 			atom_vram_entry_offset += atom_vram_entries[i].usModuleSize;
+// 		}
+// 		for (int i = 0; i < atom_vram_timing_entries.size(); i++)
+// 		{
+// 			setBytesAtPosition(buffer, atom_vram_entry_offset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY::typeid)*i, getBytes(atom_vram_timing_entries[i]));
+// 		}
+//
+// 		fixChecksum(true);
+// 		bw->Write(buffer);
+//
+// 		fs->Close();
+// 		bw->Close();
+// 	}
+// }

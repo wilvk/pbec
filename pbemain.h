@@ -11,6 +11,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <iostream>
+#include <iomanip>
 
 #include "exceptionhelper.h"
 #include "structs.h"
@@ -32,6 +33,8 @@ private:
 
 	int atom_powerplay_offset = 0;
 	ATOM_POWERPLAY_TABLE atom_powerplay_table;
+
+	int atom_data_table_offset = 0;
 
 	int atom_powertune_offset = 0;
 	ATOM_POWERTUNE_TABLE atom_powertune_table;
@@ -67,7 +70,7 @@ private:
 
 	static std::vector<BYTE> getBytes(void *obj);
 
-	template<typename T> static T fromBytes(std::vector<BYTE> arr);
+	template<typename T> static T fromBytes(std::vector<BYTE> &arr);
 
 	//FrameworkElement *FindByName(const std::wstring &name, FrameworkElement *root);
 

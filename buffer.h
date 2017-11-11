@@ -18,7 +18,7 @@ public:
 
   std::vector<BYTE> ReadFile(const char* Filename);
 
-  std::vector<BYTE> GetSubset(int Offset);
+  std::vector<BYTE> GetSubset(int &Offset);
 
   void SetBufferPosition(int NewPosition);
 

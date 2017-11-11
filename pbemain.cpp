@@ -10,10 +10,10 @@ std::vector<BYTE> MainWindow::getBytes(void *obj)
 		return arr;
 }
 
-template<typename T> T MainWindow::fromBytes(std::vector<BYTE> arr)
+template<typename T> T MainWindow::fromBytes(std::vector<BYTE> &arr)
 {
 		T obj = T();
-		obj = reinterpret_cast<T*>(arr);
+		obj = reinterpret_cast<T>(arr);
 
 		return obj;
 }
@@ -50,6 +50,7 @@ void MainWindow::OpenFile(const char* Filename)
 {
 		Buffer *buffer = new Buffer();
 		buffer->ReadFile(Filename);
+		std::vector<BYTE> bufferSubset;
 
 		if (buffer->FileData.size() < 524288)
 		{
@@ -58,7 +59,9 @@ void MainWindow::OpenFile(const char* Filename)
 
 		int atom_rom_header_offset = buffer->GetValueAtPosition(16, atom_rom_header_ptr, false);
 
-		ATOM_ROM_HEADER atom_rom_header = this->fromBytes<ATOM_ROM_HEADER>(buffer->GetSubset(atom_rom_header_offset));
+		bufferSubset = buffer->GetSubset(atom_rom_header_offset);
+
+		ATOM_ROM_HEADER atom_rom_header = this->fromBytes<ATOM_ROM_HEADER>(bufferSubset);
 
 		std::string deviceID = int_to_hex( atom_rom_header.usDeviceID );
 
@@ -69,69 +72,88 @@ void MainWindow::OpenFile(const char* Filename)
 			std::cout << "WARNING: Unsupported DeviceID: " + deviceID;
 		}
 
-		atom_data_table = fromBytes<ATOM_DATA_TABLES>(buffer->GetSubset(atom_rom_header.usMasterDataTableOffset));
+		atom_data_table_offset = atom_rom_header.usMasterDataTableOffset;
+		bufferSubset = buffer->GetSubset(atom_data_table_offset);
+		atom_data_table = fromBytes<ATOM_DATA_TABLES>(bufferSubset);
+
 		atom_powerplay_offset = atom_data_table.PowerPlayInfo;
-		atom_powerplay_table = fromBytes<ATOM_POWERPLAY_TABLE>(buffer->GetSubset(atom_powerplay_offset));
+		bufferSubset = buffer->GetSubset(atom_powerplay_offset);
+		atom_powerplay_table = fromBytes<ATOM_POWERPLAY_TABLE>(bufferSubset);
 
 		atom_powertune_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usPowerTuneTableOffset;
-		atom_powertune_table = fromBytes<ATOM_POWERTUNE_TABLE>(buffer->GetSubset(atom_powertune_offset));
+		bufferSubset = buffer->GetSubset(atom_powertune_offset);
+		atom_powertune_table = fromBytes<ATOM_POWERTUNE_TABLE>(bufferSubset);
 
 		atom_fan_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usFanTableOffset;
-		atom_fan_table = fromBytes<ATOM_FAN_TABLE>(buffer->GetSubset(atom_fan_offset));
+		bufferSubset = buffer->GetSubset(atom_fan_offset);
+		atom_fan_table = fromBytes<ATOM_FAN_TABLE>(bufferSubset);
 
 		atom_mclk_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usMclkDependencyTableOffset;
-		atom_mclk_table = fromBytes<ATOM_MCLK_TABLE>(buffer->GetSubset(atom_mclk_table_offset));
+		bufferSubset = buffer->GetSubset(atom_mclk_table_offset);
+		atom_mclk_table = fromBytes<ATOM_MCLK_TABLE>(bufferSubset);
+
 		atom_mclk_entries = std::vector<ATOM_MCLK_ENTRY>(atom_mclk_table.ucNumEntries);
 
 		for (int i = 0; i < atom_mclk_entries.size(); i++)
 		{
-				atom_mclk_entries[i] = fromBytes<ATOM_MCLK_ENTRY>(
-					buffer->GetSubset(atom_mclk_table_offset + sizeof(ATOM_MCLK_TABLE) + sizeof(ATOM_MCLK_ENTRY) * i));
+			int atom_mclk_entry_offset = atom_mclk_table_offset + sizeof(ATOM_MCLK_TABLE) + sizeof(ATOM_MCLK_ENTRY) * i;
+			bufferSubset = buffer->GetSubset(atom_mclk_entry_offset);
+			atom_mclk_entries[i] = fromBytes<ATOM_MCLK_ENTRY>(bufferSubset);
 		}
 
 		atom_sclk_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usSclkDependencyTableOffset;
-		atom_sclk_table = fromBytes<ATOM_SCLK_TABLE>(buffer->GetSubset(atom_sclk_table_offset));
+		bufferSubset = buffer->GetSubset(atom_sclk_table_offset);
+		atom_sclk_table = fromBytes<ATOM_SCLK_TABLE>(bufferSubset);
 		atom_sclk_entries = std::vector<ATOM_SCLK_ENTRY>(atom_sclk_table.ucNumEntries);
 
 		for (int i = 0; i < atom_sclk_entries.size(); i++)
 		{
-			atom_sclk_entries[i] = fromBytes<ATOM_SCLK_ENTRY>(
-				buffer->GetSubset(atom_sclk_table_offset + sizeof(ATOM_SCLK_TABLE) + sizeof(ATOM_SCLK_ENTRY) * i));
+			int atom_sclk_entry_offset = atom_sclk_table_offset + sizeof(ATOM_SCLK_TABLE) + sizeof(ATOM_SCLK_ENTRY) * i;
+			bufferSubset = buffer->GetSubset(atom_sclk_entry_offset);
+			atom_sclk_entries[i] = fromBytes<ATOM_SCLK_ENTRY>(bufferSubset);
 		}
 
 		atom_vddc_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usVddcLookupTableOffset;
-		atom_vddc_table = fromBytes<ATOM_VOLTAGE_TABLE>(buffer->GetSubset(atom_vddc_table_offset));
+		bufferSubset = buffer->GetSubset(atom_vddc_table_offset);
+		atom_vddc_table = fromBytes<ATOM_VOLTAGE_TABLE>(bufferSubset);
 		atom_vddc_entries = std::vector<ATOM_VOLTAGE_ENTRY>(atom_vddc_table.ucNumEntries);
 
 		for (int i = 0; i < atom_vddc_table.ucNumEntries; i++)
 		{
-			atom_vddc_entries[i] = fromBytes<ATOM_VOLTAGE_ENTRY>(
-				buffer->GetSubset(atom_vddc_table_offset + sizeof(ATOM_VOLTAGE_TABLE) + sizeof(ATOM_VOLTAGE_ENTRY) * i));
+			int atom_vddc_entry_offset = atom_vddc_table_offset + sizeof(ATOM_VOLTAGE_TABLE) + sizeof(ATOM_VOLTAGE_ENTRY) * i;
+			bufferSubset = buffer->GetSubset(atom_vddc_entry_offset);
+			atom_vddc_entries[i] = fromBytes<ATOM_VOLTAGE_ENTRY>(bufferSubset);
 		}
 
 		atom_vram_info_offset = atom_data_table.VRAM_Info;
-		atom_vram_info = fromBytes<ATOM_VRAM_INFO>(buffer->GetSubset(atom_vram_info_offset));
+		bufferSubset = buffer->GetSubset(atom_vram_info_offset);
+		atom_vram_info = fromBytes<ATOM_VRAM_INFO>(bufferSubset);
+
 		atom_vram_entries = std::vector<ATOM_VRAM_ENTRY>(atom_vram_info.ucNumOfVRAMModule);
-		auto atom_vram_entry_offset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO);
+		int atom_vram_entry_offset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO);
 
 		for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
 		{
-			atom_vram_entries[i] = fromBytes<ATOM_VRAM_ENTRY>(buffer->GetSubset(atom_vram_entry_offset));
+			bufferSubset = buffer->GetSubset(atom_vram_entry_offset);
+			atom_vram_entries[i] = fromBytes<ATOM_VRAM_ENTRY>(bufferSubset);
 			atom_vram_entry_offset += atom_vram_entries[i].usModuleSize;
 		}
+
 		atom_vram_timing_entries = std::vector<ATOM_VRAM_TIMING_ENTRY>(16);
 
 		for (int i = 0; i < 16; i++)
 		{
-			atom_vram_timing_entries[i] = fromBytes<ATOM_VRAM_TIMING_ENTRY>(
-				buffer->GetSubset(atom_vram_entry_offset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY) * i));
+			int atom_vram_timing_entry_offset = atom_vram_entry_offset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY) * i;
+			bufferSubset = buffer->GetSubset(atom_vram_timing_entry_offset);
+			atom_vram_timing_entries[i] = fromBytes<ATOM_VRAM_TIMING_ENTRY>(bufferSubset);
 
 			// atom_vram_timing_entries have an undetermined length. Attempt to determine the last entry in the array.
 			if (atom_vram_timing_entries[i].ulClkRange == 0)
 			{
-				Array::Resize(atom_vram_timing_entries, i);
+				atom_vram_timing_entries.resize(i);
 				break;
 			}
+
 		}
 
 			//TODO: output these to stdout
@@ -188,7 +210,8 @@ void MainWindow::OpenFile(const char* Filename)
 		delete buffer;
 }
 
-template< typename T > std::string int_to_hex( T i )
+template< typename T >
+std::string int_to_hex( T i )
 {
 	  std::stringstream stream;
 	  stream << "0x"
@@ -197,36 +220,9 @@ template< typename T > std::string int_to_hex( T i )
 	  return stream.str();
 }
 
-// FrameworkElement *MainWindow::FindByName(const std::wstring &name, FrameworkElement *root)
-// {
-// 	std::stack<FrameworkElement*> tree;
-// 	tree.push(root);
-//
-// 	while (tree.size() > 0)
-// 	{
-// 		FrameworkElement *current = tree.pop();
-// 		if (current->Name == name)
-// 		{
-// 			return current;
-// 		}
-//
-// 		int count = VisualTreeHelper::GetChildrenCount(current);
-// 		for (int i = 0; i < count; ++i)
-// 		{
-// 			DependencyObject *child = VisualTreeHelper::GetChild(current, i);
-// 			if (dynamic_cast<FrameworkElement*>(child) != nullptr)
-// 			{
-// 				tree.push(static_cast<FrameworkElement*>(child));
-// 			}
-// 		}
-// 	}
-//
-// 	return nullptr;
-// }
-
 std::wstring MainWindow::ByteArrayToString(std::vector<BYTE> &ba)
 {
-		std::wstring hex = BitConverter::ToString(ba);
+		std::wstring hex(ba.begin(), ba.end());
 		return boost::replace_all_copy(hex, L"-", L"");
 }
 
@@ -237,59 +233,14 @@ std::vector<BYTE> MainWindow::StringToByteArray(const std::wstring &hex)
 			std::cout << "ERROR: Invalid hex string";
 			throw InvalidDataException();
 		}
+
 		std::vector<BYTE> bytes(hex.length() / 2);
+
 		for (int i = 0; i < hex.length(); i += 2)
 		{
-			bytes[i / 2] = Convert::ToByte(hex.substr(i, 2), 16);
+			wchar_t singleString = hex.substr(i, 2)[0];
+			bytes[i / 2] = singleString;
 		}
+
 		return bytes;
 }
-
-// void MainWindow::updateVRAM_entries()
-// {
-// 	for (int i = 0; i < tableVRAM::Items->Count; i++)
-// 	{
-// 		auto container = dynamic_cast<FrameworkElement*>(tableVRAM::ItemContainerGenerator->ContainerFromIndex(i));
-// 		auto name = (dynamic_cast<TextBlock*>(FindByName(L"NAME", container)))->Text;
-// 		auto value = (dynamic_cast<TextBox*>(FindByName(L"VALUE", container)))->Text;
-// 		auto num = static_cast<int>(int32->ConvertFromString(value));
-//
-// 		if (name == L"VendorID")
-// 		{
-// 			atom_vram_entries[atom_vram_index].ucMemoryVenderID = static_cast<BYTE>(num);
-// 		}
-// 		else if (name == L"Size (MB)")
-// 		{
-// 			atom_vram_entries[atom_vram_index].usMemorySize = static_cast<unsigned short>(num);
-// 		}
-// 		else if (name == L"Density")
-// 		{
-// 			atom_vram_entries[atom_vram_index].ucDensity = static_cast<BYTE>(num);
-// 		}
-// 		else if (name == L"Type")
-// 		{
-// 			atom_vram_entries[atom_vram_index].ucMemoryType = static_cast<BYTE>(num);
-// 		}
-// 	}
-// }
-
-// void MainWindow::listVRAM_SelectionChanged(void *sender, SelectionChangedEventArgs *e)
-// {
-// 	updateVRAM_entries();
-// 	tableVRAM::Items->Clear();
-// 	if (listVRAM::SelectedIndex >= 0 && listVRAM::SelectedIndex < listVRAM::Items->Count)
-// 	{
-// 		atom_vram_index = listVRAM::SelectedIndex;
-// //C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-// //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
-// 		tableVRAM::Items->Add(new {NAME = L"VendorID", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucMemoryVenderID.ToString(L"X")});
-// //C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-// 		tableVRAM::Items->Add(new {NAME = L"Size (MB)", VALUE = atom_vram_entries[atom_vram_index].usMemorySize});
-// //C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-// //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
-// 		tableVRAM::Items->Add(new {NAME = L"Density", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucDensity.ToString(L"X")});
-// //C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
-// //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
-// 		tableVRAM::Items->Add(new {NAME = L"Type", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucMemoryType.ToString(L"X")});
-// 	}
-//}

@@ -220,3 +220,84 @@
 // 		bw->Close();
 // 	}
 // }
+
+// other commented out:
+
+
+// void MainWindow::updateVRAM_entries()
+// {
+// 	for (int i = 0; i < tableVRAM::Items->Count; i++)
+// 	{
+// 		auto container = dynamic_cast<FrameworkElement*>(tableVRAM::ItemContainerGenerator->ContainerFromIndex(i));
+// 		auto name = (dynamic_cast<TextBlock*>(FindByName(L"NAME", container)))->Text;
+// 		auto value = (dynamic_cast<TextBox*>(FindByName(L"VALUE", container)))->Text;
+// 		auto num = static_cast<int>(int32->ConvertFromString(value));
+//
+// 		if (name == L"VendorID")
+// 		{
+// 			atom_vram_entries[atom_vram_index].ucMemoryVenderID = static_cast<BYTE>(num);
+// 		}
+// 		else if (name == L"Size (MB)")
+// 		{
+// 			atom_vram_entries[atom_vram_index].usMemorySize = static_cast<unsigned short>(num);
+// 		}
+// 		else if (name == L"Density")
+// 		{
+// 			atom_vram_entries[atom_vram_index].ucDensity = static_cast<BYTE>(num);
+// 		}
+// 		else if (name == L"Type")
+// 		{
+// 			atom_vram_entries[atom_vram_index].ucMemoryType = static_cast<BYTE>(num);
+// 		}
+// 	}
+// }
+
+// void MainWindow::listVRAM_SelectionChanged(void *sender, SelectionChangedEventArgs *e)
+// {
+// 	updateVRAM_entries();
+// 	tableVRAM::Items->Clear();
+// 	if (listVRAM::SelectedIndex >= 0 && listVRAM::SelectedIndex < listVRAM::Items->Count)
+// 	{
+// 		atom_vram_index = listVRAM::SelectedIndex;
+// //C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
+// //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
+// 		tableVRAM::Items->Add(new {NAME = L"VendorID", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucMemoryVenderID.ToString(L"X")});
+// //C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
+// 		tableVRAM::Items->Add(new {NAME = L"Size (MB)", VALUE = atom_vram_entries[atom_vram_index].usMemorySize});
+// //C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
+// //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
+// 		tableVRAM::Items->Add(new {NAME = L"Density", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucDensity.ToString(L"X")});
+// //C# TO C++ CONVERTER TODO TASK: This type of object initializer has no direct C++ equivalent:
+// //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
+// 		tableVRAM::Items->Add(new {NAME = L"Type", VALUE = L"0x" + atom_vram_entries[atom_vram_index].ucMemoryType.ToString(L"X")});
+// 	}
+//}
+
+
+
+// FrameworkElement *MainWindow::FindByName(const std::wstring &name, FrameworkElement *root)
+// {
+// 	std::stack<FrameworkElement*> tree;
+// 	tree.push(root);
+//
+// 	while (tree.size() > 0)
+// 	{
+// 		FrameworkElement *current = tree.pop();
+// 		if (current->Name == name)
+// 		{
+// 			return current;
+// 		}
+//
+// 		int count = VisualTreeHelper::GetChildrenCount(current);
+// 		for (int i = 0; i < count; ++i)
+// 		{
+// 			DependencyObject *child = VisualTreeHelper::GetChild(current, i);
+// 			if (dynamic_cast<FrameworkElement*>(child) != nullptr)
+// 			{
+// 				tree.push(static_cast<FrameworkElement*>(child));
+// 			}
+// 		}
+// 	}
+//
+// 	return nullptr;
+// }

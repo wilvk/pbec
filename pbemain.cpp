@@ -10,12 +10,18 @@ std::vector<BYTE> MainWindow::getBytes(void *obj)
 		return arr;
 }
 
-template<typename T> T MainWindow::fromBytes(std::vector<BYTE> &arr)
+template<typename T> T MainWindow::fromBytes(std::vector<BYTE> &stringArray)
 {
-		T obj = T();
-		obj = reinterpret_cast<T>(arr);
+		T typeObject = T();
 
-		return obj;
+		std::memcpy(&typeObject, &stringArray[0], sizeof typeObject);
+
+		//auto castObj = reinterpret_cast<T>(structString);
+
+		//std::copy(stringArray.begin(), stringArray.end(), test);
+		//std::memcpy(&typeObject, &stringArray[0], sizeof typeObject);
+
+		return typeObject;
 }
 
 void MainWindow::setBytesAtPosition(std::vector<BYTE> &dest, int ptr, std::vector<BYTE> &src)
@@ -34,16 +40,9 @@ MainWindow::MainWindow()
 
 bool MainWindow::ContainsMatch(std::vector<std::string> list, std::string toMatch)
 {
-		std::vector<std::string>::const_iterator it;
+		bool found = (std::find(list.begin(), list.end(), toMatch) != list.end());
 
-		it = find (list.begin(), list.end(), 30);
-
-  	if (it != list.end())
-		{
-			return true;
-		}
-
-		return false;
+		return found;
 }
 
 void MainWindow::OpenFile(const char* Filename)

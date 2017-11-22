@@ -2,7 +2,7 @@
 #define BUFFER_H
 
 #include <vector>
-
+#include <iostream>
 #include "structs.h"
 
 class Buffer

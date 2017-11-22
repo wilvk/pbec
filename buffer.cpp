@@ -140,5 +140,5 @@ void Buffer::FixChecksum(bool save)
   		FileData[atom_rom_checksum_offset] -= offset;
   	}
 
-  	std::cout << "checksum: " << int_to_hex( FileData[atom_rom_checksum_offset] );
+  	std::cout << "checksum: " << FileData[atom_rom_checksum_offset];   //int_to_hex( FileData[atom_rom_checksum_offset] );
 }

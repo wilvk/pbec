@@ -62,7 +62,7 @@ void MainWindow::OpenFile(const char* Filename)
 
 		ATOM_ROM_HEADER atom_rom_header = this->fromBytes<ATOM_ROM_HEADER>(bufferSubset);
 
-		std::string deviceID = int_to_hex( atom_rom_header.usDeviceID );
+		std::string deviceID = std::to_string(atom_rom_header.usDeviceID);   //int_to_hex( atom_rom_header.usDeviceID );
 
 		buffer->FixChecksum(false);
 
@@ -210,13 +210,20 @@ void MainWindow::OpenFile(const char* Filename)
 }
 
 template< typename T >
-std::string int_to_hex( T i )
+std::string 
+MainWindow::int_to_hex( T i )
 {
-	  std::stringstream stream;
-	  stream << "0x"
-	         << std::setfill ('0') << std::setw(sizeof(T) * 2)
-	         << std::hex << i;
-	  return stream.str();
+	  //std::stringstream stream;
+	  //stream << std::setfill ('0') << std::setw(sizeof(T) * 2) << std::hex << i;
+	  //return stream->str();
+  	  char res[5];        
+  
+	  if( i <= 0xFFFF )
+	  {
+	      return sprintf(&res[0], "%04x", i);
+	  }
+
+	  return "0x00";
 }
 
 std::wstring MainWindow::ByteArrayToString(std::vector<BYTE> &ba)

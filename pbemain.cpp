@@ -47,7 +47,7 @@ bool MainWindow::ContainsMatch(std::vector<std::string> list, std::string toMatc
 
 void MainWindow::OpenFile(const char* Filename)
 {
-		Buffer *buffer = new Buffer();
+		Buffer *buffer = new Buffer();;
 		buffer->ReadFile(Filename);
 		std::vector<BYTE> bufferSubset;
 

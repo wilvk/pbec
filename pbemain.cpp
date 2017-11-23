@@ -1,5 +1,4 @@
-﻿
-#include "pbemain.h"
+﻿#include "pbemain.h"
 
 std::vector<BYTE> MainWindow::getBytes(void *obj)
 {
@@ -64,7 +63,7 @@ void MainWindow::OpenFile(const char* Filename)
 
 		std::string deviceID = std::to_string(atom_rom_header.usDeviceID);   //int_to_hex( atom_rom_header.usDeviceID );
 
-		buffer->FixChecksum(false);
+		buffer->FixChecksum(false, atom_rom_checksum_offset);
 
 		if (!this->ContainsMatch(supportedDeviceID, deviceID))
 		{

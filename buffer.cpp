@@ -1,9 +1,9 @@
 #include "buffer.h"
 
-std::vector<BYTE> Buffer:ReadFile(const char* Filename)
+std::vector<BYTE> Buffer::ReadFile(const char* Filename)
 {
     std::streampos fileSize;
-    std::ifstream file(filename, std::ios::binary);
+    std::ifstream file(Filename, std::ios::binary);
 
     file.seekg(0, std::ios::end);
     fileSize = file.tellg();
@@ -17,10 +17,7 @@ std::vector<BYTE> Buffer:ReadFile(const char* Filename)
 
 std::vector<BYTE> Buffer::GetSubset(int &Offset)
 {
-    bufferPosition = offset;
-
-    std::vector<BYTE>::const_iterator subsetStart = FileData.begin() + bufferPosition;
-    std::vector<BYTE> subset(subsetStart, FileData.end());
+    std::vector<BYTE> subset(FileData.begin() + Offset, FileData.end());
 
     return subset;
 }
@@ -106,16 +103,12 @@ bool Buffer::SetValueAtPosition(int value, int bits, int position, bool isFreque
 
 bool Buffer::SetValueAtPosition(const std::wstring &text, int bits, int position, bool isFrequency)
 {
-  	int value = 0;
-
-  	if (!int::TryParse(text, value))
-  	{
-  		return false;
-  	}
-  	return this->setValueAtPosition(value, bits, position, isFrequency);
+  	int value = std::stoi(text);
+       
+  	return this->SetValueAtPosition(value, bits, position, isFrequency);
 }
 
-void Buffer::FixChecksum(bool save)
+void Buffer::FixChecksum(bool save, int atom_rom_checksum_offset)
 {
   	unsigned char checksum = FileData[atom_rom_checksum_offset];
   	int size = FileData[0x02] * 512;

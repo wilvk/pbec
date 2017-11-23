@@ -2,6 +2,8 @@
 #define BUFFER_H
 
 #include <vector>
+#include <fstream>
+
 #include <iostream>
 #include "structs.h"
 
@@ -24,7 +26,7 @@ public:
 
   int GetBufferPosition();
 
-  void FixChecksum(bool save);
+  void FixChecksum(bool save, int atom_rom_checksum_offset);
 
   bool SetValueAtPosition(const std::wstring &text, int bits, int position, bool isFrequency);
 

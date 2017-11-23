@@ -1,7 +1,16 @@
 #include <iostream>
 
+#include "pbemain.h"
+
 int main(int argc, const char** argv)
 {
-	std::cout << "test" << std::endl;
-	return 0;
+  MainWindow *mainApp = new MainWindow();
+    
+  std::cout << "test" << std::endl;
+
+  const char *filename;
+
+  filename = "test.rom";
+
+  mainApp->OpenFile(filename);
 }

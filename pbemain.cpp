@@ -71,7 +71,7 @@ void MainWindow::OpenFile(const char* Filename)
 
 		if (!this->ContainsMatch(supportedDeviceID, deviceID))
 		{
-			std::cout << "WARNING: Unsupported DeviceID: " + deviceID;
+			std::cout << std::endl << "WARNING: Unsupported DeviceID: " + deviceID;
 		}
 
 		atom_data_table_offset = atom_rom_header.usMasterDataTableOffset;
@@ -149,7 +149,8 @@ void MainWindow::OpenFile(const char* Filename)
 			bufferSubset = buffer->GetSubset(atom_vram_timing_entry_offset);
 			atom_vram_timing_entries[i] = fromBytes<ATOM_VRAM_TIMING_ENTRY>(bufferSubset);
 
-			// atom_vram_timing_entries have an undetermined length. Attempt to determine the last entry in the array.
+			// atom_vram_timing_entries have an undetermined length.
+			// Attempt to determine the last entry in the array.
 			if (atom_vram_timing_entries[i].ulClkRange == 0)
 			{
 				atom_vram_timing_entries.resize(i);
@@ -158,33 +159,32 @@ void MainWindow::OpenFile(const char* Filename)
 
 		}
 
-			//TODO: output these to stdout
-			// tableROM::Items->Add(new {NAME = L"VendorID", VALUE = L"0x" + atom_rom_header.usVendorID.ToString(L"X")});
-			// tableROM::Items->Add(new {NAME = L"DeviceID", VALUE = L"0x" + atom_rom_header.usDeviceID.ToString(L"X")});
-			// tableROM::Items->Add(new {NAME = L"Sub ID", VALUE = L"0x" + atom_rom_header.usSubsystemID.ToString(L"X")});
-			// tableROM::Items->Add(new {NAME = L"Sub VendorID", VALUE = L"0x" + atom_rom_header.usSubsystemVendorID.ToString(L"X")});
-			// tableROM::Items->Add(new {NAME = L"Firmware Signature", VALUE = L"0x" + atom_rom_header.uaFirmWareSignature.ToString(L"X")});
-			// tablePOWERPLAY::Items->Add(new {NAME = L"Max GPU Freq. (MHz)", VALUE = atom_powerplay_table.ulMaxODEngineClock / 100});
-			// tablePOWERPLAY::Items->Add(new {NAME = L"Max Memory Freq. (MHz)", VALUE = atom_powerplay_table.ulMaxODMemoryClock / 100});
-			// tablePOWERPLAY::Items->Add(new {NAME = L"Power Control Limit (%)", VALUE = atom_powerplay_table.usPowerControlLimit});
-			// tablePOWERTUNE::Items->Add(new {NAME = L"TDP (W)", VALUE = atom_powertune_table.usTDP});
-			// tablePOWERTUNE::Items->Add(new {NAME = L"TDC (A)", VALUE = atom_powertune_table.usTDC});
-			// tablePOWERTUNE::Items->Add(new {NAME = L"Max Power Limit (W)", VALUE = atom_powertune_table.usMaximumPowerDeliveryLimit});
-			// tablePOWERTUNE::Items->Add(new {NAME = L"Max Temp. (C)", VALUE = atom_powertune_table.usTjMax});
-			// tablePOWERTUNE::Items->Add(new {NAME = L"Shutdown Temp. (C)", VALUE = atom_powertune_table.usSoftwareShutdownTemp});
-			// tablePOWERTUNE::Items->Add(new {NAME = L"Hotspot Temp. (C)", VALUE = atom_powertune_table.usTemperatureLimitHotspot});
-			// tableFAN::Items->Add(new {NAME = L"Temp. Hysteresis", VALUE = atom_fan_table.ucTHyst});
-			// tableFAN::Items->Add(new {NAME = L"Min Temp. (C)", VALUE = atom_fan_table.usTMin / 100});
-			// tableFAN::Items->Add(new {NAME = L"Med Temp. (C)", VALUE = atom_fan_table.usTMed / 100});
-			// tableFAN::Items->Add(new {NAME = L"High Temp. (C)", VALUE = atom_fan_table.usTHigh / 100});
-			// tableFAN::Items->Add(new {NAME = L"Max Temp. (C)", VALUE = atom_fan_table.usTMax / 100});
-			// tableFAN::Items->Add(new {NAME = L"Min PWM (%)", VALUE = atom_fan_table.usPWMMin / 100});
-			// tableFAN::Items->Add(new {NAME = L"Med PWM (%)", VALUE = atom_fan_table.usPWMMed / 100});
-			// tableFAN::Items->Add(new {NAME = L"High PWM (%)", VALUE = atom_fan_table.usPWMHigh / 100});
-			// tableFAN::Items->Add(new {NAME = L"Max PWM (%)", VALUE = atom_fan_table.usFanPWMMax});
-			// tableFAN::Items->Add(new {NAME = L"Max RPM", VALUE = atom_fan_table.usFanRPMMax});
-			// tableFAN::Items->Add(new {NAME = L"Sensitivity", VALUE = atom_fan_table.usFanOutputSensitivity});
-			// tableFAN::Items->Add(new {NAME = L"Acoustic Limit (MHz)", VALUE = atom_fan_table.ulMinFanSCLKAcousticLimit / 100});
+    std::cout << std::endl << "Vendor ID: " << atom_rom_header.usVendorID;
+    std::cout << std::endl << "Device ID: " << atom_rom_header.usDeviceID;
+    std::cout << std::endl << "Subsystem ID: " << atom_rom_header.usSubsystemID;
+    std::cout << std::endl << "Subsystem Vendor ID: " << atom_rom_header.usSubsystemVendorID;
+    std::cout << std::endl << "Firmware Signature: " << atom_rom_header.uaFirmWareSignature;
+    std::cout << std::endl << "Max GPU Freq. (MHz): " << atom_powerplay_table.ulMaxODEngineClock / 100;
+    std::cout << std::endl << "Max Memory Freq. (MHz): " << atom_powerplay_table.ulMaxODMemoryClock / 100;
+    std::cout << std::endl << "Power Control Limit (%): " << atom_powerplay_table.usPowerControlLimit;
+    std::cout << std::endl << "TDP (W): " << atom_powertune_table.usTDP;
+    std::cout << std::endl << "TDC (A): " << atom_powertune_table.usTDC;
+    std::cout << std::endl << "Max Power Limit (W): " << atom_powertune_table.usMaximumPowerDeliveryLimit;
+    std::cout << std::endl << "Max Temp. (C): " << atom_powertune_table.usTjMax;
+    std::cout << std::endl << "Shutdown Temp. (C): " << atom_powertune_table.usSoftwareShutdownTemp;
+    std::cout << std::endl << "Hotspot Temp. (C): " << atom_powertune_table.usTemperatureLimitHotspot;
+    std::cout << std::endl << "Temp. Hysteresis: " << atom_fan_table.ucTHyst;
+    std::cout << std::endl << "Min Temp. (C): " << atom_fan_table.usTMin / 100;
+    std::cout << std::endl << "Med Temp. (C): " << atom_fan_table.usTMed / 100;
+    std::cout << std::endl << "High Temp. (C): " << atom_fan_table.usTHigh / 100;
+    std::cout << std::endl << "Max Temp. (C): " << atom_fan_table.usTMax / 100;
+    std::cout << std::endl << "Min PWM (%): " << atom_fan_table.usPWMMin / 100;
+    std::cout << std::endl << "Med PWM (%): " << atom_fan_table.usPWMMed / 100;
+    std::cout << std::endl << "High PWM (%): " << atom_fan_table.usPWMHigh / 100;
+    std::cout << std::endl << "Max PWM (%): " << atom_fan_table.usFanPWMMax;
+    std::cout << std::endl << "Max RPM: " << atom_fan_table.usFanRPMMax;
+    std::cout << std::endl << "Sensitivity: " << atom_fan_table.usFanOutputSensitivity;
+    std::cout << std::endl << "Acoustic Limit (MHz): " << atom_fan_table.ulMinFanSCLKAcousticLimit / 100;
 
 		for (int i = 0; i < atom_sclk_table.ucNumEntries; i++)
 		{

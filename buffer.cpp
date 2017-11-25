@@ -28,8 +28,6 @@ std::vector<BYTE> Buffer::ReadFile(const char* Filename)
               std::istream_iterator<BYTE>(file),
               std::istream_iterator<BYTE>());
 
-   std::cout << std::endl << "File Size: " << fileSize;
-
    this->FileData = vec;
 
    return vec;
@@ -141,11 +139,11 @@ void Buffer::FixChecksum(bool save, int atom_rom_checksum_offset)
 
   	if (checksum == (FileData[atom_rom_checksum_offset] - offset))
   	{
-  		std::cout << "Checksum is valid.";
+  		std::cout << std::endl << "Checksum is valid.";
   	}
   	else
   	{
-  		std::cout << "WARNING: Invalid checksum.";
+  		std::cout << std::endl << "WARNING: Invalid checksum.";
   	}
 
   	if (save)
@@ -153,5 +151,5 @@ void Buffer::FixChecksum(bool save, int atom_rom_checksum_offset)
   		FileData[atom_rom_checksum_offset] -= offset;
   	}
 
-  	std::cout << "checksum: " << FileData[atom_rom_checksum_offset];   //int_to_hex( FileData[atom_rom_checksum_offset] );
+  	std::cout << std::endl << "Checksum: " << FileData[atom_rom_checksum_offset];   //int_to_hex( FileData[atom_rom_checksum_offset] );
 }

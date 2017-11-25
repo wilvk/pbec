@@ -33,8 +33,8 @@ void MainWindow::setBytesAtPosition(std::vector<BYTE> &dest, int ptr, std::vecto
 
 MainWindow::MainWindow()
 {
-		std::cout << "Modifying your BIOS is dangerous and could cause irreversible damage to your GPU.\n"
-				"Using a modified BIOS may void your warranty.\nThe author will not be held accountable for your actions.";
+		std::cout << "Modifying your BIOS is dangerous and could cause irreversible damage to your GPU.\n" <<
+				"Using a modified BIOS may void your warranty.\nThe author will not be held accountable for your actions." << std::endl;
 }
 
 bool MainWindow::ContainsMatch(std::vector<std::string> list, std::string toMatch)
@@ -52,8 +52,12 @@ void MainWindow::OpenFile(const char* Filename)
 
 		if (buffer->FileData.size() < 524288)
 		{
-			std::cout << "Warning: This BIOS is less than the standard 512KB size.\nFlashing this BIOS may corrupt your graphics card.";
+			std::cout << std::endl << std::endl <<
+				"Warning: This BIOS is less than the standard 512KB size.\nFlashing this BIOS may corrupt your graphics card.";
 		}
+
+		std::cout << std::endl << "File Name: " << Filename;
+		std::cout << std::endl << "File size: " << buffer->FileData.size() << std::endl;
 
 		int atom_rom_header_offset = buffer->GetValueAtPosition(16, atom_rom_header_ptr, false);
 
@@ -209,14 +213,14 @@ void MainWindow::OpenFile(const char* Filename)
 }
 
 template< typename T >
-std::string 
+std::string
 MainWindow::int_to_hex( T i )
 {
 	  //std::stringstream stream;
 	  //stream << std::setfill ('0') << std::setw(sizeof(T) * 2) << std::hex << i;
 	  //return stream->str();
-  	  char res[5];        
-  
+  	  char res[5];
+
 	  if( i <= 0xFFFF )
 	  {
 	      return sprintf(&res[0], "%04x", i);

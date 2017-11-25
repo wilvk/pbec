@@ -2,17 +2,37 @@
 
 std::vector<BYTE> Buffer::ReadFile(const char* Filename)
 {
-    std::streampos fileSize;
-    std::ifstream file(Filename, std::ios::binary);
+    std::cout << std::endl << "<Buffer Read File>";
 
-    file.seekg(0, std::ios::end);
-    fileSize = file.tellg();
-    file.seekg(0, std::ios::beg);
+    // taken from https://stackoverflow.com/a/21802936/512965
 
-    std::vector<BYTE> FileData(fileSize);
-    file.read((char*) &FileData[0], fileSize);
+    // open the file:
+   std::ifstream file(Filename, std::ios::binary);
 
-    return FileData;
+   // Stop eating new lines in binary mode!!!
+   file.unsetf(std::ios::skipws);
+
+   // get its size:
+   std::streampos fileSize;
+
+   file.seekg(0, std::ios::end);
+   fileSize = file.tellg();
+   file.seekg(0, std::ios::beg);
+
+   // reserve capacity
+   std::vector<BYTE> vec;
+   vec.reserve(fileSize);
+
+   // read the data:
+   vec.insert(vec.begin(),
+              std::istream_iterator<BYTE>(file),
+              std::istream_iterator<BYTE>());
+
+   std::cout << std::endl << "File Size: " << fileSize;
+
+   this->FileData = vec;
+
+   return vec;
 }
 
 std::vector<BYTE> Buffer::GetSubset(int &Offset)
@@ -104,7 +124,7 @@ bool Buffer::SetValueAtPosition(int value, int bits, int position, bool isFreque
 bool Buffer::SetValueAtPosition(const std::wstring &text, int bits, int position, bool isFrequency)
 {
   	int value = std::stoi(text);
-       
+
   	return this->SetValueAtPosition(value, bits, position, isFrequency);
 }
 

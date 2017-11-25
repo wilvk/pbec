@@ -5,8 +5,6 @@
 int main(int argc, const char** argv)
 {
   MainWindow *mainApp = new MainWindow();
-    
-  std::cout << "test" << std::endl;
 
   const char *filename;
 

@@ -15,11 +15,6 @@ template<typename T> T MainWindow::fromBytes(std::vector<BYTE> &stringArray)
 
     std::memcpy(&typeObject, &stringArray[0], sizeof typeObject);
 
-    //auto castObj = reinterpret_cast<T>(structString);
-
-    //std::copy(stringArray.begin(), stringArray.end(), test);
-    //std::memcpy(&typeObject, &stringArray[0], sizeof typeObject);
-
     return typeObject;
 }
 
@@ -33,8 +28,9 @@ void MainWindow::setBytesAtPosition(std::vector<BYTE> &dest, int ptr, std::vecto
 
 MainWindow::MainWindow()
 {
-    std::cout << "Modifying your BIOS is dangerous and could cause irreversible damage to your GPU.\n" <<
-        "Using a modified BIOS may void your warranty.\nThe author will not be held accountable for your actions." << std::endl;
+    std::cout << "Modifying your BIOS is dangerous and could cause irreversible damage to your GPU." << std::endl <<
+        "Using a modified BIOS may void your warranty." << std::endl <<
+        "The author will not be held accountable for your actions." << std::endl;
 }
 
 bool MainWindow::ContainsMatch(std::vector<std::string> list, std::string toMatch)
@@ -53,7 +49,8 @@ void MainWindow::OpenFile(const char* Filename)
     if (buffer->FileData.size() < 524288)
     {
       std::cout << std::endl << std::endl <<
-        "Warning: This BIOS is less than the standard 512KB size.\nFlashing this BIOS may corrupt your graphics card.";
+        "Warning: This BIOS is less than the standard 512KB size." << std::endl <<
+        "Flashing this BIOS may corrupt your graphics card.";
     }
 
     std::cout << std::endl << "File Name: " << Filename;
@@ -156,7 +153,6 @@ void MainWindow::OpenFile(const char* Filename)
         atom_vram_timing_entries.resize(i);
         break;
       }
-
     }
 
     std::cout << std::endl << "Vendor ID: " << atom_rom_header.usVendorID;

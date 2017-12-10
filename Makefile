@@ -16,9 +16,9 @@ LIBS = -ldl -lm
 
 .PHONY: all clean
 
-all: pbl
+all: pbel
 
-pbl: $(OBJ_FILES)
+pbel: $(OBJ_FILES)
 	$(CXX) $(LDFLAGS) $(LIBDIRS) -o $@ $^ $(LIBS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp

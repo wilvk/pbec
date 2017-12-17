@@ -44,30 +44,30 @@ private:
 //-----------------------------------------------------------------------------
  
 void
-TestBasicMath::testAddition(void)
+TestBasicRomAttributes::testAddition(void)
 {
     CPPUNIT_ASSERT(5 == 2 + 3);
 }
  
 void
-TestBasicMath::testMultiply(void)
+TestBasicRomAttributes::testMultiply(void)
 {
     CPPUNIT_ASSERT(6 == 2 * 3);
 }
  
-void TestBasicMath::setUp(void)
+void TestBasicRomAttributes::setUp(void)
 {
     //mTestObj = new CBasicMath();
 }
  
-void TestBasicMath::tearDown(void)
+void TestBasicRomAttributes::tearDown(void)
 {
     //delete mTestObj;
 }
  
 //-----------------------------------------------------------------------------
  
-CPPUNIT_TEST_SUITE_REGISTRATION( TestBasicMath );
+CPPUNIT_TEST_SUITE_REGISTRATION( TestBasicRomAttributes );
  
 int main(int argc, char* argv[])
 {

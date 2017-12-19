@@ -8,7 +8,7 @@ int main(int argc, const char** argv)
 
   const char *filename;
 
-  filename = "test.rom";
+  filename = "tests/test.rom";
 
   mainApp->OpenFile(filename);
 }

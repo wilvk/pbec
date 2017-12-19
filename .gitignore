@@ -1,5 +1,5 @@
 # Application file
-pbl
+pbel
 
 # Prerequisites
 *.d
@@ -33,3 +33,6 @@ pbl
 *.exe
 *.out
 *.app
+
+# Mac
+.DS_Store

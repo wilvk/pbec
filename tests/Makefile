@@ -1,15 +1,32 @@
+###
+# Makefile
+# Willem van Ketwich
+###
+
 CXX = g++
-INCLUDES= -I./
-CXXFLAGS = -g $(INCLUDES)
-SRCM= ./basic_tests.cpp
-OBJM = $(SRCM:.cpp=.o)
-LINKFLAGS= -lcppunit
- 
-test: basic_tests.cpp $(OBJM)
-	$(CXX) $(CXXFLAGS) -o $@ basic_tests.cpp $(OBJM) $(LINKFLAGS) $(LINKFLAGSLOG4) $(LIBLOG)
- 
-# Default compile
- 
-.cpp.o:
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+CXXFLAGS = -Wall -O3 -std=c++11
+LDFLAGS = -Wall -O3 -std=c++11 -v
+SRC_DIR = ./
+OBJ_DIR = ./
+SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
+INCDIRS = --I ./
+LIBDIRS =
+LIBS = -ldl -lm
+
+.PHONY: all clean
+
+all: tests
+
+tests: $(OBJ_FILES)
+	$(CXX) $(LDFLAGS) $(LIBDIRS) -o $@ $^ $(LIBS)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
+
+clean:
+	rm -f *.o *.d tests tests_mac
+
+CXXFLAGS += -MMD
+-include $(OBJ_FILES:.o=.d)
 

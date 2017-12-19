@@ -27,5 +27,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 clean:
 	rm -f *.o *.d pbl
 
+test:
+	$(MAKE) clean && $(MAKE) && cd tests && $(MAKE) clean && $(MAKE) && ./tests
+
 CXXFLAGS += -MMD
 -include $(OBJ_FILES:.o=.d)

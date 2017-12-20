@@ -4,11 +4,19 @@
 
 int main(int argc, const char** argv)
 {
-  MainWindow *mainApp = new MainWindow();
-
   const char *filename;
+  
+  if(argc == 1)
+  {
+    filename = "test.rom";
+  }
 
-  filename = "tests/test.rom";
+  if(argc == 2)
+  {
+    std::cout << "Input filename: " << argv[1] << std::endl;
+	filename = argv[1];
+  }
 
+  MainWindow *mainApp = new MainWindow();
   mainApp->OpenFile(filename);
 }

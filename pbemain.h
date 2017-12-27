@@ -77,6 +77,10 @@ private:
 
 	//void listVRAM_SelectionChanged(void *sender, SelectionChangedEventArgs *e);
 
+	void printFileSizeWarning(int fileSize);
+
+	void printFileDetails(const char* filename, Buffer* buffer);
+
 public:
 
 	void OpenFile(const char* Filename);

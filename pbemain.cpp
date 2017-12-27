@@ -40,21 +40,31 @@ bool MainWindow::ContainsMatch(std::vector<std::string> list, std::string toMatc
     return found;
 }
 
+void MainWindow::printFileSizeWarning(int fileSize)
+{
+  if (fileSize < 524288)
+  {
+      std::cout << std::endl << std::endl <<
+          "Warning: This BIOS is less than the standard 512KB size." << std::endl <<
+          "Flashing this BIOS may corrupt your graphics card." << std::endl;
+  }
+}
+
+void MainWindow::printFileDetails(const char* filename, Buffer* buffer)
+{
+  std::cout << "File Name: " << std::endl << filename;
+  std::cout << "File size: " << buffer->FileData.size() << " bytes" << std::endl;
+}
+
 void MainWindow::OpenFile(const char* Filename)
 {
     Buffer *buffer = new Buffer();;
     buffer->ReadFile(Filename);
     std::vector<BYTE> bufferSubset;
 
-    if (buffer->FileData.size() < 524288)
-    {
-      std::cout << std::endl << std::endl <<
-        "Warning: This BIOS is less than the standard 512KB size." << std::endl <<
-        "Flashing this BIOS may corrupt your graphics card.";
-    }
+    printFileSizeWarning(buffer->FileData.size());
 
-    std::cout << std::endl << "File Name: " << Filename;
-    std::cout << std::endl << "File size: " << buffer->FileData.size() << std::endl;
+    printFileDetails(Filename, buffer);
 
     int atom_rom_header_offset = buffer->GetValueAtPosition(16, atom_rom_header_ptr, false);
 

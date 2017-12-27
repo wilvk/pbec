@@ -54,6 +54,7 @@ int Buffer::GetBufferPosition()
 int Buffer::GetValueAtPosition(int bits, int position, bool isFrequency)
 {
 	int value = 0;
+
 	if (position <= FileData.size() - 4)
 	{
 		switch (bits)
@@ -90,6 +91,7 @@ bool Buffer::SetValueAtPosition(int value, int bits, int position, bool isFreque
 	{
 		value *= 100;
 	}
+
 	if (position <= FileData.size() - 4)
 	{
 		switch (bits)
@@ -134,22 +136,23 @@ void Buffer::FixChecksum(bool save, int atom_rom_checksum_offset)
 
   	for (int i = 0; i < size; i++)
   	{
-  		offset += FileData[i];
+      offset += FileData[i];
   	}
 
   	if (checksum == (FileData[atom_rom_checksum_offset] - offset))
   	{
-  		std::cout << std::endl << "Checksum is valid.";
+      std::cout << std::endl << "Checksum is valid.";
   	}
   	else
   	{
-  		std::cout << std::endl << "WARNING: Invalid checksum.";
+      std::cout << std::endl << "WARNING: Invalid checksum.";
   	}
 
   	if (save)
   	{
-  		FileData[atom_rom_checksum_offset] -= offset;
+      FileData[atom_rom_checksum_offset] -= offset;
   	}
 
-  	std::cout << std::endl << "Checksum: " << FileData[atom_rom_checksum_offset];   //int_to_hex( FileData[atom_rom_checksum_offset] );
+    std::cout << std::endl << "Checksum: " << std::setw(2) << std::setfill('0')
+              << std::hex <<  "0x" << (int)FileData[atom_rom_checksum_offset] << std::endl;
 }

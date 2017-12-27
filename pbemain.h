@@ -23,7 +23,7 @@ class MainWindow
 
 private:
 
-	std::vector<std::string> supportedDeviceID = {"67DF", "1002"};
+	std::vector<WORD> supportedDeviceIDs = {0x67DF, 0x1002};
 	std::wstring deviceID = L"";
 
 	int atom_rom_checksum_offset = 0x21;
@@ -80,6 +80,8 @@ private:
 	void printFileSizeWarning(int fileSize);
 
 	void printFileDetails(const char* filename, Buffer* buffer);
+
+	void validateDeviceId(std::vector<WORD> supportedDeviceIDs, WORD deviceId);
 
 public:
 

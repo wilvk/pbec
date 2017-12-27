@@ -56,6 +56,20 @@ void MainWindow::printFileDetails(const char* filename, Buffer* buffer)
   std::cout << "File size: " << buffer->FileData.size() << " bytes" << std::endl;
 }
 
+void MainWindow::validateDeviceId(std::vector<WORD> supportedDeviceIDs, WORD deviceId)
+{
+  bool exists = std::find(std::begin(supportedDeviceIDs), std::end(supportedDeviceIDs), deviceId) != std::end(supportedDeviceIDs);
+
+  if(!exists)
+  {
+    std::cout << std::endl << "WARNING: Unsupported DeviceID: " << std::hex << (int)deviceId;
+  }
+  else
+  {
+    std::cout << std::endl << "DeviceId is valid:" << std::hex << (int)deviceId;
+  }
+}
+
 void MainWindow::OpenFile(const char* Filename)
 {
     Buffer *buffer = new Buffer();;
@@ -72,14 +86,9 @@ void MainWindow::OpenFile(const char* Filename)
 
     ATOM_ROM_HEADER atom_rom_header = this->fromBytes<ATOM_ROM_HEADER>(bufferSubset);
 
-    std::string deviceID = std::to_string(atom_rom_header.usDeviceID);   //int_to_hex( atom_rom_header.usDeviceID );
-
     buffer->FixChecksum(false, atom_rom_checksum_offset);
 
-    if (!this->ContainsMatch(supportedDeviceID, deviceID))
-    {
-      std::cout << std::endl << "WARNING: Unsupported DeviceID: " + deviceID;
-    }
+    validateDeviceId(supportedDeviceIDs, atom_rom_header.usDeviceID);
 
     atom_data_table_offset = atom_rom_header.usMasterDataTableOffset;
     bufferSubset = buffer->GetSubset(atom_data_table_offset);
@@ -165,57 +174,57 @@ void MainWindow::OpenFile(const char* Filename)
       }
     }
 
-    std::cout << std::endl << "Vendor ID: " << atom_rom_header.usVendorID;
-    std::cout << std::endl << "Device ID: " << atom_rom_header.usDeviceID;
-    std::cout << std::endl << "Subsystem ID: " << atom_rom_header.usSubsystemID;
-    std::cout << std::endl << "Subsystem Vendor ID: " << atom_rom_header.usSubsystemVendorID;
-    std::cout << std::endl << "Firmware Signature: " << atom_rom_header.uaFirmWareSignature;
-    std::cout << std::endl << "Max GPU Freq. (MHz): " << atom_powerplay_table.ulMaxODEngineClock / 100;
-    std::cout << std::endl << "Max Memory Freq. (MHz): " << atom_powerplay_table.ulMaxODMemoryClock / 100;
-    std::cout << std::endl << "Power Control Limit (%): " << atom_powerplay_table.usPowerControlLimit;
-    std::cout << std::endl << "TDP (W): " << atom_powertune_table.usTDP;
-    std::cout << std::endl << "TDC (A): " << atom_powertune_table.usTDC;
-    std::cout << std::endl << "Max Power Limit (W): " << atom_powertune_table.usMaximumPowerDeliveryLimit;
-    std::cout << std::endl << "Max Temp. (C): " << atom_powertune_table.usTjMax;
-    std::cout << std::endl << "Shutdown Temp. (C): " << atom_powertune_table.usSoftwareShutdownTemp;
-    std::cout << std::endl << "Hotspot Temp. (C): " << atom_powertune_table.usTemperatureLimitHotspot;
-    std::cout << std::endl << "Temp. Hysteresis: " << atom_fan_table.ucTHyst;
-    std::cout << std::endl << "Min Temp. (C): " << atom_fan_table.usTMin / 100;
-    std::cout << std::endl << "Med Temp. (C): " << atom_fan_table.usTMed / 100;
-    std::cout << std::endl << "High Temp. (C): " << atom_fan_table.usTHigh / 100;
-    std::cout << std::endl << "Max Temp. (C): " << atom_fan_table.usTMax / 100;
-    std::cout << std::endl << "Min PWM (%): " << atom_fan_table.usPWMMin / 100;
-    std::cout << std::endl << "Med PWM (%): " << atom_fan_table.usPWMMed / 100;
-    std::cout << std::endl << "High PWM (%): " << atom_fan_table.usPWMHigh / 100;
-    std::cout << std::endl << "Max PWM (%): " << atom_fan_table.usFanPWMMax;
-    std::cout << std::endl << "Max RPM: " << atom_fan_table.usFanRPMMax;
-    std::cout << std::endl << "Sensitivity: " << atom_fan_table.usFanOutputSensitivity;
-    std::cout << std::endl << "Acoustic Limit (MHz): " << atom_fan_table.ulMinFanSCLKAcousticLimit / 100;
-
-    for (int i = 0; i < atom_sclk_table.ucNumEntries; i++)
-    {
-        std::cout << std::endl << "System Clock (" << i << "). MHz " << atom_sclk_entries[i].ulSclk / 100;
-				std::cout << std::endl << "System Clock (" << i << "). MV " << atom_vddc_entries[atom_sclk_entries[i].ucVddInd].usVdd;
-    }
-
-    for (int i = 0; i < atom_mclk_table.ucNumEntries; i++)
-    {
-			std::cout << std::endl << "Memory Clock (" << i << "). MHz " << atom_mclk_entries[i].ulMclk / 100;
-			std::cout << std::endl << "Memory Clock (" << i << "). MV " << atom_mclk_entries[i].usMvdd;
-    }
-
-    for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
-    {
-      std::string vramInfo(reinterpret_cast<char*>(atom_vram_entries[i].strMemPNString));
-			std::cout << std::endl << "VRAM Info (" << i << "): " << vramInfo;
-    }
-
-    for (int i = 0; i < atom_vram_timing_entries.size(); i++)
-    {
-      std::cout << std::endl << "VRAM Timing (" << i << ") (MHz): " << atom_vram_timing_entries[i].ulClkRange / 100;
-      std::string vramTimingInfo(reinterpret_cast<char*>(atom_vram_timing_entries[i].ucLatency));
-      std::cout << std::endl << "VRAM Timing Info (" << i << "): " << vramTimingInfo;
-    }
+    // std::cout << std::endl << "Vendor ID: " << atom_rom_header.usVendorID;
+    // std::cout << std::endl << "Device ID: " << atom_rom_header.usDeviceID;
+    // std::cout << std::endl << "Subsystem ID: " << atom_rom_header.usSubsystemID;
+    // std::cout << std::endl << "Subsystem Vendor ID: " << atom_rom_header.usSubsystemVendorID;
+    // std::cout << std::endl << "Firmware Signature: " << atom_rom_header.uaFirmWareSignature;
+    // std::cout << std::endl << "Max GPU Freq. (MHz): " << atom_powerplay_table.ulMaxODEngineClock / 100;
+    // std::cout << std::endl << "Max Memory Freq. (MHz): " << atom_powerplay_table.ulMaxODMemoryClock / 100;
+    // std::cout << std::endl << "Power Control Limit (%): " << atom_powerplay_table.usPowerControlLimit;
+    // std::cout << std::endl << "TDP (W): " << atom_powertune_table.usTDP;
+    // std::cout << std::endl << "TDC (A): " << atom_powertune_table.usTDC;
+    // std::cout << std::endl << "Max Power Limit (W): " << atom_powertune_table.usMaximumPowerDeliveryLimit;
+    // std::cout << std::endl << "Max Temp. (C): " << atom_powertune_table.usTjMax;
+    // std::cout << std::endl << "Shutdown Temp. (C): " << atom_powertune_table.usSoftwareShutdownTemp;
+    // std::cout << std::endl << "Hotspot Temp. (C): " << atom_powertune_table.usTemperatureLimitHotspot;
+    // std::cout << std::endl << "Temp. Hysteresis: " << atom_fan_table.ucTHyst;
+    // std::cout << std::endl << "Min Temp. (C): " << atom_fan_table.usTMin / 100;
+    // std::cout << std::endl << "Med Temp. (C): " << atom_fan_table.usTMed / 100;
+    // std::cout << std::endl << "High Temp. (C): " << atom_fan_table.usTHigh / 100;
+    // std::cout << std::endl << "Max Temp. (C): " << atom_fan_table.usTMax / 100;
+    // std::cout << std::endl << "Min PWM (%): " << atom_fan_table.usPWMMin / 100;
+    // std::cout << std::endl << "Med PWM (%): " << atom_fan_table.usPWMMed / 100;
+    // std::cout << std::endl << "High PWM (%): " << atom_fan_table.usPWMHigh / 100;
+    // std::cout << std::endl << "Max PWM (%): " << atom_fan_table.usFanPWMMax;
+    // std::cout << std::endl << "Max RPM: " << atom_fan_table.usFanRPMMax;
+    // std::cout << std::endl << "Sensitivity: " << atom_fan_table.usFanOutputSensitivity;
+    // std::cout << std::endl << "Acoustic Limit (MHz): " << atom_fan_table.ulMinFanSCLKAcousticLimit / 100;
+    //
+    // for (int i = 0; i < atom_sclk_table.ucNumEntries; i++)
+    // {
+    //     std::cout << std::endl << "System Clock (" << i << "). MHz " << atom_sclk_entries[i].ulSclk / 100;
+		// 		std::cout << std::endl << "System Clock (" << i << "). MV " << atom_vddc_entries[atom_sclk_entries[i].ucVddInd].usVdd;
+    // }
+    //
+    // for (int i = 0; i < atom_mclk_table.ucNumEntries; i++)
+    // {
+		// 	std::cout << std::endl << "Memory Clock (" << i << "). MHz " << atom_mclk_entries[i].ulMclk / 100;
+		// 	std::cout << std::endl << "Memory Clock (" << i << "). MV " << atom_mclk_entries[i].usMvdd;
+    // }
+    //
+    // for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
+    // {
+    //   std::string vramInfo(reinterpret_cast<char*>(atom_vram_entries[i].strMemPNString));
+		// 	std::cout << std::endl << "VRAM Info (" << i << "): " << vramInfo;
+    // }
+    //
+    // for (int i = 0; i < atom_vram_timing_entries.size(); i++)
+    // {
+    //   std::cout << std::endl << "VRAM Timing (" << i << ") (MHz): " << atom_vram_timing_entries[i].ulClkRange / 100;
+    //   std::string vramTimingInfo(reinterpret_cast<char*>(atom_vram_timing_entries[i].ucLatency));
+    //   std::cout << std::endl << "VRAM Timing Info (" << i << "): " << vramTimingInfo;
+    // }
 
     delete buffer;
 }

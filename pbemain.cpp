@@ -52,22 +52,33 @@ void MainWindow::printFileSizeWarning(int fileSize)
 
 void MainWindow::printFileDetails(const char* filename, Buffer* buffer)
 {
-  std::cout << "File Name: " << std::endl << filename;
-  std::cout << "File size: " << buffer->FileData.size() << " bytes" << std::endl;
+  std::cout << std::endl << "File Name: " << filename;
+  std::cout << std::endl << "File size: " << buffer->FileData.size() << " bytes" << std::endl;
 }
 
 void MainWindow::validateDeviceId(std::vector<WORD> supportedDeviceIDs, WORD deviceId)
 {
   bool exists = std::find(std::begin(supportedDeviceIDs), std::end(supportedDeviceIDs), deviceId) != std::end(supportedDeviceIDs);
 
+  std::string deviceIdString = convertIntToHexString(&deviceId, 1);
+
   if(!exists)
   {
-    std::cout << std::endl << "WARNING: Unsupported DeviceID: " << std::hex << (int)deviceId;
+    std::cout << std::endl << "WARNING: Unsupported DeviceID: " << deviceIdString;
   }
   else
   {
-    std::cout << std::endl << "DeviceId is valid:" << std::hex << (int)deviceId;
+    std::cout << std::endl << "DeviceId is valid:" << deviceIdString;
   }
+}
+
+std::string MainWindow::convertIntToHexString(WORD* data, int len)
+{
+    std::stringstream ss;
+    ss << std::hex;
+    for(int i=0;i<len;++i)
+        ss << std::setw(2) << std::setfill('0') << (int)data[i];
+    return ss.str();
 }
 
 void MainWindow::OpenFile(const char* Filename)
@@ -227,19 +238,6 @@ void MainWindow::OpenFile(const char* Filename)
     // }
 
     delete buffer;
-}
-
-template< typename T >
-std::string MainWindow::int_to_hex( T i )
-{
-    char res[5];
-
-    if( i <= 0xFFFF )
-    {
-        return sprintf(&res[0], "%04x", i);
-    }
-
-    return "0x00";
 }
 
 std::wstring MainWindow::ByteArrayToString(std::vector<BYTE> &ba)

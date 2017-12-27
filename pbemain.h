@@ -67,8 +67,6 @@ private:
 
 	void fixChecksum(bool save);
 
-	template< typename T > std::string int_to_hex( T i );
-
 	static std::vector<BYTE> getBytes(void *obj);
 
 	template<typename T> static T fromBytes(std::vector<BYTE> &arr);
@@ -82,6 +80,8 @@ private:
 	void printFileDetails(const char* filename, Buffer* buffer);
 
 	void validateDeviceId(std::vector<WORD> supportedDeviceIDs, WORD deviceId);
+
+	std::string convertIntToHexString(WORD* data, int len);
 
 public:
 

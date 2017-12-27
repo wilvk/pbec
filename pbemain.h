@@ -83,6 +83,8 @@ private:
 
 	std::string convertIntToHexString(WORD* data, int len);
 
+	ATOM_ROM_HEADER getAtomRomHeader(Buffer* buffer);
+
 public:
 
 	void OpenFile(const char* Filename);

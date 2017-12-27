@@ -127,11 +127,11 @@ void Buffer::FixChecksum(bool save, int atom_rom_checksum_offset)
 
   	if (checksum == (FileData[atom_rom_checksum_offset] - offset))
   	{
-      std::cout << std::endl << "Checksum is valid.";
+      std::cout << std::endl << "Checksum is valid: " << (int)checksum;
   	}
   	else
   	{
-      std::cout << std::endl << "WARNING: Invalid checksum.";
+      std::cout << std::endl << "WARNING: Invalid checksum: " << (int)checksum;
   	}
 
   	if (save)
@@ -139,6 +139,6 @@ void Buffer::FixChecksum(bool save, int atom_rom_checksum_offset)
       FileData[atom_rom_checksum_offset] -= offset;
   	}
 
-    std::cout << std::endl << "Checksum: " << std::setw(2) << std::setfill('0')
+    std::cout << std::endl << "Checksum Hex: " << std::setw(2) << std::setfill('0')
               << std::hex <<  "0x" << (int)FileData[atom_rom_checksum_offset] << std::endl;
 }

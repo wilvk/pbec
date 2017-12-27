@@ -81,6 +81,16 @@ std::string MainWindow::convertIntToHexString(WORD* data, int len)
     return ss.str();
 }
 
+ATOM_ROM_HEADER MainWindow::getAtomRomHeader(Buffer* buffer)
+{
+      std::vector<BYTE> bufferSubset;
+      int atom_rom_header_offset = buffer->GetValueAtPosition(16, atom_rom_header_ptr, false);
+      bufferSubset = buffer->GetSubset(atom_rom_header_offset);
+      ATOM_ROM_HEADER atom_rom_header = this->fromBytes<ATOM_ROM_HEADER>(bufferSubset);
+
+      return atom_rom_header;
+}
+
 void MainWindow::OpenFile(const char* Filename)
 {
     Buffer *buffer = new Buffer();;
@@ -88,14 +98,12 @@ void MainWindow::OpenFile(const char* Filename)
     std::vector<BYTE> bufferSubset;
 
     printFileSizeWarning(buffer->FileData.size());
-
     printFileDetails(Filename, buffer);
 
-    int atom_rom_header_offset = buffer->GetValueAtPosition(16, atom_rom_header_ptr, false);
+    ATOM_ROM_HEADER atom_rom_header = getAtomRomHeader(buffer);
 
-    bufferSubset = buffer->GetSubset(atom_rom_header_offset);
-
-    ATOM_ROM_HEADER atom_rom_header = this->fromBytes<ATOM_ROM_HEADER>(bufferSubset);
+    int zeroOffset = 0;
+    bufferSubset = buffer->GetSubset(zeroOffset);
 
     buffer->FixChecksum(false, atom_rom_checksum_offset);
 
@@ -185,8 +193,8 @@ void MainWindow::OpenFile(const char* Filename)
       }
     }
 
-    // std::cout << std::endl << "Vendor ID: " << atom_rom_header.usVendorID;
-    // std::cout << std::endl << "Device ID: " << atom_rom_header.usDeviceID;
+    std::cout << std::endl << "Vendor ID: " << atom_rom_header.usVendorID;
+    std::cout << std::endl << "Device ID: " << atom_rom_header.usDeviceID;
     // std::cout << std::endl << "Subsystem ID: " << atom_rom_header.usSubsystemID;
     // std::cout << std::endl << "Subsystem Vendor ID: " << atom_rom_header.usSubsystemVendorID;
     // std::cout << std::endl << "Firmware Signature: " << atom_rom_header.uaFirmWareSignature;

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "pbemain.h"
+#include "mainapp.h"
 
 int main(int argc, const char** argv)
 {
@@ -13,10 +13,11 @@ int main(int argc, const char** argv)
 
   if(argc == 2)
   {
-    std::cout << "Input filename: " << argv[1] << std::endl;
     filename = argv[1];
   }
 
-  MainWindow *mainApp = new MainWindow();
+  std::cout << "Input filename: " << filename << std::endl;
+
+  MainApp *mainApp = new MainApp();
   mainApp->OpenFile(filename);
 }

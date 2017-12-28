@@ -5,7 +5,8 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip>
-#include "structs.h"
+
+#include "typedefs.h"
 
 class Buffer
 {

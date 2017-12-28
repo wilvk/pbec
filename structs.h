@@ -1,9 +1,7 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
-typedef unsigned char BYTE;
-typedef unsigned short WORD;
-typedef unsigned int DWORD;
+#include "typedefs.h"
 
 struct ATOM_COMMON_TABLE_HEADER
 {
@@ -270,6 +268,5 @@ struct ATOM_VRAM_INFO
 	BYTE ucMcPhyTileNum;
 	// ATOM_VRAM_ENTRY aVramInfo[ucNumOfVRAMModule];
 };
-
 
 #endif /* end of include guard: STRUCTS_H */

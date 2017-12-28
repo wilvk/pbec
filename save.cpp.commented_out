@@ -1,5 +1,5 @@
 //TODO: just focus on reading the file to begin with
-// void MainWindow::SaveFileDialog_Click(void *sender, RoutedEventArgs *e)
+// void MainApp::SaveFileDialog_Click(void *sender, RoutedEventArgs *e)
 // {
 // 		FileStream *fs = new FileStream(SaveFileDialog->FileName, FileMode::Create);
 // 		BinaryWriter *bw = new BinaryWriter(fs);
@@ -224,7 +224,7 @@
 // other commented out:
 
 
-// void MainWindow::updateVRAM_entries()
+// void MainApp::updateVRAM_entries()
 // {
 // 	for (int i = 0; i < tableVRAM::Items->Count; i++)
 // 	{
@@ -252,7 +252,7 @@
 // 	}
 // }
 
-// void MainWindow::listVRAM_SelectionChanged(void *sender, SelectionChangedEventArgs *e)
+// void MainApp::listVRAM_SelectionChanged(void *sender, SelectionChangedEventArgs *e)
 // {
 // 	updateVRAM_entries();
 // 	tableVRAM::Items->Clear();
@@ -275,7 +275,7 @@
 
 
 
-// FrameworkElement *MainWindow::FindByName(const std::wstring &name, FrameworkElement *root)
+// FrameworkElement *MainApp::FindByName(const std::wstring &name, FrameworkElement *root)
 // {
 // 	std::stack<FrameworkElement*> tree;
 // 	tree.push(root);

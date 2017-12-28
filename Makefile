@@ -4,11 +4,11 @@
 ###
 
 CC = g++
-CFLAGS = -c -Wall -g -std=c++11 -v
-LDFLAGS = -Wall -std=c++11 -v
-COMMON_SOURCES = buffer.cpp pbemain.cpp
+CFLAGS = -c -Wall -g -std=c++11
+LDFLAGS = -Wall -std=c++11
+COMMON_SOURCES = mainapp.cpp buffer.cpp byteutils.cpp retrievestruct.cpp
 TARGET_SOURCES = main.cpp
-TEST_SOURCES = test_main.cpp
+TEST_SOURCES = testmain.cpp
 COMMON_OBJECTS = $(COMMON_SOURCES:.cpp=.o)
 	TARGET_OBJECTS = $(TARGET_SOURCES:.cpp=.o)
 TEST_OBJECTS = $(TEST_SOURCES:.cpp=.o)

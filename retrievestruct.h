@@ -30,4 +30,20 @@ public:
 
 	std::vector<ATOM_MCLK_ENTRY> AtomMemClockEntries(Buffer* Buffer, int AtomMemClockTableOffset, int NumMemClockTableEntries);
 
+	ATOM_SCLK_TABLE AtomSysClockTable(Buffer* Buffer, int AtomSysClockTableOffset);
+
+	std::vector<ATOM_SCLK_ENTRY> AtomSysClockEntries(Buffer* Buffer, int AtomSysClockTableOffset, int NumSysClockTableEntries);
+
+	ATOM_VOLTAGE_TABLE AtomVoltageTable(Buffer* Buffer, int AtomVddcTableOffset);
+
+	std::vector<ATOM_VOLTAGE_ENTRY> AtomVoltageEntries(Buffer* Buffer, int AtomVoltageTableOffset, int NumVoltageTableEntries);
+
+  ATOM_VRAM_INFO AtomVramInfo(Buffer* Buffer, int AtomVramInfoOffset);
+
+	std::vector<ATOM_VRAM_ENTRY> AtomVramEntries(Buffer* Buffer, int NumVramTableEntries, int& AtomVramEntryOffset);
+
+	std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries(Buffer* Buffer, int AtomVramEntryOffset);
+
+
+
 };

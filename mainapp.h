@@ -60,6 +60,9 @@ private:
 	ATOM_VRAM_INFO atom_vram_info;
 	std::vector<ATOM_VRAM_ENTRY> atom_vram_entries;
 	std::vector<ATOM_VRAM_TIMING_ENTRY> atom_vram_timing_entries;
+
+	int AtomVramEntryOffset = 0;
+
 	int atom_vram_index = 0;
 
 	bool setValueAtPosition(const std::wstring &text, int bits, int position, bool isFrequency = false);

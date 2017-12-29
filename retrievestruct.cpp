@@ -81,3 +81,103 @@ std::vector<ATOM_MCLK_ENTRY> RetrieveStruct::AtomMemClockEntries(Buffer * Buffer
 
   return atom_mclk_entries;
 }
+
+ATOM_SCLK_TABLE RetrieveStruct::AtomSysClockTable(Buffer* Buffer, int AtomSysClockTableOffset)
+{
+  std::vector<BYTE> bufferSubset;
+
+  bufferSubset = Buffer->GetSubset(AtomSysClockTableOffset);
+  ATOM_SCLK_TABLE atom_sclk_table = fromBytes<ATOM_SCLK_TABLE>(bufferSubset);
+
+  return atom_sclk_table;
+}
+
+std::vector<ATOM_SCLK_ENTRY> RetrieveStruct::AtomSysClockEntries(Buffer* Buffer, int AtomSysClockTableOffset, int NumSysClockTableEntries)
+{
+  std::vector<BYTE> bufferSubset;
+  std::vector<ATOM_SCLK_ENTRY> atom_sclk_entries = std::vector<ATOM_SCLK_ENTRY>(NumSysClockTableEntries);
+
+  for (int i = 0; i < atom_sclk_entries.size(); i++)
+  {
+    int atom_sclk_entry_offset = AtomSysClockTableOffset + sizeof(ATOM_SCLK_TABLE) + sizeof(ATOM_SCLK_ENTRY) * i;
+    bufferSubset = Buffer->GetSubset(atom_sclk_entry_offset);
+    atom_sclk_entries[i] = fromBytes<ATOM_SCLK_ENTRY>(bufferSubset);
+  }
+
+  return atom_sclk_entries;
+}
+
+ATOM_VOLTAGE_TABLE RetrieveStruct::AtomVoltageTable(Buffer* Buffer, int AtomVddcTableOffset)
+{
+  std::vector<BYTE> bufferSubset;
+
+  bufferSubset = Buffer->GetSubset(AtomVddcTableOffset);
+  ATOM_VOLTAGE_TABLE atom_vddc_table = this->fromBytes<ATOM_VOLTAGE_TABLE>(bufferSubset);
+
+  return atom_vddc_table;
+
+}
+
+std::vector<ATOM_VOLTAGE_ENTRY> RetrieveStruct::AtomVoltageEntries(Buffer* Buffer, int AtomVoltageTableOffset, int NumVoltageTableEntries)
+{
+  std::vector<BYTE> bufferSubset;
+  std::vector<ATOM_VOLTAGE_ENTRY> atom_vddc_entries = std::vector<ATOM_VOLTAGE_ENTRY>(NumVoltageTableEntries);
+
+  for (int i = 0; i < NumVoltageTableEntries; i++)
+  {
+    int atom_vddc_entry_offset = AtomVoltageTableOffset + sizeof(ATOM_VOLTAGE_TABLE) + sizeof(ATOM_VOLTAGE_ENTRY) * i;
+    bufferSubset = Buffer->GetSubset(atom_vddc_entry_offset);
+    atom_vddc_entries[i] = fromBytes<ATOM_VOLTAGE_ENTRY>(bufferSubset);
+  }
+
+  return atom_vddc_entries;
+}
+
+ATOM_VRAM_INFO RetrieveStruct::AtomVramInfo(Buffer* Buffer, int AtomVramInfoOffset)
+{
+  std::vector<BYTE> bufferSubset;
+  bufferSubset = Buffer->GetSubset(AtomVramInfoOffset);
+  ATOM_VRAM_INFO atom_vram_info = fromBytes<ATOM_VRAM_INFO>(bufferSubset);
+
+  return atom_vram_info;
+}
+
+std::vector<ATOM_VRAM_ENTRY> RetrieveStruct::AtomVramEntries(Buffer* Buffer, int NumVramTableEntries, int &AtomVramEntryOffset)
+{
+  std::vector<BYTE> bufferSubset;
+
+  std::vector<ATOM_VRAM_ENTRY> atom_vram_entries = std::vector<ATOM_VRAM_ENTRY>(NumVramTableEntries);
+
+  for (int i = 0; i < NumVramTableEntries; i++)
+  {
+    bufferSubset = Buffer->GetSubset(AtomVramEntryOffset);
+    atom_vram_entries[i] = fromBytes<ATOM_VRAM_ENTRY>(bufferSubset);
+    AtomVramEntryOffset += atom_vram_entries[i].usModuleSize;
+  }
+
+  return atom_vram_entries;
+}
+
+std::vector<ATOM_VRAM_TIMING_ENTRY> RetrieveStruct::AtomVramTimingEntries(Buffer* Buffer, int AtomVramEntryOffset)
+{
+  std::vector<BYTE> bufferSubset;
+
+  std::vector<ATOM_VRAM_TIMING_ENTRY> atom_vram_timing_entries = std::vector<ATOM_VRAM_TIMING_ENTRY>(16);
+
+  for (int i = 0; i < 16; i++)
+  {
+    int atom_vram_timing_entry_offset = AtomVramEntryOffset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY) * i;
+    bufferSubset = Buffer->GetSubset(atom_vram_timing_entry_offset);
+    atom_vram_timing_entries[i] = fromBytes<ATOM_VRAM_TIMING_ENTRY>(bufferSubset);
+
+    // atom_vram_timing_entries have an undetermined length.
+    // Attempt to determine the last entry in the array.
+    if (atom_vram_timing_entries[i].ulClkRange == 0)
+    {
+      atom_vram_timing_entries.resize(i);
+      break;
+    }
+  }
+
+  return atom_vram_timing_entries;
+}

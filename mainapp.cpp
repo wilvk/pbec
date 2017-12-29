@@ -67,73 +67,22 @@ void MainApp::OpenFile(const char* Filename)
     validateDeviceId(supportedDeviceIDs, atom_rom_header.usDeviceID);
 
     atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
-
     atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
-
     atom_powertune_table = retriever->AtomPowertuneTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usPowerTuneTableOffset));
-
     atom_fan_table = retriever->AtomFanTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usFanTableOffset));
-
     atom_mclk_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usMclkDependencyTableOffset;
-
     atom_mclk_table = retriever->AtomMemClockTable(buffer, atom_mclk_table_offset);
-
     atom_mclk_entries = retriever->AtomMemClockEntries(buffer, atom_mclk_table_offset, atom_mclk_table.ucNumEntries);
+    atom_sclk_table = retriever->AtomSysClockTable(buffer, atom_data_table.PowerPlayInfo + atom_powerplay_table.usSclkDependencyTableOffset);
+    atom_sclk_entries = retriever->AtomSysClockEntries(buffer, atom_sclk_table_offset, atom_sclk_table.ucNumEntries);
+    atom_vddc_table = retriever->AtomVoltageTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usVddcLookupTableOffset));
+    atom_vddc_entries = retriever->AtomVoltageEntries(buffer, atom_vddc_table_offset, atom_vddc_table.ucNumEntries);
+    atom_vram_info = retriever->AtomVramInfo(buffer, atom_data_table.VRAM_Info);
 
-    // atom_sclk_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usSclkDependencyTableOffset;
-    // bufferSubset = buffer->GetSubset(atom_sclk_table_offset);
-    // atom_sclk_table = utils->FromBytes<ATOM_SCLK_TABLE>(bufferSubset);
-    // atom_sclk_entries = std::vector<ATOM_SCLK_ENTRY>(atom_sclk_table.ucNumEntries);
-    //
-    // for (int i = 0; i < atom_sclk_entries.size(); i++)
-    // {
-    //   int atom_sclk_entry_offset = atom_sclk_table_offset + sizeof(ATOM_SCLK_TABLE) + sizeof(ATOM_SCLK_ENTRY) * i;
-    //   bufferSubset = buffer->GetSubset(atom_sclk_entry_offset);
-    //   atom_sclk_entries[i] = utils->FromBytes<ATOM_SCLK_ENTRY>(bufferSubset);
-    // }
-    //
-    // atom_vddc_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usVddcLookupTableOffset;
-    // bufferSubset = buffer->GetSubset(atom_vddc_table_offset);
-    // atom_vddc_table = utils->FromBytes<ATOM_VOLTAGE_TABLE>(bufferSubset);
-    // atom_vddc_entries = std::vector<ATOM_VOLTAGE_ENTRY>(atom_vddc_table.ucNumEntries);
-    //
-    // for (int i = 0; i < atom_vddc_table.ucNumEntries; i++)
-    // {
-    //   int atom_vddc_entry_offset = atom_vddc_table_offset + sizeof(ATOM_VOLTAGE_TABLE) + sizeof(ATOM_VOLTAGE_ENTRY) * i;
-    //   bufferSubset = buffer->GetSubset(atom_vddc_entry_offset);
-    //   atom_vddc_entries[i] = utils->FromBytes<ATOM_VOLTAGE_ENTRY>(bufferSubset);
-    // }
-    //
-    // atom_vram_info_offset = atom_data_table.VRAM_Info;
-    // bufferSubset = buffer->GetSubset(atom_vram_info_offset);
-    // atom_vram_info = utils->FromBytes<ATOM_VRAM_INFO>(bufferSubset);
-    //
-    // atom_vram_entries = std::vector<ATOM_VRAM_ENTRY>(atom_vram_info.ucNumOfVRAMModule);
-    // int atom_vram_entry_offset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO);
-    //
-    // for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
-    // {
-    //   bufferSubset = buffer->GetSubset(atom_vram_entry_offset);
-    //   atom_vram_entries[i] = utils->FromBytes<ATOM_VRAM_ENTRY>(bufferSubset);
-    //   atom_vram_entry_offset += atom_vram_entries[i].usModuleSize;
-    // }
-    //
-    // atom_vram_timing_entries = std::vector<ATOM_VRAM_TIMING_ENTRY>(16);
-    //
-    // for (int i = 0; i < 16; i++)
-    // {
-    //   int atom_vram_timing_entry_offset = atom_vram_entry_offset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY) * i;
-    //   bufferSubset = buffer->GetSubset(atom_vram_timing_entry_offset);
-    //   atom_vram_timing_entries[i] = utils->FromBytes<ATOM_VRAM_TIMING_ENTRY>(bufferSubset);
-    //
-    //   // atom_vram_timing_entries have an undetermined length.
-    //   // Attempt to determine the last entry in the array.
-    //   if (atom_vram_timing_entries[i].ulClkRange == 0)
-    //   {
-    //     atom_vram_timing_entries.resize(i);
-    //     break;
-    //   }
-    // }
+    AtomVramEntryOffset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO);
+    atom_vram_entries = retriever->AtomVramEntries(buffer, atom_vram_info.ucNumOfVRAMModule, AtomVramEntryOffset);
+
+    atom_vram_timing_entries = retriever->AtomVramTimingEntries(buffer, AtomVramEntryOffset);
 
     std::cout << std::endl << "Vendor ID: " << atom_rom_header.usVendorID;
     std::cout << std::endl << "Device ID: " << atom_rom_header.usDeviceID;

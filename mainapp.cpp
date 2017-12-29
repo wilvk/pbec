@@ -84,22 +84,27 @@ void MainApp::OpenFile(const char* Filename)
 
     atom_vram_timing_entries = retriever->AtomVramTimingEntries(buffer, AtomVramEntryOffset);
 
+    std::cout << std::endl;
     std::cout << std::endl << "Vendor ID: " << atom_rom_header.usVendorID;
     std::cout << std::endl << "Device ID: " << atom_rom_header.usDeviceID;
     std::cout << std::endl << "Subsystem ID: " << atom_rom_header.usSubsystemID;
     std::cout << std::endl << "Subsystem Vendor ID: " << atom_rom_header.usSubsystemVendorID;
     std::cout << std::endl << "Firmware Signature: " << atom_rom_header.uaFirmWareSignature;
 
+    std::cout << std::endl;
     std::cout << std::endl << "Max GPU Freq. (MHz): " << atom_powerplay_table.ulMaxODEngineClock / 100;
     std::cout << std::endl << "Max Memory Freq. (MHz): " << atom_powerplay_table.ulMaxODMemoryClock / 100;
     std::cout << std::endl << "Power Control Limit (%): " << atom_powerplay_table.usPowerControlLimit;
 
+    std::cout << std::endl;
     std::cout << std::endl << "TDP (W): " << atom_powertune_table.usTDP;
     std::cout << std::endl << "TDC (A): " << atom_powertune_table.usTDC;
     std::cout << std::endl << "Max Power Limit (W): " << atom_powertune_table.usMaximumPowerDeliveryLimit;
     std::cout << std::endl << "Max Temp. (C): " << atom_powertune_table.usTjMax;
     std::cout << std::endl << "Shutdown Temp. (C): " << atom_powertune_table.usSoftwareShutdownTemp;
     std::cout << std::endl << "Hotspot Temp. (C): " << atom_powertune_table.usTemperatureLimitHotspot;
+
+    std::cout << std::endl;
     std::cout << std::endl << "Temp. Hysteresis: " << atom_fan_table.ucTHyst;
     std::cout << std::endl << "Min Temp. (C): " << atom_fan_table.usTMin / 100;
     std::cout << std::endl << "Med Temp. (C): " << atom_fan_table.usTMed / 100;
@@ -112,6 +117,8 @@ void MainApp::OpenFile(const char* Filename)
     std::cout << std::endl << "Max RPM: " << atom_fan_table.usFanRPMMax;
     std::cout << std::endl << "Sensitivity: " << atom_fan_table.usFanOutputSensitivity;
     std::cout << std::endl << "Acoustic Limit (MHz): " << atom_fan_table.ulMinFanSCLKAcousticLimit / 100;
+
+    std::cout << std::endl;
     //
     // for (int i = 0; i < atom_sclk_table.ucNumEntries; i++)
     // {

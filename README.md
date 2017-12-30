@@ -1,21 +1,29 @@
-# Polaris Bios Editor for Linux
+# Polaris Bios Editor for Consoles (Linux/Windows, etc.)
 
-## To build:
+---
+
+## Linux/MacOS:
+
+### Prerequisites:
+
+gcc, etc.
+
+### To build:
 
 `make clean && make `
 
-## To run tests:
+### To run:
 
-Make sure cppunit is installed.
+`./pbel`
 
-On Debian:
+### To run tests:
 
-`apt-get install libcppunit-doc libcppunit-dev`
+`./tests`
 
-On Mac:
+---
 
-[SO Install Instructions](https://stackoverflow.com/a/14472572/512965)
+## Windows:
 
-then:
+### Prerequisites:
 
-`make test`
+CMake, etc.

@@ -268,34 +268,34 @@ void MainApp::OpenFile(const char* Filename)
 
     for (int i = 0; i < atom_sclk_table.ucNumEntries; i++)
     {
-        std::cout << "[ System Clock (" << i << "). MHz " << atom_sclk_entries[i].ulSclk / 100;
-				std::cout << ", System Clock (" << i << "). MV ] " << atom_vddc_entries[atom_sclk_entries[i].ucVddInd].usVdd;
+        std::cout << std::endl << "[ (" << i << ") System Clock: " << atom_sclk_entries[i].ulSclk / 100 <<
+          " MHz, " << atom_vddc_entries[atom_sclk_entries[i].ucVddInd].usVdd << " MV ]";
     }
 
-    std::cout << std::endl;
-
-    for (int i = 0; i < atom_mclk_table.ucNumEntries; i++)
-    {
-			std::cout << "[ Memory Clock (" << i << "). MHz " << atom_mclk_entries[i].ulMclk / 100;
-			std::cout << ", Memory Clock (" << i << "). MV ] " << atom_mclk_entries[i].usMvdd;
-    }
-
-    std::cout << std::endl;
-
-    for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
-    {
-      std::string vramInfo(reinterpret_cast<char*>(atom_vram_entries[i].strMemPNString));
-			std::cout << "[VRAM Info (" << i << "): " << vramInfo << "] ";
-    }
-
-    std::cout << std::endl;
-
-    for (int i = 0; i < atom_vram_timing_entries.size(); i++)
-    {
-      std::cout << "[ VRAM Timing (" << i << ") (MHz): " << atom_vram_timing_entries[i].ulClkRange / 100;
-      std::string vramTimingInfo(reinterpret_cast<char*>(atom_vram_timing_entries[i].ucLatency));
-      std::cout << ", VRAM Timing Info (" << i << "):" << vramTimingInfo << "], ";
-    }
+    // std::cout << std::endl;
+    //
+    // for (int i = 0; i < atom_mclk_table.ucNumEntries; i++)
+    // {
+		// 	std::cout << "[ Memory Clock (" << i << "). MHz " << atom_mclk_entries[i].ulMclk / 100;
+		// 	std::cout << ", Memory Clock (" << i << "). MV ] " << atom_mclk_entries[i].usMvdd;
+    // }
+    //
+    // std::cout << std::endl;
+    //
+    // for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
+    // {
+    //   std::string vramInfo(reinterpret_cast<char*>(atom_vram_entries[i].strMemPNString));
+		// 	std::cout << "[VRAM Info (" << i << "): " << vramInfo << "] ";
+    // }
+    //
+    // std::cout << std::endl;
+    //
+    // for (int i = 0; i < atom_vram_timing_entries.size(); i++)
+    // {
+    //   std::cout << "[ VRAM Timing (" << i << ") (MHz): " << atom_vram_timing_entries[i].ulClkRange / 100;
+    //   std::string vramTimingInfo(reinterpret_cast<char*>(atom_vram_timing_entries[i].ucLatency));
+    //   std::cout << ", VRAM Timing Info (" << i << "):" << vramTimingInfo << "], ";
+    // }
 
     delete buffer;
 }

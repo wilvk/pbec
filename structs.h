@@ -140,7 +140,7 @@ struct ATOM_SCLK_TABLE
 {
 	BYTE ucRevId;
 	BYTE ucNumEntries;
-	// ATOM_SCLK_ENTRY entries[ucNumEntries];
+	//ATOM_SCLK_ENTRY entries[ucNumEntries];
 };
 
 struct ATOM_VOLTAGE_ENTRY

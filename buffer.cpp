@@ -142,3 +142,55 @@ void Buffer::FixChecksum(bool save, int atom_rom_checksum_offset)
     std::cout << std::endl << "Checksum Hex: " << std::setw(2) << std::setfill('0')
               << std::hex <<  "0x" << (int)FileData[atom_rom_checksum_offset] << std::endl;
 }
+
+std::string Buffer::GetStringFromOffset(int Offset)
+{
+  std::string resultString;
+
+  int bufferOffset = 0;
+  int prevTempVal = -1;
+
+  while(true)
+  {
+    int tempVal = GetValueAtPosition(8, (Offset + bufferOffset), false);
+
+    if( prevTempVal == 0 && tempVal == 0 )
+    {
+      break;
+    }
+
+    if(bufferOffset >= 10000)
+    {
+      break;
+    }
+
+    prevTempVal = tempVal;
+
+    resultString += (char)tempVal;
+
+    bufferOffset++;
+  }
+
+  return resultString;
+}
+
+std::string Buffer::TableWalk(int Offset, std::vector<int> ByteSizes)
+{
+  return TableWalk(Offset, ByteSizes, false);
+}
+
+std::string Buffer::TableWalk(int Offset, std::vector<int> ByteSizes, bool IsFrequency)
+{
+  std::string resultString;
+  int bufferOffset = 0;
+
+  for(std::vector<int>::iterator it = ByteSizes.begin(); it != ByteSizes.end(); ++it)
+  {
+    int tempVal = GetValueAtPosition(*it, (Offset + bufferOffset), false);
+    resultString += std::to_string(tempVal);
+    resultString += " ";
+    bufferOffset += *it/8;
+  }
+
+  return resultString;
+}

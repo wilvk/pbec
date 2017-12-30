@@ -23,7 +23,6 @@ TEST_CASE( "Device Id is correct", "[DeviceId]" ) {
 	REQUIRE( atom_rom_header.usDeviceID == 0x67DF );
 }
 
-
 TEST_CASE( "Subsystem Id is correct", "[SubsystemId]" ) {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
@@ -32,7 +31,6 @@ TEST_CASE( "Subsystem Id is correct", "[SubsystemId]" ) {
 
   REQUIRE( atom_rom_header.usSubsystemID == 0x3418 );
 }
-
 
 TEST_CASE( "Subsystem Vendor Id is correct", "[SubsystemVendorId]" ) {
   Buffer *buffer = new Buffer();

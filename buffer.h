@@ -35,6 +35,11 @@ public:
 
   int GetValueAtPosition(int bits, int position, bool isFrequency);
 
+  std::string GetStringFromOffset(int Offset);
+
+  std::string TableWalk(int Offset, std::vector<int> ByteSizes);
+
+  std::string TableWalk(int Offset, std::vector<int> ByteSizes, bool IsFrequency);
 };
 
 

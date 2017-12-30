@@ -12,7 +12,8 @@ private:
 	int atom_rom_header_ptr = 0x48;
 	int atom_data_table_offset = 0;
 
-	template<typename T> T fromBytes(std::vector<BYTE> &StringArray);
+	template<typename T>
+	T fromBytes(std::vector<BYTE> &StringArray);
 
 public:
 
@@ -43,7 +44,4 @@ public:
 	std::vector<ATOM_VRAM_ENTRY> AtomVramEntries(Buffer* Buffer, int NumVramTableEntries, int& AtomVramEntryOffset);
 
 	std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries(Buffer* Buffer, int AtomVramEntryOffset);
-
-
-
 };

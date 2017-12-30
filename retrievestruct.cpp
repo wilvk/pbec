@@ -13,29 +13,50 @@ T RetrieveStruct::fromBytes(std::vector<BYTE> &StringArray)
 
 ATOM_ROM_HEADER RetrieveStruct::AtomRomHeader(Buffer* Buffer)
 {
+    std::cout << std::endl << "[start AtomRomHeader]";
+    std::cout << std::endl << "buffer pos: " << Buffer->GetBufferPosition();
+
     std::vector<BYTE> bufferSubset;
     int atom_rom_header_offset = Buffer->GetValueAtPosition(16, atom_rom_header_ptr, false);
+    std::cout << std::endl << "atom rom header offset: " << atom_rom_header_offset;
     bufferSubset = Buffer->GetSubset(atom_rom_header_offset);
     ATOM_ROM_HEADER atom_rom_header = fromBytes<ATOM_ROM_HEADER>(bufferSubset);
+
+    std::cout << std::endl << "[end AtomRomHeader]";
+    std::cout << std::endl << "buffer pos: " << Buffer->GetBufferPosition();
 
     return atom_rom_header;
 }
 
 ATOM_DATA_TABLES RetrieveStruct::AtomDataTables(Buffer* Buffer, int MasterDataTableOffset)
 {
+    std::cout << std::endl << "[start AtomDataTables]";
+    std::cout << std::endl << "buffer pos: " << Buffer->GetBufferPosition();
+
     std::vector<BYTE> bufferSubset;
-    atom_data_table_offset = MasterDataTableOffset;
-    bufferSubset = Buffer->GetSubset(atom_data_table_offset);
+    std::cout << std::endl << "master data table offset: " << MasterDataTableOffset;
+    bufferSubset = Buffer->GetSubset(MasterDataTableOffset);
     ATOM_DATA_TABLES atom_data_tables = fromBytes<ATOM_DATA_TABLES>(bufferSubset);
+
+    std::cout << std::endl << "[end AtomDataTables]";
+    std::cout << std::endl << "buffer pos: " << Buffer->GetBufferPosition();
 
     return atom_data_tables;
 }
 
 ATOM_POWERPLAY_TABLE RetrieveStruct::AtomPowerplayTable(Buffer* Buffer, int AtomPowerplayOffset)
 {
+  std::cout << std::endl << "[start AtomPowerplayTable]";
+  std::cout << std::endl << "buffer pos: " << Buffer->GetBufferPosition();
+
   std::vector<BYTE> bufferSubset;
+  std::cout << std::endl << "atom powerplay offset: " << AtomPowerplayOffset;
+
   bufferSubset = Buffer->GetSubset(AtomPowerplayOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = fromBytes<ATOM_POWERPLAY_TABLE>(bufferSubset);
+
+  std::cout << std::endl << "[end AtomPowerplayTable]";
+  std::cout << std::endl << "buffer pos: " << Buffer->GetBufferPosition();
 
   return atom_powerplay_table;
 }

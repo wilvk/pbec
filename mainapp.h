@@ -26,7 +26,6 @@ class MainApp
 private:
 
 	std::vector<WORD> supportedDeviceIDs = {0x67DF, 0x1002};
-	std::wstring deviceID = L"";
 
 	int atom_rom_checksum_offset = 0x21;
 	int atom_rom_header_offset = 0;
@@ -90,5 +89,11 @@ public:
 	bool setValueAtPosition(int value, int bits, int position, bool isFrequency = false);
 
 	bool ContainsMatch(std::vector<std::string> list, std::string toMatch);
+
+	void PrintAtomRomHeaderInfo(ATOM_ROM_HEADER atom_rom_header);
+
+	void PrintAtomDataTableInfo(ATOM_DATA_TABLES atom_data_table);
+
+	void PrintAtomPowerplayTableInfo(ATOM_POWERPLAY_TABLE atom_powerplay_table);
 
 };

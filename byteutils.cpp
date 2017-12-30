@@ -25,7 +25,7 @@ std::string ByteUtils::ToHexString(WORD HexValue)
 std::string ByteUtils::ToHexString(DWORD HexValue)
 {
   std::ostringstream ss;
-  ss << "0x" << std::hex << HexValue;
+  ss << std::showbase << std::internal << std::setfill('0') << std::setw(4) << std::hex << HexValue;
   std::string hexString = ss.str().c_str();
 
   return hexString;

@@ -7,6 +7,7 @@
 #include <iomanip>
 
 #include "typedefs.h"
+#include "byteutils.h"
 
 class Buffer
 {
@@ -40,6 +41,8 @@ public:
   std::string TableWalk(int Offset, std::vector<int> ByteSizes);
 
   std::string TableWalk(int Offset, std::vector<int> ByteSizes, bool IsFrequency);
+
+  BYTE GetByteAtPosition(int Position);
 };
 
 

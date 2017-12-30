@@ -36,6 +36,16 @@ int Buffer::GetBufferPosition()
     return bufferPosition;
 }
 
+BYTE Buffer::GetByteAtPosition(int Position)
+{
+	if (Position <= FileData.size() - 4)
+  {
+    return (BYTE)FileData[Position];
+	}
+
+	return -1;
+}
+
 
 int Buffer::GetValueAtPosition(int bits, int position, bool isFrequency)
 {
@@ -99,7 +109,7 @@ bool Buffer::SetValueAtPosition(int value, int bits, int position, bool isFreque
 				FileData[position] = static_cast<unsigned char>(value);
 				FileData[position + 1] = static_cast<unsigned char>(value >> 8);
 				FileData[position + 2] = static_cast<unsigned char>(value >> 16);
-				FileData[position + 3] = static_cast<unsigned char>(value >> 32);
+				FileData[position + 3] = static_cast<unsigned char>(value >> 24);
 				break;
 		}
 		return true;
@@ -187,7 +197,7 @@ std::string Buffer::TableWalk(int Offset, std::vector<int> ByteSizes, bool IsFre
   for(std::vector<int>::iterator it = ByteSizes.begin(); it != ByteSizes.end(); ++it)
   {
     int tempVal = GetValueAtPosition(*it, (Offset + bufferOffset), false);
-    resultString += std::to_string(tempVal);
+    resultString += "(" + std::to_string(tempVal) + "," + ByteUtils::ToHexString((WORD)tempVal) + ")";
     resultString += " ";
     bufferOffset += *it/8;
   }

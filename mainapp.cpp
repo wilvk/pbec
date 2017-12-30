@@ -127,7 +127,6 @@ void MainApp::PrintAtomPowerplayTableInfo(ATOM_POWERPLAY_TABLE atom_powerplay_ta
 {
   std::cout << std::endl;
   std::cout << std::endl << "ATOM_POWERPLAY_TABLE (dec,hex)";
-  std::cout << std::endl << "ATOM_COMMON_TABLE_HEADER sHeader";
   std::cout << std::endl << "sHeader.usStructureSize: " << ByteUtils::PrintDecHexString(atom_powerplay_table.sHeader.usStructureSize);
   std::cout << std::endl << "sHeader.ucTableFormatRevision: " << ByteUtils::PrintDecHexString(atom_powerplay_table.sHeader.ucTableFormatRevision);
   std::cout << std::endl << "sHeader.ucTableContentRevision: " << ByteUtils::PrintDecHexString(atom_powerplay_table.sHeader.ucTableContentRevision);
@@ -190,12 +189,12 @@ void MainApp::OpenFile(const char* Filename)
 //    validateDeviceId(supportedDeviceIDs, atom_rom_header.usDeviceID);
 
     atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
-
-    int structInts[] = {16, 8, 8, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16};
-    std::vector<int> structSizes(structInts, structInts + sizeof(structInts) / sizeof(int));
-    std::string tableResult = buffer->TableWalk(atom_rom_header.usMasterDataTableOffset, structSizes);
-
-    std::cout << std::endl << "Table Result: " << tableResult;
+    //
+    // int structInts[] = {16, 8, 8, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16};
+    // std::vector<int> structSizes(structInts, structInts + sizeof(structInts) / sizeof(int));
+    // std::string tableResult = buffer->TableWalk(atom_rom_header.usMasterDataTableOffset, structSizes);
+    //
+    // std::cout << std::endl << "Table Result: " << tableResult;
 
     //PrintAtomDataTableInfo(atom_data_table);
 
@@ -204,20 +203,20 @@ void MainApp::OpenFile(const char* Filename)
 
     atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
 
-    int structIntsPowerplay[] = {16, 8, 8, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16};
+    int structIntsPowerplay[] = {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8};
     std::vector<int> structSizesPowerplay(structIntsPowerplay, structIntsPowerplay + sizeof(structIntsPowerplay) / sizeof(int));
-    std::string tableResultPowerplay = buffer->TableWalk(atom_rom_header.usMasterDataTableOffset, structSizesPowerplay);
+    std::string tableResultPowerplay = buffer->TableWalk(atom_data_table.PowerPlayInfo, structSizesPowerplay);
 
     std::cout << std::endl << "Table Result Powerplay num: " << tableResultPowerplay;
 
-    std::string tableResultPowerplayFreq = buffer->TableWalk(atom_data_table.PowerPlayInfo, structSizesPowerplay, true);
-
-    std::cout << std::endl << "Table Result Powerplay freq : " << tableResultPowerplayFreq;
+    // std::string tableResultPowerplayFreq = buffer->TableWalk(atom_data_table.PowerPlayInfo, structSizesPowerplay, true);
+    //
+    // std::cout << std::endl << "Table Result Powerplay freq : " << tableResultPowerplayFreq;
 
     //PrintAtomPowerplayTableInfo(atom_powerplay_table);
 
-    // atom_powertune_table = retriever->AtomPowertuneTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usPowerTuneTableOffset));
-    // atom_fan_table = retriever->AtomFanTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usFanTableOffset));
+    atom_powertune_table = retriever->AtomPowertuneTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usPowerTuneTableOffset));
+    atom_fan_table = retriever->AtomFanTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usFanTableOffset));
     // atom_mclk_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usMclkDependencyTableOffset;
     // atom_mclk_table = retriever->AtomMemClockTable(buffer, atom_mclk_table_offset);
     // atom_mclk_entries = retriever->AtomMemClockEntries(buffer, atom_mclk_table_offset, atom_mclk_table.ucNumEntries);
@@ -240,34 +239,31 @@ void MainApp::OpenFile(const char* Filename)
     std::cout << std::endl << "Firmware Signature: " << ByteUtils::PrintDecHexString(atom_rom_header.uaFirmWareSignature);
 
     std::cout << std::endl;
-    std::cout << std::endl << "Max GPU Freq. : " << ByteUtils::PrintDecHexString(atom_powerplay_table.ulMaxODEngineClock);
-    std::cout << std::endl << "Max Memory Freq.: " << ByteUtils::PrintDecHexString(atom_powerplay_table.ulMaxODMemoryClock);
+    std::cout << std::endl << "Max GPU Freq. (MHz * 100): " << ByteUtils::PrintDecHexString(atom_powerplay_table.ulMaxODEngineClock);
+    std::cout << std::endl << "Max Memory Freq.(MHz * 100): " << ByteUtils::PrintDecHexString(atom_powerplay_table.ulMaxODMemoryClock);
     std::cout << std::endl << "Power Control Limit (%): " << ByteUtils::PrintDecHexString(atom_powerplay_table.usPowerControlLimit);
-    std::cout << std::endl << "As int: " << (int)atom_powerplay_table.ulMaxODEngineClock;
-    std::cout << std::endl << "As int: " << (int)atom_powerplay_table.ulMaxODMemoryClock;
-    std::cout << std::endl << "As int: " << (int)atom_powerplay_table.usPowerControlLimit;
 
-    // std::cout << std::endl;
-    // std::cout << std::endl << "TDP (W): " << atom_powertune_table.usTDP;
-    // std::cout << std::endl << "TDC (A): " << atom_powertune_table.usTDC;
-    // std::cout << std::endl << "Max Power Limit (W): " << atom_powertune_table.usMaximumPowerDeliveryLimit;
-    // std::cout << std::endl << "Max Temp. (C): " << atom_powertune_table.usTjMax;
-    // std::cout << std::endl << "Shutdown Temp. (C): " << atom_powertune_table.usSoftwareShutdownTemp;
-    // std::cout << std::endl << "Hotspot Temp. (C): " << atom_powertune_table.usTemperatureLimitHotspot;
-    //
-    // std::cout << std::endl;
-    // std::cout << std::endl << "Temp. Hysteresis: " << atom_fan_table.ucTHyst;
-    // std::cout << std::endl << "Min Temp. (C): " << atom_fan_table.usTMin / 100;
-    // std::cout << std::endl << "Med Temp. (C): " << atom_fan_table.usTMed / 100;
-    // std::cout << std::endl << "High Temp. (C): " << atom_fan_table.usTHigh / 100;
-    // std::cout << std::endl << "Max Temp. (C): " << atom_fan_table.usTMax / 100;
-    // std::cout << std::endl << "Min PWM (%): " << atom_fan_table.usPWMMin / 100;
-    // std::cout << std::endl << "Med PWM (%): " << atom_fan_table.usPWMMed / 100;
-    // std::cout << std::endl << "High PWM (%): " << atom_fan_table.usPWMHigh / 100;
-    // std::cout << std::endl << "Max PWM (%): " << atom_fan_table.usFanPWMMax;
-    // std::cout << std::endl << "Max RPM: " << atom_fan_table.usFanRPMMax;
-    // std::cout << std::endl << "Sensitivity: " << atom_fan_table.usFanOutputSensitivity;
-    // std::cout << std::endl << "Acoustic Limit (MHz): " << atom_fan_table.ulMinFanSCLKAcousticLimit / 100;
+    std::cout << std::endl;
+    std::cout << std::endl << "TDP (W): " << atom_powertune_table.usTDP;
+    std::cout << std::endl << "TDC (A): " << atom_powertune_table.usTDC;
+    std::cout << std::endl << "Max Power Limit (W): " << atom_powertune_table.usMaximumPowerDeliveryLimit;
+    std::cout << std::endl << "Max Temp. (C): " << atom_powertune_table.usTjMax;
+    std::cout << std::endl << "Shutdown Temp. (C): " << atom_powertune_table.usSoftwareShutdownTemp;
+    std::cout << std::endl << "Hotspot Temp. (C): " << atom_powertune_table.usTemperatureLimitHotspot;
+
+    std::cout << std::endl;
+    std::cout << std::endl << "Temp. Hysteresis: " << atom_fan_table.ucTHyst;
+    std::cout << std::endl << "Min Temp. (C * 100): " << atom_fan_table.usTMin;
+    std::cout << std::endl << "Med Temp. (C * 100): " << atom_fan_table.usTMed;
+    std::cout << std::endl << "High Temp. (C * 100): " << atom_fan_table.usTHigh;
+    std::cout << std::endl << "Max Temp. (C * 100): " << atom_fan_table.usTMax;
+    std::cout << std::endl << "Min PWM (% * 100): " << atom_fan_table.usPWMMin;
+    std::cout << std::endl << "Med PWM (% * 100): " << atom_fan_table.usPWMMed;
+    std::cout << std::endl << "High PWM (% * 100): " << atom_fan_table.usPWMHigh;
+    std::cout << std::endl << "Max PWM (%): " << atom_fan_table.usFanPWMMax;
+    std::cout << std::endl << "Max RPM: " << atom_fan_table.usFanRPMMax;
+    std::cout << std::endl << "Sensitivity: " << atom_fan_table.usFanOutputSensitivity;
+    std::cout << std::endl << "Acoustic Limit (MHz * 100): " << atom_fan_table.ulMinFanSCLKAcousticLimit;
 
     std::cout << std::endl;
     //

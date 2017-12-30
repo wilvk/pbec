@@ -2,6 +2,7 @@
 #define STRUCTS_H
 
 #include "typedefs.h"
+#pragma pack(push, 1)
 
 struct ATOM_COMMON_TABLE_HEADER
 {
@@ -74,6 +75,7 @@ struct ATOM_DATA_TABLES
 	WORD ServiceInfo;
 };
 
+
 struct ATOM_POWERPLAY_TABLE
 {
 	ATOM_COMMON_TABLE_HEADER sHeader;
@@ -105,7 +107,6 @@ struct ATOM_POWERPLAY_TABLE
 	WORD usGPIOTableOffset;
 	WORD usReserved[6];
 };
-
 
 struct ATOM_MCLK_ENTRY
 {
@@ -268,5 +269,7 @@ struct ATOM_VRAM_INFO
 	BYTE ucMcPhyTileNum;
 	// ATOM_VRAM_ENTRY aVramInfo[ucNumOfVRAMModule];
 };
+
+#pragma pack(pop)
 
 #endif /* end of include guard: STRUCTS_H */

@@ -10,7 +10,6 @@ class RetrieveStruct
 private:
 
 	int atom_rom_header_ptr = 0x48;
-	int atom_data_table_offset = 0;
 
 	template<typename T>
 	T fromBytes(std::vector<BYTE> &StringArray);

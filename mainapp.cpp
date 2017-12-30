@@ -217,19 +217,18 @@ void MainApp::OpenFile(const char* Filename)
 
     atom_powertune_table = retriever->AtomPowertuneTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usPowerTuneTableOffset));
     atom_fan_table = retriever->AtomFanTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usFanTableOffset));
-    // atom_mclk_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usMclkDependencyTableOffset;
-    // atom_mclk_table = retriever->AtomMemClockTable(buffer, atom_mclk_table_offset);
-    // atom_mclk_entries = retriever->AtomMemClockEntries(buffer, atom_mclk_table_offset, atom_mclk_table.ucNumEntries);
-    // atom_sclk_table = retriever->AtomSysClockTable(buffer, atom_data_table.PowerPlayInfo + atom_powerplay_table.usSclkDependencyTableOffset);
-    // atom_sclk_entries = retriever->AtomSysClockEntries(buffer, atom_sclk_table_offset, atom_sclk_table.ucNumEntries);
-    // atom_vddc_table = retriever->AtomVoltageTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usVddcLookupTableOffset));
-    // atom_vddc_entries = retriever->AtomVoltageEntries(buffer, atom_vddc_table_offset, atom_vddc_table.ucNumEntries);
-    // atom_vram_info = retriever->AtomVramInfo(buffer, atom_data_table.VRAM_Info);
-    //
-    // AtomVramEntryOffset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO);
-    // atom_vram_entries = retriever->AtomVramEntries(buffer, atom_vram_info.ucNumOfVRAMModule, AtomVramEntryOffset);
-    //
-    // atom_vram_timing_entries = retriever->AtomVramTimingEntries(buffer, AtomVramEntryOffset);
+    atom_mclk_table_offset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usMclkDependencyTableOffset;
+    atom_mclk_table = retriever->AtomMemClockTable(buffer, atom_mclk_table_offset);
+    atom_mclk_entries = retriever->AtomMemClockEntries(buffer, atom_mclk_table_offset, atom_mclk_table.ucNumEntries);
+    atom_sclk_table = retriever->AtomSysClockTable(buffer, atom_data_table.PowerPlayInfo + atom_powerplay_table.usSclkDependencyTableOffset);
+    atom_sclk_entries = retriever->AtomSysClockEntries(buffer, atom_sclk_table_offset, atom_sclk_table.ucNumEntries);
+    atom_vddc_table = retriever->AtomVoltageTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usVddcLookupTableOffset));
+    atom_vddc_entries = retriever->AtomVoltageEntries(buffer, atom_vddc_table_offset, atom_vddc_table.ucNumEntries);
+    atom_vram_info = retriever->AtomVramInfo(buffer, atom_data_table.VRAM_Info);
+
+    AtomVramEntryOffset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO);
+    atom_vram_entries = retriever->AtomVramEntries(buffer, atom_vram_info.ucNumOfVRAMModule, AtomVramEntryOffset);
+    atom_vram_timing_entries = retriever->AtomVramTimingEntries(buffer, AtomVramEntryOffset);
 
     std::cout << std::endl;
     std::cout << std::endl << "Vendor ID: " << ByteUtils::PrintDecHexString(atom_rom_header.usVendorID);
@@ -266,31 +265,37 @@ void MainApp::OpenFile(const char* Filename)
     std::cout << std::endl << "Acoustic Limit (MHz * 100): " << atom_fan_table.ulMinFanSCLKAcousticLimit;
 
     std::cout << std::endl;
-    //
-    // for (int i = 0; i < atom_sclk_table.ucNumEntries; i++)
-    // {
-    //     std::cout << std::endl << "System Clock (" << i << "). MHz " << atom_sclk_entries[i].ulSclk / 100;
-		// 		std::cout << std::endl << "System Clock (" << i << "). MV " << atom_vddc_entries[atom_sclk_entries[i].ucVddInd].usVdd;
-    // }
-    //
-    // for (int i = 0; i < atom_mclk_table.ucNumEntries; i++)
-    // {
-		// 	std::cout << std::endl << "Memory Clock (" << i << "). MHz " << atom_mclk_entries[i].ulMclk / 100;
-		// 	std::cout << std::endl << "Memory Clock (" << i << "). MV " << atom_mclk_entries[i].usMvdd;
-    // }
-    //
-    // for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
-    // {
-    //   std::string vramInfo(reinterpret_cast<char*>(atom_vram_entries[i].strMemPNString));
-		// 	std::cout << std::endl << "VRAM Info (" << i << "): " << vramInfo;
-    // }
-    //
-    // for (int i = 0; i < atom_vram_timing_entries.size(); i++)
-    // {
-    //   std::cout << std::endl << "VRAM Timing (" << i << ") (MHz): " << atom_vram_timing_entries[i].ulClkRange / 100;
-    //   std::string vramTimingInfo(reinterpret_cast<char*>(atom_vram_timing_entries[i].ucLatency));
-    //   std::cout << std::endl << "VRAM Timing Info (" << i << "): " << vramTimingInfo;
-    // }
+
+    for (int i = 0; i < atom_sclk_table.ucNumEntries; i++)
+    {
+        std::cout << "[ System Clock (" << i << "). MHz " << atom_sclk_entries[i].ulSclk / 100;
+				std::cout << ", System Clock (" << i << "). MV ] " << atom_vddc_entries[atom_sclk_entries[i].ucVddInd].usVdd;
+    }
+
+    std::cout << std::endl;
+
+    for (int i = 0; i < atom_mclk_table.ucNumEntries; i++)
+    {
+			std::cout << "[ Memory Clock (" << i << "). MHz " << atom_mclk_entries[i].ulMclk / 100;
+			std::cout << ", Memory Clock (" << i << "). MV ] " << atom_mclk_entries[i].usMvdd;
+    }
+
+    std::cout << std::endl;
+
+    for (int i = 0; i < atom_vram_info.ucNumOfVRAMModule; i++)
+    {
+      std::string vramInfo(reinterpret_cast<char*>(atom_vram_entries[i].strMemPNString));
+			std::cout << "[VRAM Info (" << i << "): " << vramInfo << "] ";
+    }
+
+    std::cout << std::endl;
+
+    for (int i = 0; i < atom_vram_timing_entries.size(); i++)
+    {
+      std::cout << "[ VRAM Timing (" << i << ") (MHz): " << atom_vram_timing_entries[i].ulClkRange / 100;
+      std::string vramTimingInfo(reinterpret_cast<char*>(atom_vram_timing_entries[i].ucLatency));
+      std::cout << ", VRAM Timing Info (" << i << "):" << vramTimingInfo << "], ";
+    }
 
     delete buffer;
 }

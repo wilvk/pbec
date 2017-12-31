@@ -344,3 +344,17 @@ TEST_CASE( "Acoustic Limit (MHz * 100):", "[ulMinFanSCLKAcousticLimit]" )
 
   REQUIRE( atom_fan_table.ulMinFanSCLKAcousticLimit == 91800 );
 }
+
+TEST_CASE( "Acoustic Limit (MHz * 100):", "[ulMinFanSCLKAcousticLimit]" )
+{
+  Buffer *buffer = new Buffer();
+  RetrieveStruct* retriever = new RetrieveStruct();
+  buffer->ReadFile("test.rom");
+  ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
+  ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
+  ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
+  ATOM_POWERTUNE_TABLE atom_powertune_table = retriever->AtomPowertuneTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usPowerTuneTableOffset));
+  ATOM_FAN_TABLE atom_fan_table = retriever->AtomFanTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usFanTableOffset));
+
+  REQUIRE( atom_fan_table.ulMinFanSCLKAcousticLimit == 91800 );
+}

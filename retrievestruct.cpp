@@ -98,7 +98,7 @@ std::vector<ATOM_SCLK_ENTRY> RetrieveStruct::AtomSysClockEntries(Buffer* Buffer,
 
   for (int i = 0; i < atom_sclk_entries.size(); i++)
   {
-    int atom_sclk_entry_offset = AtomSysClockTableOffset + sizeof(ATOM_SCLK_TABLE) + sizeof(ATOM_SCLK_ENTRY) * i;
+    int atom_sclk_entry_offset = AtomSysClockTableOffset + sizeof(ATOM_SCLK_TABLE) + (sizeof(ATOM_SCLK_ENTRY) * i);
     bufferSubset = Buffer->GetSubset(atom_sclk_entry_offset);
     atom_sclk_entries[i] = fromBytes<ATOM_SCLK_ENTRY>(bufferSubset);
   }
@@ -114,7 +114,6 @@ ATOM_VOLTAGE_TABLE RetrieveStruct::AtomVoltageTable(Buffer* Buffer, int AtomVddc
   ATOM_VOLTAGE_TABLE atom_vddc_table = this->fromBytes<ATOM_VOLTAGE_TABLE>(bufferSubset);
 
   return atom_vddc_table;
-
 }
 
 std::vector<ATOM_VOLTAGE_ENTRY> RetrieveStruct::AtomVoltageEntries(Buffer* Buffer, int AtomVoltageTableOffset, int NumVoltageTableEntries)

@@ -114,7 +114,7 @@ void Console::PrintAtomPowerplayTableInfo(ATOM_POWERPLAY_TABLE AtomPowerplayTabl
   std::cout << std::endl << "usReserved[5]: " << ByteUtils::PrintDecHexString(AtomPowerplayTable.usReserved[5]);
 }
 
-void PrintAtomPowertuneTableInfo(ATOM_POWERTUNE_TABLE AtomPowertuneTable)
+void Console::PrintAtomPowertuneTableInfo(ATOM_POWERTUNE_TABLE AtomPowertuneTable)
 {
   std::cout << std::endl;
   std::cout << std::endl << "ATOM_POWERTUNE_TABLE (dec,hex)";
@@ -148,7 +148,7 @@ void PrintAtomPowertuneTableInfo(ATOM_POWERTUNE_TABLE AtomPowertuneTable)
   std::cout << std::endl << "usReserved: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usReserved);
 }
 
-void PrintAtomFanTableInfo(ATOM_FAN_TABLE AtomFanTable)
+void Console::PrintAtomFanTableInfo(ATOM_FAN_TABLE AtomFanTable)
 {
   std::cout << std::endl;
   std::cout << std::endl << "ATOM_FAN_TABLE (dec,hex)";
@@ -274,8 +274,8 @@ void Console::PrintDefaultAtomMemClockEntriesInfo(ATOM_MCLK_TABLE AtomMemClockTa
 {
   for (int i = 0; i < AtomMemClockTable.ucNumEntries; i++)
   {
-    std::cout << "[ Memory Clock (" << i << "). MHz " << AtomMemClockEntries[i].ulMclk / 100;
-    std::cout << ", Memory Clock (" << i << "). MV ] " << AtomMemClockEntries[i].usMvdd;
+    std::cout << std::endl << "(" << i << ")[ Memory Clock. MHz " << AtomMemClockEntries[i].ulMclk / 100;
+    std::cout << ", Memory Clock. " << AtomMemClockEntries[i].usMvdd << " MV ] ";
   }
 }
 
@@ -292,8 +292,8 @@ void Console::PrintDefaultAtomVramTimingEntriesInfo(std::vector<ATOM_VRAM_TIMING
 {
   for (int i = 0; i < AtomVramTimingEntries.size(); i++)
   {
-    std::cout << "[ VRAM Timing (" << i << ") (MHz): " << AtomVramTimingEntries[i].ulClkRange / 100;
+    std::cout << std::endl << "(" << i << ")[ VRAM Timing (MHz): " << AtomVramTimingEntries[i].ulClkRange / 100;
     //std::string vramTimingInfo(reinterpret_cast<char*>(AtomVramTimingEntries[i].ucLatency));
-    std::cout << ", VRAM Timing Info (" << i << "):" << std::hex << AtomVramTimingEntries[i].ucLatency << "], ";
+    std::cout << ", VRAM Timing Info:" << AtomVramTimingEntries[i].ucLatency << "], ";
   }
 }

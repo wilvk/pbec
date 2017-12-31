@@ -28,13 +28,13 @@ public:
 
   int GetBufferPosition();
 
-  void FixChecksum(bool save, int AtomRomChecksumOffset);
+  void FixChecksum(bool Save, int AtomRomChecksumOffset);
 
   bool SetValueAtPosition(const std::wstring &text, int bits, int position, bool isFrequency);
 
   bool SetValueAtPosition(int value, int bits, int position, bool isFrequency);
 
-  int GetValueAtPosition(int bits, int position, bool isFrequency);
+  int GetValueAtPosition(int Bits, int Position, bool IsFrequency);
 
   std::string GetStringFromOffset(int Offset);
 

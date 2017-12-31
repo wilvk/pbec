@@ -46,31 +46,30 @@ BYTE Buffer::GetByteAtPosition(int Position)
 	return -1;
 }
 
-
-int Buffer::GetValueAtPosition(int bits, int position, bool isFrequency)
+int Buffer::GetValueAtPosition(int Bits, int Position, bool IsFrequency)
 {
 	int value = 0;
 
-	if (position <= FileData.size() - 4)
+	if (Position <= FileData.size() - 4)
 	{
-		switch (bits)
+		switch (Bits)
 		{
 			case 8:
 			default:
-				value = FileData[position];
+				value = FileData[Position];
 				break;
 			case 16:
-				value = (FileData[position + 1] << 8) | FileData[position];
+				value = (FileData[Position + 1] << 8) | FileData[Position];
 				break;
 			case 24:
-				value = (FileData[position + 2] << 16) | (FileData[position + 1] << 8) | FileData[position];
+				value = (FileData[Position + 2] << 16) | (FileData[Position + 1] << 8) | FileData[Position];
 				break;
 			case 32:
-				value = (FileData[position + 3] << 24) | (FileData[position + 2] << 16) | (FileData[position + 1] << 8) | FileData[position];
+				value = (FileData[Position + 3] << 24) | (FileData[Position + 2] << 16) | (FileData[Position + 1] << 8) | FileData[Position];
 				break;
 		}
 
-		if (isFrequency)
+		if (IsFrequency)
 		{
 			return value / 100;
 		}
@@ -124,7 +123,7 @@ bool Buffer::SetValueAtPosition(const std::wstring &text, int bits, int position
   	return this->SetValueAtPosition(value, bits, position, isFrequency);
 }
 
-void Buffer::FixChecksum(bool save, int AtomRomChecksumOffset)
+void Buffer::FixChecksum(bool Save, int AtomRomChecksumOffset)
 {
   	unsigned char checksum = FileData[AtomRomChecksumOffset];
   	int size = FileData[0x02] * 512;
@@ -137,20 +136,19 @@ void Buffer::FixChecksum(bool save, int AtomRomChecksumOffset)
 
   	if (checksum == (FileData[AtomRomChecksumOffset] - offset))
   	{
-      std::cout << std::endl << "Checksum is valid: " << (int)checksum;
+      std::cout << std::endl << "Checksum is valid: ";
   	}
   	else
   	{
-      std::cout << std::endl << "WARNING: Invalid checksum: " << (int)checksum;
+      std::cout << std::endl << "WARNING: Invalid checksum: ";
   	}
 
-  	if (save)
+  	if (Save)
   	{
       FileData[AtomRomChecksumOffset] -= offset;
   	}
 
-    std::cout << std::endl << "Checksum Hex: " << std::setw(2) << std::setfill('0')
-              << std::hex <<  "0x" << (int)FileData[AtomRomChecksumOffset] << std::endl;
+    std::cout << ByteUtils::ToHexString((WORD)FileData[AtomRomChecksumOffset]) << std::endl;
 }
 
 std::string Buffer::GetStringFromOffset(int Offset)

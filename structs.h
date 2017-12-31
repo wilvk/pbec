@@ -75,7 +75,6 @@ struct ATOM_DATA_TABLES
 	WORD ServiceInfo;
 };
 
-
 struct ATOM_POWERPLAY_TABLE
 {
 	ATOM_COMMON_TABLE_HEADER sHeader;
@@ -122,7 +121,6 @@ struct ATOM_MCLK_TABLE
 {
 	BYTE ucRevId;
 	BYTE ucNumEntries;
-	//ATOM_MCLK_ENTRY entries[ucNumEntries];
 };
 
 struct ATOM_SCLK_ENTRY
@@ -133,14 +131,13 @@ struct ATOM_SCLK_ENTRY
 	WORD usEdcCurrent;
 	BYTE ucReliabilityTemperature;
 	BYTE ucCKSVOffsetandDisable;
-	DWORD ulSclkOffset; // Polaris Only, remove for compatibility with Fiji
+	DWORD ulSclkOffset;
 };
 
 struct ATOM_SCLK_TABLE
 {
 	BYTE ucRevId;
 	BYTE ucNumEntries;
-	//ATOM_SCLK_ENTRY entries[ucNumEntries];
 };
 
 struct ATOM_VOLTAGE_ENTRY
@@ -155,7 +152,6 @@ struct ATOM_VOLTAGE_TABLE
 {
 	BYTE ucRevId;
 	BYTE ucNumEntries;
-	// ATOM_VOLTAGE_ENTRY entries[ucNumEntries];
 };
 
 struct ATOM_FAN_TABLE
@@ -267,7 +263,6 @@ struct ATOM_VRAM_INFO
 	BYTE ucMemoryClkPatchTblVer;
 	BYTE ucVramModuleVer;
 	BYTE ucMcPhyTileNum;
-	// ATOM_VRAM_ENTRY aVramInfo[ucNumOfVRAMModule];
 };
 
 #pragma pack(pop)

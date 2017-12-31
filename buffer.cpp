@@ -124,9 +124,9 @@ bool Buffer::SetValueAtPosition(const std::wstring &text, int bits, int position
   	return this->SetValueAtPosition(value, bits, position, isFrequency);
 }
 
-void Buffer::FixChecksum(bool save, int atom_rom_checksum_offset)
+void Buffer::FixChecksum(bool save, int AtomRomChecksumOffset)
 {
-  	unsigned char checksum = FileData[atom_rom_checksum_offset];
+  	unsigned char checksum = FileData[AtomRomChecksumOffset];
   	int size = FileData[0x02] * 512;
   	unsigned char offset = 0;
 
@@ -135,7 +135,7 @@ void Buffer::FixChecksum(bool save, int atom_rom_checksum_offset)
       offset += FileData[i];
   	}
 
-  	if (checksum == (FileData[atom_rom_checksum_offset] - offset))
+  	if (checksum == (FileData[AtomRomChecksumOffset] - offset))
   	{
       std::cout << std::endl << "Checksum is valid: " << (int)checksum;
   	}
@@ -146,11 +146,11 @@ void Buffer::FixChecksum(bool save, int atom_rom_checksum_offset)
 
   	if (save)
   	{
-      FileData[atom_rom_checksum_offset] -= offset;
+      FileData[AtomRomChecksumOffset] -= offset;
   	}
 
     std::cout << std::endl << "Checksum Hex: " << std::setw(2) << std::setfill('0')
-              << std::hex <<  "0x" << (int)FileData[atom_rom_checksum_offset] << std::endl;
+              << std::hex <<  "0x" << (int)FileData[AtomRomChecksumOffset] << std::endl;
 }
 
 std::string Buffer::GetStringFromOffset(int Offset)

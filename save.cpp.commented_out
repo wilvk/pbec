@@ -1,4 +1,5 @@
 //TODO: just focus on reading the file to begin with
+//int atom_vram_index = 0;
 // void MainApp::SaveFileDialog_Click(void *sender, RoutedEventArgs *e)
 // {
 // 		FileStream *fs = new FileStream(SaveFileDialog->FileName, FileMode::Create);

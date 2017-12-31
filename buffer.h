@@ -28,7 +28,7 @@ public:
 
   int GetBufferPosition();
 
-  void FixChecksum(bool save, int atom_rom_checksum_offset);
+  void FixChecksum(bool save, int AtomRomChecksumOffset);
 
   bool SetValueAtPosition(const std::wstring &text, int bits, int position, bool isFrequency);
 

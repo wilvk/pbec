@@ -19,6 +19,7 @@
 #include "retrievestruct.h"
 #include "exceptionhelper.h"
 #include "buffer.h"
+#include "console.h"
 
 class MainApp
 {
@@ -27,42 +28,10 @@ private:
 
 	std::vector<WORD> supportedDeviceIDs = {0x67DF, 0x1002};
 
-	int atom_rom_checksum_offset = 0x21;
-	int atom_rom_header_offset = 0;
-	ATOM_ROM_HEADER atom_rom_header;
-	ATOM_DATA_TABLES atom_data_table;
-
-	int atom_powerplay_offset = 0;
-	ATOM_POWERPLAY_TABLE atom_powerplay_table;
-
-	int atom_data_table_offset = 0;
-
-	int atom_powertune_offset = 0;
-	ATOM_POWERTUNE_TABLE atom_powertune_table;
-
-	int atom_fan_offset = 0;
-	ATOM_FAN_TABLE atom_fan_table;
-
-	int atom_mclk_table_offset = 0;
-	ATOM_MCLK_TABLE atom_mclk_table;
-	std::vector<ATOM_MCLK_ENTRY> atom_mclk_entries;
-
-	int atom_sclk_table_offset = 0;
-	ATOM_SCLK_TABLE atom_sclk_table;
-	std::vector<ATOM_SCLK_ENTRY> atom_sclk_entries;
-
-	int atom_vddc_table_offset = 0;
-	ATOM_VOLTAGE_TABLE atom_vddc_table;
-	std::vector<ATOM_VOLTAGE_ENTRY> atom_vddc_entries;
+	int AtomRomChecksumOffset = 0x21;
 
 	int atom_vram_info_offset = 0;
-	ATOM_VRAM_INFO atom_vram_info;
-	std::vector<ATOM_VRAM_ENTRY> atom_vram_entries;
-	std::vector<ATOM_VRAM_TIMING_ENTRY> atom_vram_timing_entries;
-
-	int AtomVramEntryOffset = 0;
-
-	int atom_vram_index = 0;
+	int atom_sclk_table_offset = 0;
 
 	bool setValueAtPosition(const std::wstring &text, int bits, int position, bool isFrequency = false);
 
@@ -78,17 +47,11 @@ public:
 
 	void updateVRAM_entries();
 
-	MainApp();
-
-	virtual ~MainApp() { /* delete int32; */ }
-
 	void setBytesAtPosition(std::vector<BYTE> &dest, int ptr, std::vector<BYTE> &src);
 
 	int getValueAtPosition(int bits, int position, bool isFrequency = false);
 
 	bool setValueAtPosition(int value, int bits, int position, bool isFrequency = false);
-
-	bool ContainsMatch(std::vector<std::string> list, std::string toMatch);
 
 	void PrintAtomRomHeaderInfo(ATOM_ROM_HEADER atom_rom_header);
 

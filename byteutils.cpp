@@ -47,7 +47,7 @@ std::string ByteUtils::PrintDecHexString(WORD HexValue)
 std::string ByteUtils::PrintDecHexString(DWORD HexValue)
 {
   std::ostringstream ss;
-  ss << std::dec << HexValue << ", 0x" << std::hex << HexValue;
+  ss << std::dec << HexValue << ", " << std::showbase << std::internal << std::setfill('0') << std::setw(4) << std::hex << HexValue;
   std::string decHexString = ss.str().c_str();
 
   return decHexString;

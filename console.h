@@ -13,13 +13,18 @@ private:
 
 public:
 
-// verbose
+// verbose structs
 
   static void PrintAtomRomHeaderInfo(ATOM_ROM_HEADER AtomRomHeader);
 
   static void PrintAtomDataTableInfo(ATOM_DATA_TABLES AtomDataTable);
 
   static void PrintAtomPowerplayTableInfo(ATOM_POWERPLAY_TABLE AtomPowerplayTable);
+
+  static void PrintAtomPowertuneTableInfo(ATOM_POWERTUNE_TABLE AtomPowertuneTable);
+
+  static void PrintAtomFanTableInfo(ATOM_FAN_TABLE AtomFanTable);
+
 
 // default
 

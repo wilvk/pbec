@@ -114,6 +114,70 @@ void Console::PrintAtomPowerplayTableInfo(ATOM_POWERPLAY_TABLE AtomPowerplayTabl
   std::cout << std::endl << "usReserved[5]: " << ByteUtils::PrintDecHexString(AtomPowerplayTable.usReserved[5]);
 }
 
+void PrintAtomPowertuneTableInfo(ATOM_POWERTUNE_TABLE AtomPowertuneTable)
+{
+  std::cout << std::endl;
+  std::cout << std::endl << "ATOM_POWERTUNE_TABLE (dec,hex)";
+  std::cout << std::endl << "ucRevId: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.ucRevId);
+  std::cout << std::endl << "usTDP: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usTDP);
+  std::cout << std::endl << "usConfigurableTDP: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usConfigurableTDP);
+  std::cout << std::endl << "usTDC: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usTDC);
+  std::cout << std::endl << "usBatteryPowerLimit: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usBatteryPowerLimit);
+  std::cout << std::endl << "usSmallPowerLimit: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usSmallPowerLimit);
+  std::cout << std::endl << "usLowCACLeakage: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usLowCACLeakage);
+  std::cout << std::endl << "usHighCACLeakage: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usHighCACLeakage);
+  std::cout << std::endl << "usMaximumPowerDeliveryLimit: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usMaximumPowerDeliveryLimit);
+  std::cout << std::endl << "usTjMax: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usTjMax);
+  std::cout << std::endl << "usPowerTuneDataSetID: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usPowerTuneDataSetID);
+  std::cout << std::endl << "usEDCLimit: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usEDCLimit);
+  std::cout << std::endl << "usSoftwareShutdownTemp: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usSoftwareShutdownTemp);
+  std::cout << std::endl << "usClockStretchAmount: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usClockStretchAmount);
+  std::cout << std::endl << "usTemperatureLimitHotspot: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usTemperatureLimitHotspot);
+  std::cout << std::endl << "usTemperatureLimitLiquid1: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usTemperatureLimitLiquid1);
+  std::cout << std::endl << "usTemperatureLimitLiquid2: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usTemperatureLimitLiquid2);
+  std::cout << std::endl << "usTemperatureLimitVrVddc: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usTemperatureLimitVrVddc);
+  std::cout << std::endl << "usTemperatureLimitVrMvdd: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usTemperatureLimitVrMvdd);
+  std::cout << std::endl << "usTemperatureLimitPlx: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usTemperatureLimitPlx);
+  std::cout << std::endl << "ucLiquid1_I2C_address: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.ucLiquid1_I2C_address);
+  std::cout << std::endl << "ucLiquid2_I2C_address: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.ucLiquid2_I2C_address);
+  std::cout << std::endl << "ucLiquid_I2C_Line: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.ucLiquid_I2C_Line);
+  std::cout << std::endl << "ucVr_I2C_address: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.ucVr_I2C_address);
+  std::cout << std::endl << "ucVr_I2C_Line: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.ucVr_I2C_Line);
+  std::cout << std::endl << "ucPlx_I2C_address: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.ucPlx_I2C_address);
+  std::cout << std::endl << "ucPlx_I2C_Line: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.ucPlx_I2C_Line);
+  std::cout << std::endl << "usReserved: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usReserved);
+}
+
+void PrintAtomFanTableInfo(ATOM_FAN_TABLE AtomFanTable)
+{
+  std::cout << std::endl;
+  std::cout << std::endl << "ATOM_FAN_TABLE (dec,hex)";
+  std::cout << std::endl << "ucRevId: " << ByteUtils::PrintDecHexString(AtomFanTable.ucRevId);
+  std::cout << std::endl << "ucTHyst: " << ByteUtils::PrintDecHexString(AtomFanTable.ucTHyst);
+  std::cout << std::endl << "usTMin: " << ByteUtils::PrintDecHexString(AtomFanTable.usTMin);
+  std::cout << std::endl << "usTMed: " << ByteUtils::PrintDecHexString(AtomFanTable.usTMed);
+  std::cout << std::endl << "usTHigh: " << ByteUtils::PrintDecHexString(AtomFanTable.usTHigh);
+  std::cout << std::endl << "usPWMMin: " << ByteUtils::PrintDecHexString(AtomFanTable.usPWMMin);
+  std::cout << std::endl << "usPWMMed: " << ByteUtils::PrintDecHexString(AtomFanTable.usPWMMed);
+  std::cout << std::endl << "usPWMHigh: " << ByteUtils::PrintDecHexString(AtomFanTable.usPWMHigh);
+  std::cout << std::endl << "usTMax: " << ByteUtils::PrintDecHexString(AtomFanTable.usTMax);
+  std::cout << std::endl << "ucFanControlMode: " << ByteUtils::PrintDecHexString(AtomFanTable.ucFanControlMode);
+  std::cout << std::endl << "usFanPWMMax: " << ByteUtils::PrintDecHexString(AtomFanTable.usFanPWMMax);
+  std::cout << std::endl << "usFanOutputSensitivity: " << ByteUtils::PrintDecHexString(AtomFanTable.usFanOutputSensitivity);
+  std::cout << std::endl << "usFanRPMMax: " << ByteUtils::PrintDecHexString(AtomFanTable.usFanRPMMax);
+  std::cout << std::endl << "ulMinFanSCLKAcousticLimit: " << ByteUtils::PrintDecHexString(AtomFanTable.ulMinFanSCLKAcousticLimit);
+  std::cout << std::endl << "ucTargetTemperature: " << ByteUtils::PrintDecHexString(AtomFanTable.ucTargetTemperature);
+  std::cout << std::endl << "ucMinimumPWMLimit: " << ByteUtils::PrintDecHexString(AtomFanTable.ucMinimumPWMLimit);
+  std::cout << std::endl << "usFanGainEdge: " << ByteUtils::PrintDecHexString(AtomFanTable.usFanGainEdge);
+  std::cout << std::endl << "usFanGainHotspot: " << ByteUtils::PrintDecHexString(AtomFanTable.usFanGainHotspot);
+  std::cout << std::endl << "usFanGainLiquid: " << ByteUtils::PrintDecHexString(AtomFanTable.usFanGainLiquid);
+  std::cout << std::endl << "usFanGainVrVddc: " << ByteUtils::PrintDecHexString(AtomFanTable.usFanGainVrVddc);
+  std::cout << std::endl << "usFanGainVrMvdd: " << ByteUtils::PrintDecHexString(AtomFanTable.usFanGainVrMvdd);
+  std::cout << std::endl << "usFanGainPlx: " << ByteUtils::PrintDecHexString(AtomFanTable.usFanGainPlx);
+  std::cout << std::endl << "usFanGainHbm: " << ByteUtils::PrintDecHexString(AtomFanTable.usFanGainHbm);
+  std::cout << std::endl << "usReserved: " << ByteUtils::PrintDecHexString(AtomFanTable. usReserved);
+}
+
 void Console::PrintDefaultAtomRomHeaderInfo(ATOM_ROM_HEADER AtomRomHeader)
 {
   std::cout << std::endl << "Vendor ID: " << ByteUtils::PrintDecHexString(AtomRomHeader.usVendorID);
@@ -196,7 +260,8 @@ void Console::PrintFileDetails(const char* Filename, int Filesize)
   std::cout << std::endl << "File size: " << Filesize << " bytes" << std::endl;
 }
 
-void Console::PrintDefaultAtomSysClockEntriesInfo(ATOM_SCLK_TABLE AtomSysClockTable, std::vector<ATOM_SCLK_ENTRY> AtomSysClockEntries, std::vector<ATOM_VOLTAGE_ENTRY> AtomVoltageEntries)
+void Console::PrintDefaultAtomSysClockEntriesInfo(ATOM_SCLK_TABLE AtomSysClockTable, std::vector<ATOM_SCLK_ENTRY> AtomSysClockEntries,
+  std::vector<ATOM_VOLTAGE_ENTRY> AtomVoltageEntries)
 {
   for (int i = 0; i < AtomSysClockTable.ucNumEntries; i++)
   {
@@ -218,8 +283,8 @@ void Console::PrintDefaultAtomVramInfo(ATOM_VRAM_INFO AtomVramInfo, std::vector<
 {
   for (int i = 0; i < AtomVramInfo.ucNumOfVRAMModule; i++)
   {
-    std::string vramInfo(reinterpret_cast<char*>(AtomVramEntries[i].strMemPNString));
-    std::cout << "[VRAM Info (" << i << "): " << vramInfo << "] ";
+    //std::string vramInfo(reinterpret_cast<char*>(AtomVramEntries[i].strMemPNString));
+    std::cout << "[VRAM Info (" << i << "): " << AtomVramEntries[i].strMemPNString << "] ";
   }
 }
 
@@ -228,7 +293,7 @@ void Console::PrintDefaultAtomVramTimingEntriesInfo(std::vector<ATOM_VRAM_TIMING
   for (int i = 0; i < AtomVramTimingEntries.size(); i++)
   {
     std::cout << "[ VRAM Timing (" << i << ") (MHz): " << AtomVramTimingEntries[i].ulClkRange / 100;
-    std::string vramTimingInfo(reinterpret_cast<char*>(AtomVramTimingEntries[i].ucLatency));
-    std::cout << ", VRAM Timing Info (" << i << "):" << vramTimingInfo << "], ";
+    //std::string vramTimingInfo(reinterpret_cast<char*>(AtomVramTimingEntries[i].ucLatency));
+    std::cout << ", VRAM Timing Info (" << i << "):" << std::hex << AtomVramTimingEntries[i].ucLatency << "], ";
   }
 }

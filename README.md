@@ -14,7 +14,7 @@ gcc, etc.
 
 ### To run:
 
-`./pbel`
+`./pbec`
 
 ### To run tests:
 

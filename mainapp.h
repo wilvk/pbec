@@ -35,10 +35,10 @@ private:
 	bool printDebug = false;
 	bool printInfo = true;
 
-	int AtomRomChecksumOffset = 0x21;
+	const int AtomRomChecksumOffset = 0x21;
 
-	int atom_vram_info_offset = 0;
-	int atom_sclk_table_offset = 0;
+	int atom_vram_info_offset;
+	int atom_sclk_table_offset;
 	int AtomPowertuneOffset;
 	int AtomFanTableOffset;
 	int AtomSysClockEntriesOffset;

@@ -283,7 +283,7 @@ void Console::PrintDefaultAtomVramInfo(ATOM_VRAM_INFO AtomVramInfo, std::vector<
 {
   for (int i = 0; i < AtomVramInfo.ucNumOfVRAMModule; i++)
   {
-    std::cout << std::endl << "(" << i << ")[VRAM Info: " << AtomVramEntries[i].strMemPNString << "] ";
+    std::cout << std::endl << "(" << i << ")[VRAM Info: " << AtomVramEntries[i].strMemPNString << "]";
   }
 }
 
@@ -291,7 +291,8 @@ void Console::PrintDefaultAtomVramTimingEntriesInfo(std::vector<ATOM_VRAM_TIMING
 {
   for (int i = 0; i < AtomVramTimingEntries.size(); i++)
   {
-    std::cout << std::endl << "(" << i << ")[ VRAM Timing (MHz): " << AtomVramTimingEntries[i].ulClkRange / 100;
-    std::cout << ", VRAM Timing Info:" << AtomVramTimingEntries[i].ucLatency << "], ";
+    DWORD table = AtomVramTimingEntries[i].ulClkRange >> 24;
+    std::cout << std::endl << "(" << i << ")[{Table: " << std::to_string(table) << " , MHz: " << std::to_string((AtomVramTimingEntries[i].ulClkRange & 0x00FFFFFF) / 100);
+    std::cout << "}, Timing Strap: " << ByteUtils::PrintByteArray(AtomVramTimingEntries[i].ucLatency, 48) << "]";
   }
 }

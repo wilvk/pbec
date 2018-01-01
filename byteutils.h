@@ -29,4 +29,6 @@ public:
 
 	static std::string PrintDecHexString(DWORD HexValue);
 
+	static std::string PrintByteArray(BYTE* ByteArray, int ArrayLength);
+
 };

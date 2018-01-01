@@ -9,7 +9,8 @@ class RetrieveStruct
 
 private:
 
-	int atom_rom_header_ptr = 0x48;
+	const int atom_rom_header_ptr = 0x48;
+	const int MAX_VRAM_ENTRIES = 48;
 
 	template<typename T>
 	T fromBytes(std::vector<BYTE> &StringArray);
@@ -42,5 +43,5 @@ public:
 
 	std::vector<ATOM_VRAM_ENTRY> AtomVramEntries(Buffer* Buffer, int NumVramTableEntries, int& AtomVramEntryOffset);
 
-	std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries(Buffer* Buffer, int AtomVramEntryOffset);
+	std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries(Buffer* Buffer, ATOM_VRAM_INFO AtomVramInfo, int AtomVramInfoOffset);
 };

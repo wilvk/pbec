@@ -18,8 +18,6 @@ void MainApp::OpenFile(const char* Filename)
     {
       printDebugInfo();
     }
-
-    buffer->FixChecksum(false, AtomRomChecksumOffset);
 }
 
 void MainApp::getTables()
@@ -79,17 +77,18 @@ void MainApp::getVramTimingEntries()
   atom_vram_info = retriever->AtomVramInfo(buffer, atom_data_table.VRAM_Info);
   AtomVramEntryOffset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO);
   atom_vram_entries = retriever->AtomVramEntries(buffer, atom_vram_info.ucNumOfVRAMModule, AtomVramEntryOffset);
-  atom_vram_timing_entries = retriever->AtomVramTimingEntries(buffer, AtomVramEntryOffset);
+
+  atom_vram_timing_entries = retriever->AtomVramTimingEntries(buffer, atom_vram_info, atom_vram_info_offset);
 }
 
 void MainApp::printDefaultInfo()
 {
-  //Console::PrintDefaultAtomRomHeaderInfo(atom_rom_header);
-  //Console::PrintDefaultAtomPowerplayTableInfo(atom_powerplay_table);
-  //Console::PrintDefaultAtomPowertuneTableInfo(atom_powertune_table);
-  //Console::PrintDefaultAtomFanTableInfo(atom_fan_table);
-  //Console::PrintDefaultAtomSysClockEntriesInfo(atom_sclk_table, atom_sclk_entries, atom_vddc_entries);
-  //Console::PrintDefaultAtomMemClockEntriesInfo(atom_mclk_table, atom_mclk_entries);
+  Console::PrintDefaultAtomRomHeaderInfo(atom_rom_header);
+  Console::PrintDefaultAtomPowerplayTableInfo(atom_powerplay_table);
+  Console::PrintDefaultAtomPowertuneTableInfo(atom_powertune_table);
+  Console::PrintDefaultAtomFanTableInfo(atom_fan_table);
+  Console::PrintDefaultAtomSysClockEntriesInfo(atom_sclk_table, atom_sclk_entries, atom_vddc_entries);
+  Console::PrintDefaultAtomMemClockEntriesInfo(atom_mclk_table, atom_mclk_entries);
   Console::PrintDefaultAtomVramInfo(atom_vram_info, atom_vram_entries);
   Console::PrintDefaultAtomVramTimingEntriesInfo(atom_vram_timing_entries);
 }

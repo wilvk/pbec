@@ -52,3 +52,18 @@ std::string ByteUtils::PrintDecHexString(DWORD HexValue)
 
   return decHexString;
 }
+
+std::string ByteUtils::PrintByteArray(BYTE* ByteArray, int ArrayLength)
+{
+  std::string returnString;
+
+  for(int i = 0; i < ArrayLength; i++) //TODO: change to const var
+  {
+    std::ostringstream ss;
+    ss << std::setfill('0') << std::setw(2) << std::hex << (int)(*ByteArray++);
+    std::string hexString = ss.str().c_str();
+    returnString += hexString;
+  }
+
+  return returnString;
+}

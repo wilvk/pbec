@@ -156,26 +156,25 @@ std::vector<ATOM_VRAM_ENTRY> RetrieveStruct::AtomVramEntries(Buffer* Buffer, int
   return atom_vram_entries;
 }
 
-std::vector<ATOM_VRAM_TIMING_ENTRY> RetrieveStruct::AtomVramTimingEntries(Buffer* Buffer, int AtomVramEntryOffset)
+std::vector<ATOM_VRAM_TIMING_ENTRY> RetrieveStruct::AtomVramTimingEntries(Buffer* Buffer, ATOM_VRAM_INFO AtomVramInfo, int AtomVramInfoOffset)
 {
   std::vector<BYTE> bufferSubset;
 
-  std::vector<ATOM_VRAM_TIMING_ENTRY> atom_vram_timing_entries = std::vector<ATOM_VRAM_TIMING_ENTRY>(16);
+  int AtomVramTimingOffset = AtomVramInfoOffset + AtomVramInfo.usMemClkPatchTblOffset + 0x2E;
+  std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries = std::vector<ATOM_VRAM_TIMING_ENTRY>(MAX_VRAM_ENTRIES);
 
-  for (int i = 0; i < 16; i++)
+  for (int i = 0; i < MAX_VRAM_ENTRIES; i++)
   {
-    int atom_vram_timing_entry_offset = AtomVramEntryOffset + 0x3D + sizeof(ATOM_VRAM_TIMING_ENTRY) * i;
-    bufferSubset = Buffer->GetSubset(atom_vram_timing_entry_offset);
-    atom_vram_timing_entries[i] = fromBytes<ATOM_VRAM_TIMING_ENTRY>(bufferSubset);
+      int localOffset = AtomVramTimingOffset + sizeof(ATOM_VRAM_TIMING_ENTRY) * i;
+      bufferSubset = Buffer->GetSubset(localOffset);
+      AtomVramTimingEntries[i] = fromBytes<ATOM_VRAM_TIMING_ENTRY>(bufferSubset);
 
-    // atom_vram_timing_entries have an undetermined length.
-    // Attempt to determine the last entry in the array.
-    if (atom_vram_timing_entries[i].ulClkRange == 0)
-    {
-      atom_vram_timing_entries.resize(i);
-      break;
-    }
+      if (AtomVramTimingEntries[i].ulClkRange == 0)
+      {
+          AtomVramTimingEntries.resize(i);
+          break;
+      }
   }
 
-  return atom_vram_timing_entries;
+  return AtomVramTimingEntries;
 }

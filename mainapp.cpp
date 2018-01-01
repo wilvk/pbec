@@ -28,6 +28,8 @@ void MainApp::getTables()
   getSysClockEntries();
   getMemClockEntries();
   getVoltageEntries();
+  getVramInfo();
+  getVramEntries();
   getVramTimingEntries();
 }
 
@@ -71,13 +73,20 @@ void MainApp::getVoltageEntries()
   atom_vddc_entries = retriever->AtomVoltageEntries(buffer, atomVoltageTableOffset, atom_vddc_table.ucNumEntries);
 }
 
-void MainApp::getVramTimingEntries()
+void MainApp::getVramInfo()
 {
   atom_vram_info_offset = atom_data_table.VRAM_Info;
-  atom_vram_info = retriever->AtomVramInfo(buffer, atom_data_table.VRAM_Info);
+  atom_vram_info = retriever->AtomVramInfo(buffer, atom_vram_info_offset);
+}
+
+void MainApp::getVramEntries()
+{
   AtomVramEntryOffset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO);
   atom_vram_entries = retriever->AtomVramEntries(buffer, atom_vram_info.ucNumOfVRAMModule, AtomVramEntryOffset);
+}
 
+void MainApp::getVramTimingEntries()
+{
   atom_vram_timing_entries = retriever->AtomVramTimingEntries(buffer, atom_vram_info, atom_vram_info_offset);
 }
 
@@ -90,6 +99,7 @@ void MainApp::printDefaultInfo()
   Console::PrintDefaultAtomSysClockEntriesInfo(atom_sclk_table, atom_sclk_entries, atom_vddc_entries);
   Console::PrintDefaultAtomMemClockEntriesInfo(atom_mclk_table, atom_mclk_entries);
   Console::PrintDefaultAtomVramInfo(atom_vram_info, atom_vram_entries);
+  Console::PrintDefaultAtomVramEntriesInfo(atom_vram_info, atom_vram_entries);
   Console::PrintDefaultAtomVramTimingEntriesInfo(atom_vram_timing_entries);
 }
 

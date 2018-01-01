@@ -283,7 +283,19 @@ void Console::PrintDefaultAtomVramInfo(ATOM_VRAM_INFO AtomVramInfo, std::vector<
 {
   for (int i = 0; i < AtomVramInfo.ucNumOfVRAMModule; i++)
   {
-    std::cout << std::endl << "(" << i << ")[VRAM Info: " << AtomVramEntries[i].strMemPNString << "]";
+    std::cout << std::endl << "(" << i << ")[VRAM Table " << i << " Name: " << AtomVramEntries[i].strMemPNString << "]";
+  }
+}
+
+void Console::PrintDefaultAtomVramEntriesInfo(ATOM_VRAM_INFO AtomVramInfo, std::vector<ATOM_VRAM_ENTRY> AtomVramEntries)
+{
+  for (int i = 0; i < AtomVramInfo.ucNumOfVRAMModule; i++)
+  {
+    std::cout << std::endl << "(" << i << ")[VRAM Table " << i <<
+    " -- VendorId: 0x" << std::hex << (int)AtomVramEntries[i].ucMemoryVenderID <<
+    ", Size (MB): " << std::dec << (int)AtomVramEntries[i].usMemorySize <<
+    ", Density: 0x"  << std::hex << (int)AtomVramEntries[i].ucDensity <<
+    ", Type: 0x"  << std::hex << (int)AtomVramEntries[i].ucMemoryType << "]";
   }
 }
 

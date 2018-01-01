@@ -41,6 +41,8 @@ public:
 
   static void PrintDefaultAtomVramInfo(ATOM_VRAM_INFO AtomVramInfo, std::vector<ATOM_VRAM_ENTRY> AtomVramEntries);
 
+  static void PrintDefaultAtomVramEntriesInfo(ATOM_VRAM_INFO AtomVramInfo, std::vector<ATOM_VRAM_ENTRY> AtomVramEntries);
+
   static void PrintDefaultAtomVramTimingEntriesInfo(std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramEntries);
 
 // misc

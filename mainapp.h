@@ -83,7 +83,11 @@ private:
 
 	void getVoltageEntries();
 
+	void getVramInfo();
+
 	void getVramTimingEntries();
+
+	void getVramEntries();
 
 	void printDefaultInfo();
 

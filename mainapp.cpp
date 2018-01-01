@@ -1,7 +1,7 @@
 ﻿#include "mainapp.h"
 
 
-void MainApp::OpenFile(const char* Filename)
+void MainApp::OpenFile(std::string Filename)
 {
     retriever = new RetrieveStruct();
     buffer = new Buffer();

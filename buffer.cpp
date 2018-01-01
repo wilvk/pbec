@@ -1,6 +1,6 @@
 #include "buffer.h"
 
-std::vector<BYTE> Buffer::ReadFile(const char* Filename)
+std::vector<BYTE> Buffer::ReadFile(std::string Filename)
 {
    std::ifstream file(Filename, std::ios::binary);
    file.unsetf(std::ios::skipws);

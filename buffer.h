@@ -20,7 +20,7 @@ public:
 
   std::vector<BYTE> FileData;
 
-  std::vector<BYTE> ReadFile(const char* Filename);
+  std::vector<BYTE> ReadFile(std::string Filename);
 
   std::vector<BYTE> GetSubset(int &Offset);
 

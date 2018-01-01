@@ -69,7 +69,7 @@ private:
 
 	void validateDeviceId(std::vector<WORD> supportedDeviceIDs, WORD deviceId);
 
-  void getTables();
+    void getTables();
 
 	void getBootstrapTables();
 
@@ -95,7 +95,7 @@ private:
 
 public:
 
-	void OpenFile(const char* Filename);
+	void OpenFile(std::string Filename);
 
 	void updateVRAM_entries();
 

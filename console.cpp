@@ -249,7 +249,7 @@ void Console::PrintFileSizeWarning(int FileSize)
 void Console::PrintBiosWarning()
 {
   std::cout <<
-      "Modifying your BIOS is dangerous and could cause irreversible damage to your GPU." << std::endl <<
+      "WARNING: Modifying your BIOS is dangerous and could cause irreversible damage to your GPU." << std::endl <<
       "Using a modified BIOS may void your warranty." << std::endl <<
       "The author will not be held accountable for your actions." << std::endl;
 }
@@ -283,8 +283,7 @@ void Console::PrintDefaultAtomVramInfo(ATOM_VRAM_INFO AtomVramInfo, std::vector<
 {
   for (int i = 0; i < AtomVramInfo.ucNumOfVRAMModule; i++)
   {
-    //std::string vramInfo(reinterpret_cast<char*>(AtomVramEntries[i].strMemPNString));
-    std::cout << "[VRAM Info (" << i << "): " << AtomVramEntries[i].strMemPNString << "] ";
+    std::cout << std::endl << "(" << i << ")[VRAM Info: " << AtomVramEntries[i].strMemPNString << "] ";
   }
 }
 
@@ -293,7 +292,6 @@ void Console::PrintDefaultAtomVramTimingEntriesInfo(std::vector<ATOM_VRAM_TIMING
   for (int i = 0; i < AtomVramTimingEntries.size(); i++)
   {
     std::cout << std::endl << "(" << i << ")[ VRAM Timing (MHz): " << AtomVramTimingEntries[i].ulClkRange / 100;
-    //std::string vramTimingInfo(reinterpret_cast<char*>(AtomVramTimingEntries[i].ucLatency));
     std::cout << ", VRAM Timing Info:" << AtomVramTimingEntries[i].ucLatency << "], ";
   }
 }

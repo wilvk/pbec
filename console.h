@@ -25,7 +25,6 @@ public:
 
   static void PrintAtomFanTableInfo(ATOM_FAN_TABLE AtomFanTable);
 
-
 // default
 
   static void PrintDefaultAtomRomHeaderInfo(ATOM_ROM_HEADER AtomRomHeader);

@@ -12,20 +12,20 @@ TEST_SOURCES = testmain.cpp
 COMMON_OBJECTS = $(COMMON_SOURCES:.cpp=.o)
 	TARGET_OBJECTS = $(TARGET_SOURCES:.cpp=.o)
 TEST_OBJECTS = $(TEST_SOURCES:.cpp=.o)
-	EXECUTABLE = pbel
+	EXECUTABLE = pbec
 	TEST_EXECUTABLE = tests
 LIBS = -ldl -lm
 
 .PHONY: all target tests
 
-all: pbel tests
+all: pbec tests
 
-pbel: $(EXECUTABLE)
+pbec: $(EXECUTABLE)
 
 tests: $(TEST_EXECUTABLE)
 
 clean:
-	    rm -f *.o *.d pbel tests
+	    rm -f *.o *.d pbec tests
 
 $(EXECUTABLE): $(COMMON_OBJECTS) $(TARGET_OBJECTS)
 	    $(CC) $(LDFLAGS) $^ -o $@

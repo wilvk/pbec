@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include "appdata.h"
-#include "argparse.hpp"
 
 class CliOptions
 {
@@ -11,6 +10,6 @@ private:
 
 public:
 
-  int ParseCommandLine(ArgumentParser Parser);
+  int ParseCommandLine(int argc, char** argv);
 
 };

@@ -6,7 +6,7 @@
 CC = g++
 CFLAGS = -c -Wall -g -std=c++11
 LDFLAGS = -Wall -std=c++11
-COMMON_SOURCES = console.cpp mainapp.cpp buffer.cpp byteutils.cpp retrievestruct.cpp
+COMMON_SOURCES = console.cpp appdata.cpp buffer.cpp byteutils.cpp retrievestruct.cpp clioptions.cpp
 TARGET_SOURCES = main.cpp
 TEST_SOURCES = testmain.cpp
 COMMON_OBJECTS = $(COMMON_SOURCES:.cpp=.o)

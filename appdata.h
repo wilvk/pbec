@@ -21,7 +21,7 @@
 #include "buffer.h"
 #include "console.h"
 
-class MainApp
+class AppData
 {
 
 private:

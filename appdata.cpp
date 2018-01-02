@@ -1,7 +1,7 @@
-﻿#include "mainapp.h"
+﻿#include "appdata.h"
 
 
-void MainApp::OpenFile(std::string Filename)
+void AppData::OpenFile(std::string Filename)
 {
     retriever = new RetrieveStruct();
     buffer = new Buffer();
@@ -20,7 +20,7 @@ void MainApp::OpenFile(std::string Filename)
     }
 }
 
-void MainApp::getTables()
+void AppData::getTables()
 {
   getBootstrapTables();
   getPowertuneTable();
@@ -33,64 +33,64 @@ void MainApp::getTables()
   getVramTimingEntries();
 }
 
-void MainApp::getBootstrapTables()
+void AppData::getBootstrapTables()
 {
   atom_rom_header = retriever->AtomRomHeader(buffer);
   atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
 }
 
-void MainApp::getPowertuneTable()
+void AppData::getPowertuneTable()
 {
   AtomPowertuneOffset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usPowerTuneTableOffset;
   atom_powertune_table = retriever->AtomPowertuneTable(buffer, AtomPowertuneOffset);
 }
 
-void MainApp::getFanTable()
+void AppData::getFanTable()
 {
   AtomFanTableOffset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usFanTableOffset;
   atom_fan_table = retriever->AtomFanTable(buffer, AtomFanTableOffset);
 }
 
-void MainApp::getSysClockEntries()
+void AppData::getSysClockEntries()
 {
   AtomSysClockEntriesOffset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usSclkDependencyTableOffset;
   atom_sclk_table = retriever->AtomSysClockTable(buffer, AtomSysClockEntriesOffset);
   atom_sclk_entries = retriever->AtomSysClockEntries(buffer, AtomSysClockEntriesOffset, atom_sclk_table.ucNumEntries);
 }
 
-void MainApp::getMemClockEntries()
+void AppData::getMemClockEntries()
 {
   AtomMemClockTableOffset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usMclkDependencyTableOffset;
   atom_mclk_table = retriever->AtomMemClockTable(buffer, AtomMemClockTableOffset);
   atom_mclk_entries = retriever->AtomMemClockEntries(buffer, AtomMemClockTableOffset, atom_mclk_table.ucNumEntries);
 }
 
-void MainApp::getVoltageEntries()
+void AppData::getVoltageEntries()
 {
   atomVoltageTableOffset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usVddcLookupTableOffset;
   atom_vddc_table = retriever->AtomVoltageTable(buffer, atomVoltageTableOffset);
   atom_vddc_entries = retriever->AtomVoltageEntries(buffer, atomVoltageTableOffset, atom_vddc_table.ucNumEntries);
 }
 
-void MainApp::getVramInfo()
+void AppData::getVramInfo()
 {
   atom_vram_info_offset = atom_data_table.VRAM_Info;
   atom_vram_info = retriever->AtomVramInfo(buffer, atom_vram_info_offset);
 }
 
-void MainApp::getVramEntries()
+void AppData::getVramEntries()
 {
   AtomVramEntryOffset = atom_vram_info_offset + sizeof(ATOM_VRAM_INFO);
   atom_vram_entries = retriever->AtomVramEntries(buffer, atom_vram_info.ucNumOfVRAMModule, AtomVramEntryOffset);
 }
 
-void MainApp::getVramTimingEntries()
+void AppData::getVramTimingEntries()
 {
   atom_vram_timing_entries = retriever->AtomVramTimingEntries(buffer, atom_vram_info, atom_vram_info_offset);
 }
 
-void MainApp::printDefaultInfo()
+void AppData::printDefaultInfo()
 {
   Console::PrintDefaultAtomRomHeaderInfo(atom_rom_header);
   Console::PrintDefaultAtomPowerplayTableInfo(atom_powerplay_table);
@@ -103,7 +103,7 @@ void MainApp::printDefaultInfo()
   Console::PrintDefaultAtomVramTimingEntriesInfo(atom_vram_timing_entries);
 }
 
-void MainApp::printDebugInfo()
+void AppData::printDebugInfo()
 {
   Console::PrintAtomRomHeaderInfo(atom_rom_header);
   Console::PrintAtomDataTableInfo(atom_data_table);

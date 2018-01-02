@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "mainapp.h"
+#include "appdata.h"
 #include "structs.h"
 
 // atom rom header

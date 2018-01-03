@@ -304,7 +304,7 @@ void Console::PrintDefaultAtomVramTimingEntriesInfo(std::vector<ATOM_VRAM_TIMING
   for (int i = 0; i < AtomVramTimingEntries.size(); i++)
   {
     DWORD table = AtomVramTimingEntries[i].ulClkRange >> 24;
-    std::cout << std::endl << "(" << i << ")[{Table: " << std::to_string(table) << " , MHz: " << std::to_string((AtomVramTimingEntries[i].ulClkRange & 0x00FFFFFF) / 100);
+    std::cout << std::endl << "(" << std::dec << i << ")[{Table: " << std::to_string(table) << " , MHz: " << std::to_string((AtomVramTimingEntries[i].ulClkRange & 0x00FFFFFF) / 100);
     std::cout << "}, Timing Strap: " << ByteUtils::PrintByteArray(AtomVramTimingEntries[i].ucLatency, 48) << "]";
   }
 }

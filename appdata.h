@@ -32,9 +32,6 @@ private:
 
 	std::vector<WORD> supportedDeviceIDs = {0x67DF, 0x1002};
 
-	bool printDebug = false;
-	bool printInfo = true;
-
 	const int AtomRomChecksumOffset = 0x21;
 
 	int atom_vram_info_offset;
@@ -89,26 +86,11 @@ private:
 
 	void getVramEntries();
 
-	void printDefaultInfo();
-
-	void printDebugInfo();
-
 public:
 
 	void OpenFile(std::string Filename);
 
-	void updateVRAM_entries();
+	void PrintSummary();
 
-	void setBytesAtPosition(std::vector<BYTE> &dest, int ptr, std::vector<BYTE> &src);
-
-	int getValueAtPosition(int bits, int position, bool isFrequency = false);
-
-	bool setValueAtPosition(int value, int bits, int position, bool isFrequency = false);
-
-	void PrintAtomRomHeaderInfo(ATOM_ROM_HEADER atom_rom_header);
-
-	void PrintAtomDataTableInfo(ATOM_DATA_TABLES atom_data_table);
-
-	void PrintAtomPowerplayTableInfo(ATOM_POWERPLAY_TABLE atom_powerplay_table);
-
+	void PrintVerbose();
 };

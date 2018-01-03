@@ -8,16 +8,6 @@ void AppData::OpenFile(std::string Filename)
     buffer->ReadFile(Filename);
 
     getTables();
-
-    if(printInfo)
-    {
-      printDefaultInfo();
-    }
-
-    if(printDebug)
-    {
-      printDebugInfo();
-    }
 }
 
 void AppData::getTables()
@@ -90,7 +80,7 @@ void AppData::getVramTimingEntries()
   atom_vram_timing_entries = retriever->AtomVramTimingEntries(buffer, atom_vram_info, atom_vram_info_offset);
 }
 
-void AppData::printDefaultInfo()
+void AppData::PrintSummary()
 {
   Console::PrintDefaultAtomRomHeaderInfo(atom_rom_header);
   Console::PrintDefaultAtomPowerplayTableInfo(atom_powerplay_table);
@@ -103,7 +93,7 @@ void AppData::printDefaultInfo()
   Console::PrintDefaultAtomVramTimingEntriesInfo(atom_vram_timing_entries);
 }
 
-void AppData::printDebugInfo()
+void AppData::PrintVerbose()
 {
   Console::PrintAtomRomHeaderInfo(atom_rom_header);
   Console::PrintAtomDataTableInfo(atom_data_table);

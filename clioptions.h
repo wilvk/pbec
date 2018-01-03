@@ -11,6 +11,8 @@ private:
 
   CLI::App *app;
 
+  AppData *appData;
+
   bool summary;
   
   bool verbose;
@@ -34,6 +36,10 @@ private:
   std::vector<std::string> copyStrapTo;
 
   void setCliOptions();
+
+  void loadInputFile();
+
+  void printSummary();
 
 public:
 

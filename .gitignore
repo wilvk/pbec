@@ -37,3 +37,6 @@ tests
 
 # Mac
 .DS_Store
+
+# Vim editor files
+*.swp

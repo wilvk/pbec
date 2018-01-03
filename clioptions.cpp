@@ -6,10 +6,27 @@ int CliOptions::ParseCommandLine(int argc, char** argv)
   setCliOptions();
   CLI11_PARSE(*app, argc, argv);
 
-  //AppData *appData = new AppData();
-  //bappData->OpenFile(inputFileName);
+  loadInputFile();
+  printSummary();
 
   return 0;
+}
+
+void CliOptions::loadInputFile()
+{
+  if(!inputFileName.empty())
+  {
+    appData = new AppData();
+    appData->OpenFile(inputFileName);
+  }
+}
+
+void CliOptions::printSummary()
+{
+  if(summary)
+  {
+    appData->PrintSummary();
+  }
 }
 
 void CliOptions::setCliOptions()

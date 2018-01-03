@@ -41,6 +41,7 @@ private:
 
   void printSummary();
 
+  void printVerbose();
 public:
 
   int ParseCommandLine(int argc, char** argv);

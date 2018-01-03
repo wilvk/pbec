@@ -8,6 +8,7 @@ int CliOptions::ParseCommandLine(int argc, char** argv)
 
   loadInputFile();
   printSummary();
+  printVerbose();
 
   return 0;
 }
@@ -29,10 +30,18 @@ void CliOptions::printSummary()
   }
 }
 
+void CliOptions::printVerbose()
+{
+  if(verbose)
+  {
+	  appData->PrintVerbose();
+  }
+}
+
 void CliOptions::setCliOptions()
 {
   app->add_flag("--summary,-u", summary, "Print a summary of the ROM image");
-  app->add_flag("--full,-f", verbose, "Print (relatively) full details of the ROM image");
+  app->add_flag("--full,-f", verbose, "Print verbose details of the ROM image");
   app->add_flag("--sections,-s", printSectionNames, "Print a list of sections that can be printed");
   app->add_flag("--attributes,-t", printAttributeNames, "Print a list of attributes that can be modified");
   app->add_option("--inputFile,-i", inputFileName, "Specifies the input ROM image filename")->expected(1)->check(CLI::ExistingFile);

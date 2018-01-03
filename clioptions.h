@@ -3,6 +3,7 @@
 #include <iostream>
 #include "CLI11.hpp"
 #include "appdata.h"
+#include "console.h"
 
 class CliOptions
 {
@@ -16,16 +17,12 @@ private:
   bool summary;
   
   bool verbose;
-  
-  bool printSectionNames;
-  
-  bool printAttributeNames;
-  
+
+  bool attributes;
+
   std::string inputFileName;
   
   std::string outputFileName;
-  
-  std::string sectionToPrint;
   
   std::string attributeToSet;
   
@@ -42,6 +39,9 @@ private:
   void printSummary();
 
   void printVerbose();
+
+  void printAttributes();
+
 public:
 
   int ParseCommandLine(int argc, char** argv);

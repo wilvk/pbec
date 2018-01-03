@@ -55,4 +55,5 @@ public:
 
   static void PrintDeviceValidation(std::vector<WORD> SupportedDeviceIDs, WORD DeviceId);
 
+  static void PrintAttributes();
 };

@@ -308,3 +308,15 @@ void Console::PrintDefaultAtomVramTimingEntriesInfo(std::vector<ATOM_VRAM_TIMING
     std::cout << "}, Timing Strap: " << ByteUtils::PrintByteArray(AtomVramTimingEntries[i].ucLatency, 48) << "]";
   }
 }
+
+void Console::PrintAttributes()
+{
+  std::cout << "Currently supported values for modification:" << std::endl <<
+   "Powerplay" << std::endl <<
+   "Powertune" << std::endl <<   
+   "Memory Clock" << std::endl <<
+   "System Clock" << std::endl <<
+   "Fan" << std::endl <<
+   "VRAM" << std::endl <<
+   "VRAM Timing Info (timing straps)"; 
+}

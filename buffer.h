@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip>
+#include <iterator>
 
 #include "typedefs.h"
 #include "byteutils.h"

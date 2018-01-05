@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstring>
+
 #include "structs.h"
 #include "buffer.h"
 #include "byteutils.h"

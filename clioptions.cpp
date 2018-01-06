@@ -18,7 +18,7 @@ int CliOptions::ParseCommandLine(int argc, char** argv)
 void CliOptions::printHelp(int argc)
 {
   if(argc == 1)
-  {	  
+  {
     std::cout << app->help();
   }
 
@@ -61,14 +61,21 @@ void CliOptions::setCliOptions()
 {
   CLI::Option* optSummary = app->add_flag("--summary,-s", summary, "Print a summary of the ROM image")->group("File Read")->ignore_case();
   CLI::Option* optFull = app->add_flag("--full,-f", verbose, "Print verbose details of the ROM image")->group("File Read")->ignore_case();
-  CLI::Option* optAttributes = app->add_flag("--attributes,-t", attributes, "Print a list of attributes that can be modified")->group("Information")->ignore_case();
-  CLI::Option* optInputFileName = app->add_option("--inputFile,-i", inputFileName, "Specifies the input ROM image filename")->expected(1)->check(CLI::ExistingFile)->group("File IO")->ignore_case();
-  CLI::Option* optOutputFileName = app->add_option("--outputFile,-o", outputFileName, "Specifies the output ROM image filename")->expected(1)->group("File IO")->ignore_case();
-  CLI::Option* optAttributeToSet = app->add_option("--setAttribute,-a", attributeToSet, "Specify the name of the attribute to set")->expected(1)->group("File Write")->ignore_case();
-  CLI::Option* optNewAttributeValue = app->add_option("--setValue,-v", newAttributeValue, "Specify the value for the attribute specified with -s")->expected(1)->group("File Write")->ignore_case();
-  CLI::Option* optCopyStrapFrom = app->add_option("--copyStrapFrom,-c", copyStrapFrom, "Specify the array number of the timing strap to copy from")->expected(1)->group("File Write")->ignore_case();
-  CLI::Option* optCopyStrapTo = app->add_option("--copyStrapTo,-p", copyStrapTo, "Specify the array number. of the timing strap to copy to specified in -c. Can accept multiple values.")->expected(1)->group("File Write")->ignore_case();
-	 
+  CLI::Option* optAttributes = app->add_flag("--attributes,-t", attributes, "Print a list of attributes that can be modified")
+    ->group("Information")->ignore_case();
+  CLI::Option* optInputFileName = app->add_option("--inputFile,-i", inputFileName, "Specifies the input ROM image filename")->expected(1)
+    ->check(CLI::ExistingFile)->group("File Name(s)")->ignore_case();
+  CLI::Option* optOutputFileName = app->add_option("--outputFile,-o", outputFileName, "Specifies the output ROM image filename")->expected(1)
+    ->group("File Name(s)")->ignore_case();
+  CLI::Option* optAttributeToSet = app->add_option("--setAttribute,-a", attributeToSet, "Specify the name of the attribute to set")->expected(1)
+    ->group("File Write")->ignore_case();
+  CLI::Option* optNewAttributeValue = app->add_option("--setValue,-v", newAttributeValue, "Specify the value for the attribute specified with -s")
+    ->expected(1)->group("File Write")->ignore_case();
+  CLI::Option* optCopyStrapFrom = app->add_option("--copyStrapFrom,-c", copyStrapFrom, "Specify the array number of the timing strap to copy from")
+    ->expected(1)->group("File Write")->ignore_case();
+  CLI::Option* optCopyStrapTo = app->add_option("--copyStrapTo,-p", copyStrapTo, "Specify the array number(s) of the timing strap to copy to.")
+    ->expected(1)->group("File Write")->ignore_case();
+
   optSummary->requires(optInputFileName)->excludes(optOutputFileName);
   optFull->requires(optInputFileName)->excludes(optOutputFileName);
   optAttributes->excludes(optInputFileName)->excludes(optOutputFileName);

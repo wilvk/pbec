@@ -74,7 +74,7 @@ void CliOptions::setCliOptions()
     ->expected(1)->group("File Write")->ignore_case();
   CLI::Option* optCopyStrapFrom = app->add_option("--copyStrapFrom,-c", copyStrapFrom, "Specify the array number of the timing strap to copy from")
     ->expected(1)->group("File Write")->ignore_case();
-  CLI::Option* optCopyStrapTo = app->add_option("--copyStrapTo,-p", copyStrapTo, "Specify the array number(s) of the timing strap to copy to.")
+  CLI::Option* optCopyStrapTo = app->add_option("--copyStrapTo,-p", copyStrapTo, "Specify the array number(s) of the timing strap to copy to")
     ->expected(1)->group("File Write")->ignore_case();
   CLI::Option* optReadArea = app->add_set("-r,--readArea", readArea,
     { "ALL", "HEADER", "DATA", "POWERPLAY", "POWERTUNE", "FAN", "SYSTEM_CLOCK", "MEMORY_CLOCK", "VRAM_INFO", "VRAM_TIMING", "STRINGS" }, "ALL")

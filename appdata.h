@@ -90,7 +90,7 @@ public:
 
 	void OpenFile(std::string Filename);
 
-	void PrintSummary();
+	void PrintSummary(std::string ReadArea);
 
-	void PrintVerbose();
+	void PrintVerbose(std::string ReadArea);
 };

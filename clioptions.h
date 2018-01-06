@@ -32,6 +32,8 @@ private:
   
   std::vector<std::string> copyStrapTo;
 
+  std::string readArea;
+
   void setCliOptions();
 
   void loadInputFile();

@@ -80,24 +80,74 @@ void AppData::getVramTimingEntries()
   atom_vram_timing_entries = retriever->AtomVramTimingEntries(buffer, atom_vram_info, atom_vram_info_offset);
 }
 
-void AppData::PrintSummary()
+void AppData::PrintSummary(std::string ReadArea)
 {
-  Console::PrintDefaultAtomRomHeaderInfo(atom_rom_header);
-  Console::PrintDefaultAtomPowerplayTableInfo(atom_powerplay_table);
-  Console::PrintDefaultAtomPowertuneTableInfo(atom_powertune_table);
-  Console::PrintDefaultAtomFanTableInfo(atom_fan_table);
-  Console::PrintDefaultAtomSysClockEntriesInfo(atom_sclk_table, atom_sclk_entries, atom_vddc_entries);
-  Console::PrintDefaultAtomMemClockEntriesInfo(atom_mclk_table, atom_mclk_entries);
-  Console::PrintDefaultAtomVramInfo(atom_vram_info, atom_vram_entries);
-  Console::PrintDefaultAtomVramEntriesInfo(atom_vram_info, atom_vram_entries);
-  Console::PrintDefaultAtomVramTimingEntriesInfo(atom_vram_timing_entries);
+  if(ReadArea == "ALL" || ReadArea == "HEADER")
+  {
+    Console::PrintDefaultAtomRomHeaderInfo(atom_rom_header);
+  }
+
+  if(ReadArea == "ALL" || ReadArea == "POWERPLAY")
+  {
+    Console::PrintDefaultAtomPowerplayTableInfo(atom_powerplay_table);
+  }
+
+  if(ReadArea == "ALL" || ReadArea == "POWERTUNE")
+  {
+    Console::PrintDefaultAtomPowertuneTableInfo(atom_powertune_table);
+  }
+
+  if(ReadArea == "ALL" || ReadArea == "FAN")
+  {
+    Console::PrintDefaultAtomFanTableInfo(atom_fan_table);
+  }
+
+  if(ReadArea == "ALL" || ReadArea == "SYSTEM_CLOCK")
+  {
+    Console::PrintDefaultAtomSysClockEntriesInfo(atom_sclk_table, atom_sclk_entries, atom_vddc_entries);
+  }
+
+  if(ReadArea == "ALL" || ReadArea == "MEMORY_CLOCK")
+  {
+    Console::PrintDefaultAtomMemClockEntriesInfo(atom_mclk_table, atom_mclk_entries);
+  }
+
+  if(ReadArea == "ALL" || ReadArea == "VRAM_INFO")
+  {
+    Console::PrintDefaultAtomVramInfo(atom_vram_info, atom_vram_entries);
+    Console::PrintDefaultAtomVramEntriesInfo(atom_vram_info, atom_vram_entries);
+  }
+
+  if(ReadArea == "ALL" || ReadArea == "VRAM_TIMING")
+  {
+    Console::PrintDefaultAtomVramTimingEntriesInfo(atom_vram_timing_entries);
+  }
 }
 
-void AppData::PrintVerbose()
+void AppData::PrintVerbose(std::string ReadArea)
 {
-  Console::PrintAtomRomHeaderInfo(atom_rom_header);
-  Console::PrintAtomDataTableInfo(atom_data_table);
-  Console::PrintAtomPowerplayTableInfo(atom_powerplay_table);
-  Console::PrintAtomPowertuneTableInfo(atom_powertune_table);
-  Console::PrintAtomFanTableInfo(atom_fan_table);
+  if(ReadArea == "ALL" || ReadArea == "HEADER")
+  {
+    Console::PrintAtomRomHeaderInfo(atom_rom_header);
+  }
+
+  if(ReadArea == "ALL" || ReadArea == "DATA")
+  {
+    Console::PrintAtomDataTableInfo(atom_data_table);
+  }
+
+  if(ReadArea == "ALL" || ReadArea == "POWERPLAY")
+  {
+    Console::PrintAtomPowerplayTableInfo(atom_powerplay_table);
+  }
+
+  if(ReadArea == "ALL" || ReadArea == "POWERTUNE")
+  {
+    Console::PrintAtomPowertuneTableInfo(atom_powertune_table);
+  }
+
+  if(ReadArea == "ALL" || ReadArea == "FAN")
+  {
+    Console::PrintAtomFanTableInfo(atom_fan_table);
+  }
 }

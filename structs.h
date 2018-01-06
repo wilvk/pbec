@@ -4,6 +4,21 @@
 #include "typedefs.h"
 #pragma pack(push, 1)
 
+enum ROM_STRUCTS : std::int32_t 
+{ 
+  ALL, 
+  HEADER, 
+  DATA, 
+  POWERPLAY, 
+  POWERTUNE, 
+  FAN, 
+  SYSTEM_CLOCK, 
+  MEMORY_CLOCK, 
+  VRAM_INFO, 
+  VRAM_TIMING,
+  STRINGS 
+};
+
 struct ATOM_COMMON_TABLE_HEADER
 {
 	WORD usStructureSize;

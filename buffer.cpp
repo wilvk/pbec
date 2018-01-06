@@ -93,19 +93,19 @@ bool Buffer::SetValueAtPosition(int value, int bits, int position, bool isFreque
 		{
 			case 8:
 			default:
-				FileData[position] = static_cast<unsigned char>(value);
+				FileData[position    ] = static_cast<unsigned char>(value);
 				break;
 			case 16:
-				FileData[position] = static_cast<unsigned char>(value);
+				FileData[position    ] = static_cast<unsigned char>(value);
 				FileData[position + 1] = static_cast<unsigned char>(value >> 8);
 				break;
 			case 24:
-				FileData[position] = static_cast<unsigned char>(value);
+				FileData[position    ] = static_cast<unsigned char>(value);
 				FileData[position + 1] = static_cast<unsigned char>(value >> 8);
 				FileData[position + 2] = static_cast<unsigned char>(value >> 16);
 				break;
 			case 32:
-				FileData[position] = static_cast<unsigned char>(value);
+				FileData[position    ] = static_cast<unsigned char>(value);
 				FileData[position + 1] = static_cast<unsigned char>(value >> 8);
 				FileData[position + 2] = static_cast<unsigned char>(value >> 16);
 				FileData[position + 3] = static_cast<unsigned char>(value >> 24);

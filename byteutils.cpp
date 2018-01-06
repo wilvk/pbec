@@ -15,7 +15,6 @@ std::string ByteUtils::ToHexString(BYTE HexValue)
   return ToHexString(converted);
 }
 
-
 std::string ByteUtils::ToHexString(WORD HexValue)
 {
   DWORD converted = (DWORD)HexValue;
@@ -24,7 +23,7 @@ std::string ByteUtils::ToHexString(WORD HexValue)
 
 std::string ByteUtils::ToHexString(DWORD HexValue)
 {
-  std::ostringstream ss;
+std::ostringstream ss;
   ss << std::showbase << std::internal << std::setfill('0') << std::setw(4) << std::hex << HexValue;
   std::string hexString = ss.str().c_str();
 
@@ -36,7 +35,6 @@ std::string ByteUtils::PrintDecHexString(BYTE HexValue)
   DWORD converted = (DWORD)HexValue;
   return PrintDecHexString(converted);
 }
-
 
 std::string ByteUtils::PrintDecHexString(WORD HexValue)
 {
@@ -57,7 +55,7 @@ std::string ByteUtils::PrintByteArray(BYTE* ByteArray, int ArrayLength)
 {
   std::string returnString;
 
-  for(int i = 0; i < ArrayLength; i++) //TODO: change to const var
+  for(int i = 0; i < ArrayLength; i++)
   {
     std::ostringstream ss;
     ss << std::setfill('0') << std::setw(2) << std::hex << (int)(*ByteArray++);

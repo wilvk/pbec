@@ -42,6 +42,8 @@ private:
 
   void printAttributes();
 
+  void printHelp(int argc);
+
 public:
 
   int ParseCommandLine(int argc, char** argv);

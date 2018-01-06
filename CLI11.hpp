@@ -4,7 +4,7 @@
 // file LICENSE or https://github.com/CLIUtils/CLI11 for details.
 
 // This file was generated using MakeSingleHeader.py in CLI11/scripts
-// from: v1.3.0
+// from: v1.3.0-16-g0243fda
 
 // This has the complete CLI library in one file.
 
@@ -219,6 +219,22 @@ inline std::vector<std::string> split_up(std::string str) {
     }
 
     return output;
+}
+
+/// Add a leader to the beginning of all new lines (nothing is added
+/// at the start of the first line). `"; "` would be for ini files
+///
+/// Can't use Regex, or this would be a subs.
+inline std::string fix_newlines(std::string leader, std::string input) {
+    std::string::size_type n = 0;
+    while(n != std::string::npos && n < input.size()) {
+        n = input.find('\n', n);
+        if(n != std::string::npos) {
+            input = input.substr(0, n + 1) + leader + input.substr(n + 1);
+            n += leader.size();
+        }
+    }
+    return input;
 }
 
 } // namespace detail
@@ -2240,35 +2256,47 @@ class App {
 
     /// Produce a string that could be read in as a config of the current values of the App. Set default_also to include
     /// default arguments. Prefix will add a string to the beginning of each option.
-    std::string config_to_str(bool default_also = false, std::string prefix = "") const {
+    std::string
+    config_to_str(bool default_also = false, std::string prefix = "", bool write_description = false) const {
         std::stringstream out;
         for(const Option_p &opt : options_) {
 
             // Only process option with a long-name and configurable
             if(!opt->lnames_.empty() && opt->get_configurable()) {
                 std::string name = prefix + opt->lnames_[0];
+                std::string value;
 
                 // Non-flags
                 if(opt->get_expected() != 0) {
 
                     // If the option was found on command line
                     if(opt->count() > 0)
-                        out << name << "=" << detail::inijoin(opt->results()) << std::endl;
+                        value = detail::inijoin(opt->results());
 
                     // If the option has a default and is requested by optional argument
                     else if(default_also && !opt->defaultval_.empty())
-                        out << name << "=" << opt->defaultval_ << std::endl;
+                        value = opt->defaultval_;
                     // Flag, one passed
                 } else if(opt->count() == 1) {
-                    out << name << "=true" << std::endl;
+                    value = "true";
 
                     // Flag, multiple passed
                 } else if(opt->count() > 1) {
-                    out << name << "=" << opt->count() << std::endl;
+                    value = std::to_string(opt->count());
 
                     // Flag, not present
                 } else if(opt->count() == 0 && default_also) {
-                    out << name << "=false" << std::endl;
+                    value = "false";
+                }
+
+                if(!value.empty()) {
+                    if(write_description && opt->has_description()) {
+                        if(static_cast<int>(out.tellp()) != 0) {
+                            out << std::endl;
+                        }
+                        out << "; " << detail::fix_newlines("; ", opt->get_description()) << std::endl;
+                    }
+                    out << name << "=" << value << std::endl;
                 }
             }
         }
@@ -2410,6 +2438,9 @@ class App {
 
     /// Get a pointer to the config option.
     Option *get_config_ptr() { return config_ptr_; }
+
+    /// Get the parent of this subcommand (or nullptr if master app)
+    App *get_parent() { return parent_; }
 
     /// Get a pointer to the config option. (const)
     const Option *get_config_ptr() const { return config_ptr_; }

@@ -119,7 +119,7 @@ struct ATOM_POWERPLAY_TABLE
 	WORD usHardLimitTableOffset;
 	WORD usPCIETableOffset;
 	WORD usGPIOTableOffset;
-	WORD usReserved[6];
+	WORD usReserved[POWERPLAY_RESERVED_LENGTH];
 };
 
 struct ATOM_MCLK_ENTRY
@@ -232,7 +232,7 @@ struct ATOM_POWERTUNE_TABLE
 struct ATOM_VRAM_TIMING_ENTRY
 {
 	DWORD ulClkRange;
-	BYTE ucLatency[48];
+	BYTE ucLatency[VRAM_TIMING_LATENCY_LENGTH];
 };
 
 struct ATOM_VRAM_ENTRY
@@ -262,7 +262,7 @@ struct ATOM_VRAM_ENTRY
 	DWORD ulChannelMapCfg1;
 	DWORD ulBankMapCfg;
 	DWORD ulReserved;
-	BYTE strMemPNString[20];
+	BYTE strMemPNString[VRAM_ENTRY_MEM_PN_LENGTH];
 };
 
 struct ATOM_VRAM_INFO

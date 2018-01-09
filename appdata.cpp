@@ -169,8 +169,8 @@ void AppData::SetTimingStraps(int From, std::vector<int> To)
   for(std::vector<int>::iterator it = To.begin(); it != To.end(); it++)
   {
     std::cout << std::endl << "Copying strap to array item #" << *it;
-    std::cout << std::endl << "Value Before: " << ByteUtils::PrintByteArray(atom_vram_timing_entries.at(*it).ucLatency, 48);
-    *atom_vram_timing_entries.at(*it).ucLatency = *fromStrap;
-    std::cout << std::endl << "Value After: " << ByteUtils::PrintByteArray(atom_vram_timing_entries.at(*it).ucLatency, 48);
+    std::cout << std::endl << "Value Before: " << ByteUtils::PrintByteArray(atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH);
+    memcpy( atom_vram_timing_entries.at(*it).ucLatency, fromStrap, VRAM_TIMING_LATENCY_LENGTH);
+    std::cout << std::endl << "Value After: " << ByteUtils::PrintByteArray(atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH);
   }
 }

@@ -93,4 +93,6 @@ public:
 	void PrintSummary(std::string ReadArea);
 
 	void PrintVerbose(std::string ReadArea);
+
+    void SetTimingStraps(int From, std::vector<int> To);
 };

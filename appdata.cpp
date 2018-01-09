@@ -151,3 +151,26 @@ void AppData::PrintVerbose(std::string ReadArea)
     Console::PrintAtomFanTableInfo(atom_fan_table);
   }
 }
+
+void AppData::SetTimingStraps(int From, std::vector<int> To)
+{
+  BYTE* fromStrap;
+  fromStrap = atom_vram_timing_entries.at(From).ucLatency;
+
+  std::cout << std::endl << "Copying strap from array item #" << From;
+  std::cout << std::endl << "With value: " << ByteUtils::PrintByteArray(fromStrap, 48);
+
+  if(From >= To.size())
+  {
+    std::cout << std::endl << "Error: strap to copy from is larger than strap array. " << "From: " << From << " Array Size: " << To.size();
+	return;
+  }
+
+  for(std::vector<int>::iterator it = To.begin(); it != To.end(); it++)
+  {
+    std::cout << std::endl << "Copying strap to array item #" << *it;
+    std::cout << std::endl << "Value Before: " << ByteUtils::PrintByteArray(atom_vram_timing_entries.at(*it).ucLatency, 48);
+    *atom_vram_timing_entries.at(*it).ucLatency = *fromStrap;
+    std::cout << std::endl << "Value After: " << ByteUtils::PrintByteArray(atom_vram_timing_entries.at(*it).ucLatency, 48);
+  }
+}

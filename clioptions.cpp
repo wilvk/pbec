@@ -13,6 +13,8 @@ int CliOptions::ParseCommandLine(int argc, char** argv)
   printSummary();
   printVerbose();
 
+  writeTimingStraps();
+
   return 0;
 }
 
@@ -22,7 +24,6 @@ void CliOptions::printHelp(int argc)
   {
     std::cout << app->help();
   }
-
 }
 
 void CliOptions::loadInputFile()
@@ -52,10 +53,18 @@ void CliOptions::printVerbose()
 
 void CliOptions::printAttributes()
 {
-	if(attributes)
-	{
-	  Console::PrintAttributes();
-	}
+  if(attributes)
+  {
+    Console::PrintAttributes();
+  }
+}
+
+void CliOptions::writeTimingStraps()
+{
+  if(copyStrapTo.size() > 0)
+  {
+    appData->SetTimingStraps(copyStrapFrom, copyStrapTo);
+  }
 }
 
 void CliOptions::setCliOptions()
@@ -75,7 +84,7 @@ void CliOptions::setCliOptions()
   CLI::Option* optCopyStrapFrom = app->add_option("--copyStrapFrom,-c", copyStrapFrom, "Specify the array number of the timing strap to copy from")
     ->expected(1)->group("File Write")->ignore_case();
   CLI::Option* optCopyStrapTo = app->add_option("--copyStrapTo,-p", copyStrapTo, "Specify the array number(s) of the timing strap to copy to")
-    ->expected(1)->group("File Write")->ignore_case();
+    ->group("File Write")->ignore_case();
   CLI::Option* optReadArea = app->add_set("-r,--readArea", readArea,
     { "ALL", "HEADER", "DATA", "POWERPLAY", "POWERTUNE", "FAN", "SYSTEM_CLOCK", "MEMORY_CLOCK", "VRAM_INFO", "VRAM_TIMING", "STRINGS" }, "ALL")
     ->group("File Read");

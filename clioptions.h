@@ -28,9 +28,9 @@ private:
   
   std::string newAttributeValue;
   
-  std::string copyStrapFrom;
+  int copyStrapFrom;
   
-  std::vector<std::string> copyStrapTo;
+  std::vector<int> copyStrapTo;
 
   std::string readArea;
 
@@ -45,6 +45,8 @@ private:
   void printAttributes();
 
   void printHelp(int argc);
+
+  void writeTimingStraps();
 
 public:
 

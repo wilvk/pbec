@@ -65,7 +65,7 @@ void CliOptions::writeTimingStraps()
   {
     appData->SetTimingStraps(copyStrapFrom, copyStrapTo);
 	appData->WriteTimingStrapsToBuffer();
-	appData->WriteTimingStrapsToFile(outputFileName);
+	appData->WriteBufferToFile(outputFileName);
   }
 }
 

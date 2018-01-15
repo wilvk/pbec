@@ -38,7 +38,7 @@ void AppData::getPowertuneTable()
 
 void AppData::getFanTable()
 {
-  AtomFanTableOffset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usFanTableOffset;
+AtomFanTableOffset = atom_data_table.PowerPlayInfo + atom_powerplay_table.usFanTableOffset;
   atom_fan_table = retriever->AtomFanTable(buffer, AtomFanTableOffset);
 }
 
@@ -177,10 +177,20 @@ void AppData::SetTimingStraps(int From, std::vector<int> To)
 
 void AppData::WriteTimingStrapsToBuffer()
 {
+  for(std::vector<ATOM_VRAM_TIMING_ENTRY>::iterator it = atom_vram_timing_entries.begin(); it != atom_vram_timing_entries.end(); it++)
+  {
+    BYTE tempArray = *it->ucLatency;
+    std::cout << std::endl << "Writing value: " << ByteUtils::PrintByteArray(&tempArray, VRAM_TIMING_LATENCY_LENGTH);
+    for(int i = 0; i < VRAM_TIMING_LATENCY_LENGTH; i++)
+	{
+		BYTE tempByte = (BYTE)(tempArray + i);
+		std::cout << std::endl << "Temp val: " << tempByte;
+	}	
+  } 
 
 }
 
-void AppData::WriteTimingStrapsToFile(std::string FileName)
+void AppData::WriteBufferToFile(std::string FileName)
 {
 
 }

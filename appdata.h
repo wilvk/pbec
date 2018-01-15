@@ -99,5 +99,5 @@ public:
 	
 	void WriteTimingStrapsToBuffer();
 
-	void WriteTimingStrapsToFile(std::string FileName);
+	void WriteBufferToFile(std::string FileName);
 };

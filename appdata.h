@@ -86,6 +86,7 @@ private:
 
 	void getVramEntries();
 
+
 public:
 
 	void OpenFile(std::string Filename);
@@ -95,4 +96,8 @@ public:
 	void PrintVerbose(std::string ReadArea);
 
     void SetTimingStraps(int From, std::vector<int> To);
+	
+	void WriteTimingStrapsToBuffer();
+
+	void WriteTimingStrapsToFile(std::string FileName);
 };

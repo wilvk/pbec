@@ -158,7 +158,7 @@ void AppData::SetTimingStraps(int From, std::vector<int> To)
   fromStrap = atom_vram_timing_entries.at(From).ucLatency;
 
   std::cout << std::endl << "Copying strap from array item #" << From;
-  std::cout << std::endl << "With value: " << ByteUtils::PrintByteArray(fromStrap, 48);
+  std::cout << std::endl << "With value:   " << ByteUtils::PrintByteArray(fromStrap, 48);
 
   if(From >= To.size())
   {
@@ -170,7 +170,17 @@ void AppData::SetTimingStraps(int From, std::vector<int> To)
   {
     std::cout << std::endl << "Copying strap to array item #" << *it;
     std::cout << std::endl << "Value Before: " << ByteUtils::PrintByteArray(atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH);
-    memcpy( atom_vram_timing_entries.at(*it).ucLatency, fromStrap, VRAM_TIMING_LATENCY_LENGTH);
-    std::cout << std::endl << "Value After: " << ByteUtils::PrintByteArray(atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH);
+    memcpy( atom_vram_timing_entries.at(*it).ucLatency, fromStrap, VRAM_TIMING_LATENCY_LENGTH * sizeof(BYTE) );
+    std::cout << std::endl << "Value After:  " << ByteUtils::PrintByteArray(atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH);
   }
+}
+
+void AppData::WriteTimingStrapsToBuffer()
+{
+
+}
+
+void AppData::WriteTimingStrapsToFile(std::string FileName)
+{
+
 }

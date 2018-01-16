@@ -19,6 +19,13 @@ std::vector<BYTE> Buffer::ReadFile(std::string Filename)
    return vec;
 }
 
+void Buffer::WriteFile(std::string FileName)
+{
+	std::ofstream outFile(FileName, std::ios::out | std::ios::binary); 
+    outFile.write(reinterpret_cast<const char*>(&FileData[0]), FileData.size() * sizeof(BYTE));
+    outFile.close();	
+}
+
 std::vector<BYTE> Buffer::GetSubset(int &Offset)
 {
     std::vector<BYTE> subset(FileData.begin() + Offset, FileData.end());

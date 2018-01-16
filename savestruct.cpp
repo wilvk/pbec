@@ -20,10 +20,12 @@ void SaveStruct::SaveTimingStraps(Buffer *BufferPtr, std::vector<ATOM_VRAM_TIMIN
   {
     std::vector<BYTE> tempArray = toBytes<ATOM_VRAM_TIMING_ENTRY>(*it);
 
-    for(std::vector<BYTE>::iterator byteIt = tempArray.begin(); byteIt != tempArray.end(); byteIt++)
+	int i = 0;
+    for(std::vector<BYTE>::iterator byteIt = tempArray.begin(); byteIt != tempArray.end(); byteIt++, i++)
 	{
 		std::cout << "< " << (int)*byteIt << " >";
-        BufferPtr->SetValueAtPosition((int)*byteIt, 8, absolutePosition++, false); 
-	}	
+        BufferPtr->SetValueAtPosition((int)*byteIt, 8, absolutePosition + i, false); 
+	}
+	absolutePosition += sizeof(ATOM_VRAM_TIMING_ENTRY);
   } 
 }

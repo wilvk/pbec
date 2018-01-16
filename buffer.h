@@ -23,6 +23,8 @@ public:
 
   std::vector<BYTE> ReadFile(std::string Filename);
 
+  void WriteFile(std::string FileName);
+
   std::vector<BYTE> GetSubset(int &Offset);
 
   void SetBufferPosition(int NewPosition);

@@ -45,5 +45,5 @@ public:
 
 	std::vector<ATOM_VRAM_ENTRY> AtomVramEntries(Buffer* Buffer, int NumVramTableEntries, int& AtomVramEntryOffset);
 
-	std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries(Buffer* Buffer, ATOM_VRAM_INFO AtomVramInfo, int AtomVramInfoOffset);
+	std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries(Buffer* Buffer, int AtomVramTimingOffset);
 };

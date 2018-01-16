@@ -77,7 +77,8 @@ void AppData::getVramEntries()
 
 void AppData::getVramTimingEntries()
 {
-  atom_vram_timing_entries = retriever->AtomVramTimingEntries(buffer, atom_vram_info, atom_vram_info_offset);
+  AtomVramTimingOffset = atom_vram_info_offset + atom_vram_info.usMemClkPatchTblOffset + 0x2E;
+  atom_vram_timing_entries = retriever->AtomVramTimingEntries(buffer, AtomVramTimingOffset);
 }
 
 void AppData::PrintSummary(std::string ReadArea)
@@ -177,20 +178,12 @@ void AppData::SetTimingStraps(int From, std::vector<int> To)
 
 void AppData::WriteTimingStrapsToBuffer()
 {
-  for(std::vector<ATOM_VRAM_TIMING_ENTRY>::iterator it = atom_vram_timing_entries.begin(); it != atom_vram_timing_entries.end(); it++)
-  {
-    BYTE tempArray = *it->ucLatency;
-    std::cout << std::endl << "Writing value: " << ByteUtils::PrintByteArray(&tempArray, VRAM_TIMING_LATENCY_LENGTH);
-    for(int i = 0; i < VRAM_TIMING_LATENCY_LENGTH; i++)
-	{
-		BYTE tempByte = (BYTE)(tempArray + i);
-		std::cout << std::endl << "Temp val: " << tempByte;
-	}	
-  } 
-
+  SaveStruct::SaveTimingStraps(buffer, atom_vram_timing_entries, AtomVramTimingOffset);
 }
 
 void AppData::WriteBufferToFile(std::string FileName)
 {
+  
+
 
 }

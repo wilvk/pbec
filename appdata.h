@@ -17,6 +17,7 @@
 #include "byteutils.h"
 #include "structs.h"
 #include "retrievestruct.h"
+#include "savestruct.h"
 #include "exceptionhelper.h"
 #include "buffer.h"
 #include "console.h"
@@ -42,6 +43,7 @@ private:
 	int AtomMemClockTableOffset;
 	int atomVoltageTableOffset;
 	int AtomVramEntryOffset;
+    int AtomVramTimingOffset;
 
 	ATOM_ROM_HEADER atom_rom_header;
 	ATOM_DATA_TABLES atom_data_table;
@@ -85,7 +87,6 @@ private:
 	void getVramTimingEntries();
 
 	void getVramEntries();
-
 
 public:
 

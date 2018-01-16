@@ -156,11 +156,10 @@ std::vector<ATOM_VRAM_ENTRY> RetrieveStruct::AtomVramEntries(Buffer* Buffer, int
   return atom_vram_entries;
 }
 
-std::vector<ATOM_VRAM_TIMING_ENTRY> RetrieveStruct::AtomVramTimingEntries(Buffer* Buffer, ATOM_VRAM_INFO AtomVramInfo, int AtomVramInfoOffset)
+std::vector<ATOM_VRAM_TIMING_ENTRY> RetrieveStruct::AtomVramTimingEntries(Buffer* Buffer, int AtomVramTimingOffset)
 {
   std::vector<BYTE> bufferSubset;
 
-  int AtomVramTimingOffset = AtomVramInfoOffset + AtomVramInfo.usMemClkPatchTblOffset + 0x2E;
   std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries = std::vector<ATOM_VRAM_TIMING_ENTRY>(MAX_VRAM_ENTRIES);
 
   for (int i = 0; i < MAX_VRAM_ENTRIES; i++)

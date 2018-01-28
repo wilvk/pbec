@@ -14,13 +14,19 @@ or
 
 ### Viewing ROM details:
 
-#### Show all info in summary:
+#### Print all info in summary:
 
 `./pbec -i test.rom -s -r ALL`
 
-#### Show all info in full (decimal and hex where relevant):
+#### Print only timing strap info:
+
+`./pbec -i test.rom -s -r VRAM_TIMING`
+
+#### Print all info in full (decimal and hex where relevant):
 
 `./pbec -i test.rom -f -r ALL`
+
+
 
 ### Timing Straps
 

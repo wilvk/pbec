@@ -88,11 +88,11 @@ void CliOptions::setCliOptions()
   CLI::Option* optCopyStrapTo = app->add_option("--copyStrapTo,-p", copyStrapTo, "Specify the array number(s) of the timing strap to copy to")
     ->group("File Write")->ignore_case();
   CLI::Option* optReadArea = app->add_set("-r,--readArea", readArea,
-    { "ALL", "HEADER", "DATA", "POWERPLAY", "POWERTUNE", "FAN", "SYSTEM_CLOCK", "MEMORY_CLOCK", "VRAM_INFO", "VRAM_TIMING", "STRINGS" }, "ALL")
+    { "ALL", "HEADER", "DATA", "POWERPLAY", "POWERTUNE", "FAN", "SYSTEM_CLOCK", "MEMORY_CLOCK", "VRAM_INFO", "VRAM_TIMING", "STRINGS" }, "", "ALL")
     ->group("File Read");
 
-  optSummary->requires(optInputFileName)->excludes(optOutputFileName)->requires(optReadArea);
-  optFull->requires(optInputFileName)->excludes(optOutputFileName)->requires(optReadArea);
+  optSummary->requires(optInputFileName)->excludes(optOutputFileName);
+  optFull->requires(optInputFileName)->excludes(optOutputFileName);
   optAttributes->excludes(optInputFileName)->excludes(optOutputFileName);
   optAttributeToSet->requires(optInputFileName)->requires(optOutputFileName)->requires(optNewAttributeValue);
   optNewAttributeValue->requires(optInputFileName)->requires(optOutputFileName)->requires(optAttributeToSet);

@@ -14,11 +14,11 @@ or
 
 ### Viewing ROM details:
 
-## Show all info in summary:
+#### Show all info in summary:
 
 `./pbec -i test.rom -s -r ALL`
 
-## Show all info in full (decimal and hex where relevant):
+#### Show all info in full (decimal and hex where relevant):
 
 `./pbec -i test.rom -f -r ALL`
 

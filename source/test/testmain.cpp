@@ -6,11 +6,13 @@
 
 // atom rom header
 
+const char* TEST_ROM_PATH = "support/test.rom";
+
 TEST_CASE( "Vendor is valid", "[VendorId]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   std::vector<BYTE> bufferSubset;
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
 
@@ -21,7 +23,7 @@ TEST_CASE( "Device Id is correct", "[DeviceId]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
 
 	REQUIRE( atom_rom_header.usDeviceID == 0x67DF );
@@ -31,7 +33,7 @@ TEST_CASE( "Subsystem Id is correct", "[SubsystemId]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
 
   REQUIRE( atom_rom_header.usSubsystemID == 0x3418 );
@@ -41,7 +43,7 @@ TEST_CASE( "Subsystem Vendor Id is correct", "[SubsystemVendorId]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
 
   REQUIRE( atom_rom_header.usSubsystemVendorID == 0x1462 );
@@ -51,7 +53,7 @@ TEST_CASE( "Firmware Signature is correct", "[SubsystemVendorId]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
 
   REQUIRE( atom_rom_header.uaFirmWareSignature == 0x4D4F5441 );
@@ -63,7 +65,7 @@ TEST_CASE( "Max GPU Freq. (x10 Hz):", "[ulMaxODEngineClock]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -75,7 +77,7 @@ TEST_CASE( "Max Memory Freq.:", "[ulMaxODMemoryClock]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -87,7 +89,7 @@ TEST_CASE( "Power Control Limit (%):", "[usPowerControlLimit]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -101,7 +103,7 @@ TEST_CASE( "TDP (W):", "[usTDP]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -114,7 +116,7 @@ TEST_CASE( "TDC (A):", "[usTDC]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -127,7 +129,7 @@ TEST_CASE( "Max Power Limit (W):", "[usMaximumPowerDeliveryLimit]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -140,7 +142,7 @@ TEST_CASE( "Max Temp. (C):", "[usTjMax]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -153,7 +155,7 @@ TEST_CASE( "Shutdown Temp. (C):", "[usSoftwareShutdownTemp]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -166,7 +168,7 @@ TEST_CASE( "Hotspot Temp. (C):", "[usTemperatureLimitHotspot]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -181,7 +183,7 @@ TEST_CASE( "Temp. Hysteresis:", "[ucTHyst]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -195,7 +197,7 @@ TEST_CASE( "Min Temp. (C * 100)", "[usTMin]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -209,7 +211,7 @@ TEST_CASE( "Med Temp. (C * 100):", "[usTMed]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -223,7 +225,7 @@ TEST_CASE( "High Temp. (C * 100):", "[usTHigh]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -237,7 +239,7 @@ TEST_CASE( "Max Temp. (C * 100):", "[usTMax]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -251,7 +253,7 @@ TEST_CASE( "Min PWM (% * 100):", "[usPWMMin]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -265,7 +267,7 @@ TEST_CASE( "Med PWM (% * 100):", "[usPWMMed]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -279,7 +281,7 @@ TEST_CASE( "High PWM (% * 100):", "[usPWMHigh]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -293,7 +295,7 @@ TEST_CASE( "Max PWM (%):", "[usFanPWMMax]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -307,7 +309,7 @@ TEST_CASE( "Max RPM:", "[usFanRPMMax]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -321,7 +323,7 @@ TEST_CASE( "Sensitivity:", "[usFanOutputSensitivity]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);
@@ -335,7 +337,7 @@ TEST_CASE( "Acoustic Limit (MHz * 100):", "[ulMinFanSCLKAcousticLimit]" )
 {
   Buffer *buffer = new Buffer();
   RetrieveStruct* retriever = new RetrieveStruct();
-  buffer->ReadFile("test.rom");
+  buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
   ATOM_DATA_TABLES atom_data_table = retriever->AtomDataTables(buffer, atom_rom_header.usMasterDataTableOffset);
   ATOM_POWERPLAY_TABLE atom_powerplay_table = retriever->AtomPowerplayTable(buffer, atom_data_table.PowerPlayInfo);

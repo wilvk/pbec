@@ -16,23 +16,23 @@ or
 
 #### Print all info in summary:
 
-`./pbec -i test.rom -s -r ALL`
+`./pbec -i support/test.rom -s -r ALL`
 
 #### Print only timing strap info:
 
-`./pbec -i test.rom -s -r VRAM_TIMING`
+`./pbec -i support/test.rom -s -r VRAM_TIMING`
 
 #### Print all info in full (decimal and hex where relevant):
 
-`./pbec -i test.rom -f -r ALL`
+`./pbec -i support/test.rom -f -r ALL`
 
 
 
 ### Timing Straps
 
-Copying timing straps from array 0 to arrays 1, 2, 3 from test.rom to test2.rom:
+Copying timing straps from array 0 to arrays 1, 2, 3 from support/test.rom to test2.rom:
 
-`./pbec -i test.rom -c 0 -p 1 2 3 -o test2.rom`
+`./pbec -i support/test.rom -c 0 -p 1 2 3 -o test2.rom`
 
 ## Building:
 

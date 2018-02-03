@@ -3,36 +3,51 @@
 # Willem van Ketwich
 ###
 
-CC = g++
-CFLAGS = -c -Wall -g -std=c++11
+CXX = g++
+CXXFLAGS = -c -Wall -g -std=c++11
 LDFLAGS = -Wall -std=c++11
-COMMON_SOURCES = console.cpp appdata.cpp buffer.cpp byteutils.cpp retrievestruct.cpp clioptions.cpp savestruct.cpp
+SRC_DIR = ./source
+OBJ_DIR = ./obj
+INCLUDES_PATH = ./includes
+EXTERNAL_INCLUDES_PATH = $(INCLUDES_PATH)/external
 
-TARGET_SOURCES = main.cpp
-TEST_SOURCES = testmain.cpp
+COMMON_SOURCES = $(wildcard $(SRC_DIR)/common/*.cpp)
+
+MAIN_SOURCES = $(wildcard $(SRC_DIR)/main/*.cpp)
+TEST_SOURCES = $(wildcard $(SRC_DIR)/test/*.cpp)
+
+OBJ_FILES_COMMON = $(patsubst $(SRC_DIR)/common/%.cpp,$(OBJ_DIR)/%.o,$(COMMON_SOURCES))
+OBJ_FILES_MAIN = $(patsubst $(SRC_DIR)/main/%.cpp,$(OBJ_DIR)/%.o,$(MAIN_SOURCES))
+OBJ_FILES_TEST = $(patsubst $(SRC_DIR)/test/%.cpp,$(OBJ_DIR)/%.o,$(TEST_SOURCES))
+
 COMMON_OBJECTS = $(COMMON_SOURCES:.cpp=.o)
-	TARGET_OBJECTS = $(TARGET_SOURCES:.cpp=.o)
+TARGET_OBJECTS = $(MAIN_SOURCES:.cpp=.o)
+
 TEST_OBJECTS = $(TEST_SOURCES:.cpp=.o)
-	EXECUTABLE = pbec
-	TEST_EXECUTABLE = tests
+EXECUTABLE = pbec
+TEST_EXECUTABLE = tests
 LIBS = -ldl -lm
 
-.PHONY: all target tests
+.PHONY: all target $(TEST_EXECUTABLE)
 
-all: pbec tests
+all: $(EXECUTABLE) $(TEST_EXECUTABLE)
 
 pbec: $(EXECUTABLE)
 
 tests: $(TEST_EXECUTABLE)
 
 clean:
-	    rm -f *.o *.d pbec tests
+	    find . -name '*.o' -type f -delete; \
+		rm pbec tests
 
 $(EXECUTABLE): $(COMMON_OBJECTS) $(TARGET_OBJECTS)
-	    $(CC) $(LDFLAGS) $^ -o $@
+	    $(CXX) $(LDFLAGS) $^ -o $@ -I$(INCLUDES_PATH) -I$(EXTERNAL_INCLUDES_PATH)
+
+$(OBJ_DIR)/%.o: 
 
 $(TEST_EXECUTABLE): $(COMMON_OBJECTS) $(TEST_OBJECTS)
-	    $(CC) $(LDFLAGS) $^ -o $@
+	    $(CXX) $(LDFLAGS) $^ -o $@ -I$(INCLUDES_PATH) -I$(EXTERNAL_INCLUDES_PATH)
 
 .cpp.o:
-	    $(CC) $(CFLAGS) $< -o $@
+	    $(CXX) $(CXXFLAGS) $< -o $@ -I$(INCLUDES_PATH) -I$(EXTERNAL_INCLUDES_PATH)
+

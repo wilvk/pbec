@@ -17,5 +17,5 @@ void SaveStruct::SaveTimingStraps(Buffer *BufferPtr, std::vector<ATOM_VRAM_TIMIN
   for(std::vector<ATOM_VRAM_TIMING_ENTRY>::iterator it = AtomVramTimingEntries.begin(); it != AtomVramTimingEntries.end(); it++)
   {
     std::vector<BYTE> tempArray = toBytes<ATOM_VRAM_TIMING_ENTRY>(*it);
-  } 
+  }
 }

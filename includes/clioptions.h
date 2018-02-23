@@ -10,46 +10,29 @@ class CliOptions
 
 private:
 
-  CLI::App *app;
+    CLI::App *app;
+    AppData *appData;
+    bool summary;
+    bool verbose;
+    bool attributes;
+    std::string inputFileName;
+    std::string outputFileName;
+    std::string attributeToSet;
+    std::string newAttributeValue;
+    int copyStrapFrom;
+    std::vector<int> copyStrapTo;
+    std::string readArea;
 
-  AppData *appData;
-
-  bool summary;
-  
-  bool verbose;
-
-  bool attributes;
-
-  std::string inputFileName;
-  
-  std::string outputFileName;
-  
-  std::string attributeToSet;
-  
-  std::string newAttributeValue;
-  
-  int copyStrapFrom;
-  
-  std::vector<int> copyStrapTo;
-
-  std::string readArea;
-
-  void setCliOptions();
-
-  void loadInputFile();
-
-  void printSummary();
-
-  void printVerbose();
-
-  void printAttributes();
-
-  void printHelp(int argc);
-
-  void writeTimingStraps();
+    void setCliOptions();
+    void loadInputFile();
+    void printSummary();
+    void printVerbose();
+    void printAttributes();
+    void printHelp(int argc);
+    void writeTimingStraps();
 
 public:
 
-  int ParseCommandLine(int argc, char** argv);
+    int ParseCommandLine(int argc, char** argv);
 
 };

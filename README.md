@@ -1,6 +1,9 @@
 # Polaris Bios Editor for the console (Linux/MacOS/Windows, etc.)
 
 ---
+*WARNING: Running a modified BIOS will most likely void your GPU warranty and could potentially destroy your GPU. 
+By using this software you agree to full responsibility for any results to your hardware.*
+---
 
 ## Common commands:
 

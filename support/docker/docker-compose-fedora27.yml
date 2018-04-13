@@ -1,9 +1,9 @@
 version: "3"
 services:
-  ubuntu1604:
+  fedora27:
     build:
       context: .
-      dockerfile: Dockerfile-ubuntu1604
+      dockerfile: Dockerfile-fedora27
     volumes:
       - ../..:/work
     working_dir: /work

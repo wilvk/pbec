@@ -37,11 +37,18 @@ pbec: $(EXECUTABLE)
 tests: $(TEST_EXECUTABLE)
 
 clean:
-	    find . -name '*.o' -type f -delete; \
-		rm pbec tests
+		find . -name '*.o' -type f -delete; \
+		rm pbec tests || true
 
 dockerbuild-ubuntu1604:
-	    docker-compose -f support/docker/docker-compose-ubuntu1604.yml run ubuntu1604 bash -c "make && ./tests"
+		make clean
+		docker-compose -f support/docker/docker-compose-ubuntu1604.yml build
+		docker-compose -f support/docker/docker-compose-ubuntu1604.yml run ubuntu1604 bash -c "make && ./tests"
+
+dockerbuild-fedora27:
+		make clean
+		docker-compose -f support/docker/docker-compose-fedora27.yml build
+		docker-compose -f support/docker/docker-compose-fedora27.yml run fedora27 bash -c "make && ./tests"
 
 $(EXECUTABLE): $(COMMON_OBJECTS) $(TARGET_OBJECTS)
 	    $(CXX) $(LDFLAGS) $^ -o $@ -I$(INCLUDES_PATH) -I$(EXTERNAL_INCLUDES_PATH)

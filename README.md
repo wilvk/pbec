@@ -71,13 +71,13 @@ Install the gcc compiler tools:
 
 ---
 
-### To build and run tests under different Linux flavours:
+### To build and run tests under different Linux flavours using Docker:
 
-#### Ubuntu 1604 in Docker:
+#### Ubuntu 16.04:
 
 `make dockerbuild-ubuntu1604`
 
-#### Fedora 27
+#### Fedora 27:
 
 `make dockerbuild-fedora27`
 

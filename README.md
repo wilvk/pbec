@@ -71,11 +71,17 @@ Install the gcc compiler tools:
 
 ---
 
-### To build and run tests for Ubuntu 1604 in Docker:
+### To build and run tests under different Linux flavours:
+
+#### Ubuntu 1604 in Docker:
 
 `make dockerbuild-ubuntu1604`
 
-This will make the binaries in your host as it uses a mounted volume to the source.
+#### Fedora 27
+
+`make dockerbuild-fedora27`
+
+This will make the binaries in your host as it uses a mounted volume to the source directory.
 
 ## Other details:
 

@@ -49,7 +49,7 @@ Install the gcc compiler tools:
 
 #### Ubuntu
 
-`apt-get install gcc`
+`apt-get -y install gcc make g++ libboost-dev`
 
 
 #### Centos
@@ -70,6 +70,12 @@ Install the gcc compiler tools:
 `./tests`
 
 ---
+
+### To build and run tests for Ubuntu 1604 in Docker:
+
+`make dockerbuild-ubuntu1604`
+
+This will make the binaries in your host as it uses a mounted volume to the source.
 
 ## Other details:
 

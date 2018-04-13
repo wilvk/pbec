@@ -1,0 +1,9 @@
+version: "3"
+services:
+  ubuntu1604:
+    build:
+      context: .
+      dockerfile: Dockerfile-ubuntu-1604
+    volumes:
+      - ../..:/work
+    working_dir: /work

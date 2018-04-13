@@ -1,7 +1,7 @@
 #pragma once
 
 #include<vector>
-
+#include<cstring>
 #include "structs.h"
 #include "typedefs.h"
 #include "buffer.h"

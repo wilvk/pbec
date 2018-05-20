@@ -1,4 +1,5 @@
 #include "console.h"
+#include "typedefs.h"
 
 void Console::PrintAtomRomHeaderInfo(ATOM_ROM_HEADER AtomRomHeader)
 {
@@ -238,7 +239,7 @@ void Console::PrintDeviceValidation(std::vector<WORD> SupportedDeviceIDs, WORD D
 
 void Console::PrintFileSizeWarning(int FileSize)
 {
-  if (FileSize < 524288)
+  if (FileSize < EXPECTED_FILE_SIZE_BYTES)
   {
       std::cout << std::endl << std::endl <<
           "WARNING: This BIOS is less than the standard 512KB size." << std::endl <<
@@ -311,100 +312,34 @@ void Console::PrintDefaultAtomVramTimingEntriesInfo(std::vector<ATOM_VRAM_TIMING
 
 void Console::PrintAttributes()
 {
-  std::cout << "Currently supported areas for modification:" << std::endl <<
-    "\tHEADER" << std::endl <<
-	"\tDATA" << std::endl <<
-	"\tPOWERPLAY" << std::endl <<
-	"\tPOWERTUNE" << std::endl <<
-	"\tFAN" << std::endl <<
-	"\tSYSTEM_CLOCK" << std::endl <<
-	"\tMEMORY_CLOCK" << std::endl <<
-	"\tVRAM_INFO" << std::endl <<
-	"\tVRAM_TIMING" << std::endl <<
-	"\tSTRINGS";
-  std::cout << std::endl << "Currently supported attributes for modification by area:" << std::endl <<
-    "\tHEADER:" << std::endl <<
-	"\t\tHEADER.uaFirmWareSignature" << std::endl <<
-	"\t\tHEADER.usBiosRuntimeSegmentAddress" << std::endl <<
-	"\t\tHEADER.usProtectedModeInfoOffset" << std::endl <<
-	"\t\tHEADER.usConfigFilenameOffset" << std::endl <<
-	"\t\tHEADER.usCRC_BlockOffset" << std::endl <<
-	"\t\tHEADER.usBIOS_BootupMessageOffset" << std::endl <<
-	"\t\tHEADER.usInt10Offset" << std::endl <<
-	"\t\tHEADER.usPciBusDevInitCode" << std::endl <<
-	"\t\tHEADER.usIoBaseAddress" << std::endl <<
-	"\t\tHEADER.usSubsystemVendorID" << std::endl <<
-	"\t\tHEADER.usSubsystemID" << std::endl <<
-	"\t\tHEADER.usPCI_InfoOffset" << std::endl <<
-	"\t\tHEADER.usMasterCommandTableOffset" << std::endl <<
-	"\t\tHEADER.usMasterDataTableOffset" << std::endl <<
-	"\t\tHEADER.ucExtendedFunctionCode" << std::endl <<
-	"\t\tHEADER.ulPSPDirTableOffset" << std::endl <<
-	"\t\tHEADER.usVendorID" << std::endl <<
-	"\t\tHEADER.usDeviceID" << std::endl <<
-	"" << std::endl <<
-	"\tDATA:" << std::endl <<
-	"\tPOWERPLAY:" << std::endl <<
-	"\t\tPOWERPLAY.ucTableRevision" << std::endl <<
-	"\t\tPOWERPLAY.usTableSize" << std::endl <<
-	"\t\tPOWERPLAY.ulGoldenPPID" << std::endl <<
-	"\t\tPOWERPLAY.ulGoldenRevision" << std::endl <<
-	"\t\tPOWERPLAY.usFormatID" << std::endl <<
-	"\t\tPOWERPLAY.usVoltageTime" << std::endl <<
-	"\t\tPOWERPLAY.ulPlatformCaps" << std::endl <<
-	"\t\tPOWERPLAY.ulMaxODEngineClock" << std::endl <<
-	"\t\tPOWERPLAY.ulMaxODMemoryClock" << std::endl <<
-	"\t\tPOWERPLAY.usPowerControlLimit" << std::endl <<
-	"\t\tPOWERPLAY.usUlvVoltageOffset" << std::endl <<
-	"\t\tPOWERPLAY.usStateArrayOffset" << std::endl <<
-	"\t\tPOWERPLAY.usFanTableOffset" << std::endl <<
-	"\t\tPOWERPLAY.usThermalControllerOffset" << std::endl <<
-	"\t\tPOWERPLAY.usReserv" << std::endl <<
-	"\t\tPOWERPLAY.usMclkDependencyTableOffset" << std::endl <<
-	"\t\tPOWERPLAY.usSclkDependencyTableOffset" << std::endl <<
-	"\t\tPOWERPLAY.usVddcLookupTableOffset" << std::endl <<
-	"\t\tPOWERPLAY.usVddgfxLookupTableOffset" << std::endl <<
-	"\t\tPOWERPLAY.usMMDependencyTableOffset" << std::endl <<
-	"\t\tPOWERPLAY.usVCEStateTableOffset" << std::endl <<
-	"\t\tPOWERPLAY.usPPMTableOffset" << std::endl <<
-	"\t\tPOWERPLAY.usPowerTuneTableOffset" << std::endl <<
-	"\t\tPOWERPLAY.usHardLimitTableOffset" << std::endl <<
-	"\t\tPOWERPLAY.usPCIETableOffset" << std::endl <<
-	"\t\tPOWERPLAY.usGPIOTableOffset" << std::endl <<
-	"\t\tPOWERPLAY.usReserved[0]" << std::endl <<
-	"\t\tPOWERPLAY.usReserved[1]" << std::endl <<
-	"\t\tPOWERPLAY.usReserved[2]" << std::endl <<
-	"\t\tPOWERPLAY.usReserved[3]" << std::endl <<
-	"\t\tPOWERPLAY.usReserved[4]" << std::endl <<
-	"\t\tPOWERPLAY.usReserved[5]" << std::endl <<
-	"\tPOWERTUNE:" << std::endl <<
-	"\tFAN:" << std::endl <<
-    "\t\tFAN.ucRevId" << std::endl <<
-    "\t\tFAN.ucTHyst" << std::endl <<
-    "\t\tFAN.usTMin" << std::endl <<
-    "\t\tFAN.usTMed" << std::endl <<
-    "\t\tFAN.usTHigh" << std::endl <<
-    "\t\tFAN.usPWMMin" << std::endl <<
-    "\t\tFAN.usPWMMed" << std::endl <<
-    "\t\tFAN.usPWMHigh" << std::endl <<
-    "\t\tFAN.usTMax" << std::endl <<
-    "\t\tFAN.ucFanControlMode" << std::endl <<
-    "\t\tFAN.usFanPWMMax" << std::endl <<
-    "\t\tFAN.usFanOutputSensitivity" << std::endl <<
-    "\t\tFAN.ulMinFanSCLKAcousticLimit" << std::endl <<
-    "\t\tFAN.ucTargetTemperature" << std::endl <<
-    "\t\tFAN.ucMinimumPWMLimit" << std::endl <<
-    "\t\tFAN.usFanGainEdge" << std::endl <<
-    "\t\tFAN.usFanGainHotspot" << std::endl <<
-    "\t\tFAN.usFanGainLiquid" << std::endl <<
-    "\t\tFAN.usFanGainVrVddc" << std::endl <<
-    "\t\tFAN.usFanGainVrMvdd" << std::endl <<
-    "\t\tFAN.usFanGainPlx" << std::endl <<
-    "\t\tFAN.usFanGainHbm" << std::endl <<
-    "\t\tFAN.usReserved" << std::endl <<
-	"\tSYSTEM_CLOCK:" << std::endl <<
-	"\tMEMORY_CLOCK:" << std::endl <<
-	"\tVRAM_INFO:" << std::endl <<
-	"\tVRAM_TIMING:" << std::endl <<
-	"\tSTRINGS:";
+    std::cout << "Currently supported areas for modification:" << std::endl <<
+    "\tHEADER" << std::endl << "\tDATA" << std::endl << "\tPOWERPLAY" << std::endl << "\tPOWERTUNE" << std::endl << "\tFAN" << std::endl <<
+    "\tSYSTEM_CLOCK" << std::endl << "\tMEMORY_CLOCK" << std::endl << "\tVRAM_INFO" << std::endl << "\tVRAM_TIMING" << std::endl << "\tSTRINGS";
+    std::cout << std::endl << "Currently supported attributes for modification by area:" << std::endl <<
+    "\tHEADER:" << std::endl << "\t\tHEADER.uaFirmWareSignature" << std::endl << "\t\tHEADER.usBiosRuntimeSegmentAddress" << std::endl <<
+    "\t\tHEADER.usProtectedModeInfoOffset" << std::endl << "\t\tHEADER.usConfigFilenameOffset" << std::endl << "\t\tHEADER.usCRC_BlockOffset" << std::endl <<
+    "\t\tHEADER.usBIOS_BootupMessageOffset" << std::endl << "\t\tHEADER.usInt10Offset" << std::endl << "\t\tHEADER.usPciBusDevInitCode" << std::endl <<
+    "\t\tHEADER.usIoBaseAddress" << std::endl << "\t\tHEADER.usSubsystemVendorID" << std::endl << "\t\tHEADER.usSubsystemID" << std::endl <<
+    "\t\tHEADER.usPCI_InfoOffset" << std::endl << "\t\tHEADER.usMasterCommandTableOffset" << std::endl << "\t\tHEADER.usMasterDataTableOffset" << std::endl <<
+    "\t\tHEADER.ucExtendedFunctionCode" << std::endl << "\t\tHEADER.ulPSPDirTableOffset" << std::endl << "\t\tHEADER.usVendorID" << std::endl <<
+    "\t\tHEADER.usDeviceID" << std::endl << std::endl <<
+    "\tDATA:" << std::endl << "\tPOWERPLAY:" << std::endl << "\t\tPOWERPLAY.ucTableRevision" << std::endl << "\t\tPOWERPLAY.usTableSize" << std::endl <<
+    "\t\tPOWERPLAY.ulGoldenPPID" << std::endl << "\t\tPOWERPLAY.ulGoldenRevision" << std::endl << "\t\tPOWERPLAY.usFormatID" << std::endl <<
+    "\t\tPOWERPLAY.usVoltageTime" << std::endl << "\t\tPOWERPLAY.ulPlatformCaps" << std::endl << "\t\tPOWERPLAY.ulMaxODEngineClock" << std::endl <<
+    "\t\tPOWERPLAY.ulMaxODMemoryClock" << std::endl << "\t\tPOWERPLAY.usPowerControlLimit" << std::endl << "\t\tPOWERPLAY.usUlvVoltageOffset" << std::endl <<
+    "\t\tPOWERPLAY.usStateArrayOffset" << std::endl << "\t\tPOWERPLAY.usFanTableOffset" << std::endl << "\t\tPOWERPLAY.usThermalControllerOffset" << std::endl <<
+    "\t\tPOWERPLAY.usReserv" << std::endl << "\t\tPOWERPLAY.usMclkDependencyTableOffset" << std::endl << "\t\tPOWERPLAY.usSclkDependencyTableOffset" << std::endl <<
+    "\t\tPOWERPLAY.usVddcLookupTableOffset" << std::endl << "\t\tPOWERPLAY.usVddgfxLookupTableOffset" << std::endl << "\t\tPOWERPLAY.usMMDependencyTableOffset" << std::endl <<
+    "\t\tPOWERPLAY.usVCEStateTableOffset" << std::endl << "\t\tPOWERPLAY.usPPMTableOffset" << std::endl << "\t\tPOWERPLAY.usPowerTuneTableOffset" << std::endl <<
+    "\t\tPOWERPLAY.usHardLimitTableOffset" << std::endl << "\t\tPOWERPLAY.usPCIETableOffset" << std::endl << "\t\tPOWERPLAY.usGPIOTableOffset" << std::endl <<
+    "\t\tPOWERPLAY.usReserved[0]" << std::endl << "\t\tPOWERPLAY.usReserved[1]" << std::endl << "\t\tPOWERPLAY.usReserved[2]" << std::endl <<
+    "\t\tPOWERPLAY.usReserved[3]" << std::endl << "\t\tPOWERPLAY.usReserved[4]" << std::endl << "\t\tPOWERPLAY.usReserved[5]" << std::endl <<
+    "\tPOWERTUNE:" << std::endl << "\tFAN:" << std::endl << "\t\tFAN.ucRevId" << std::endl << "\t\tFAN.ucTHyst" << std::endl << "\t\tFAN.usTMin" << std::endl <<
+    "\t\tFAN.usTMed" << std::endl << "\t\tFAN.usTHigh" << std::endl << "\t\tFAN.usPWMMin" << std::endl << "\t\tFAN.usPWMMed" << std::endl <<
+    "\t\tFAN.usPWMHigh" << std::endl << "\t\tFAN.usTMax" << std::endl << "\t\tFAN.ucFanControlMode" << std::endl << "\t\tFAN.usFanPWMMax" << std::endl <<
+    "\t\tFAN.usFanOutputSensitivity" << std::endl << "\t\tFAN.ulMinFanSCLKAcousticLimit" << std::endl << "\t\tFAN.ucTargetTemperature" << std::endl <<
+    "\t\tFAN.ucMinimumPWMLimit" << std::endl << "\t\tFAN.usFanGainEdge" << std::endl << "\t\tFAN.usFanGainHotspot" << std::endl << "\t\tFAN.usFanGainLiquid" << std::endl <<
+    "\t\tFAN.usFanGainVrVddc" << std::endl << "\t\tFAN.usFanGainVrMvdd" << std::endl << "\t\tFAN.usFanGainPlx" << std::endl << "\t\tFAN.usFanGainHbm" << std::endl <<
+    "\t\tFAN.usReserved" << std::endl << "\tSYSTEM_CLOCK:" << std::endl << "\tMEMORY_CLOCK:" << std::endl << "\tVRAM_INFO:" << std::endl <<  "\tVRAM_TIMING:" << std::endl <<
+    "\tSTRINGS:";
 }

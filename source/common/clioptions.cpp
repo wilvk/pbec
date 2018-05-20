@@ -38,6 +38,11 @@ void CliOptions::printSummary()
 {
     if(summary)
     {
+      if(readArea == "")
+      {
+        readArea = "ALL";
+      }
+
       appData->PrintSummary(readArea);
     }
 }

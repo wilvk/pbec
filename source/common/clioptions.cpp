@@ -102,4 +102,5 @@ void CliOptions::setCliOptions()
     optNewAttributeValue->requires(optInputFileName)->requires(optOutputFileName)->requires(optAttributeToSet);
     optCopyStrapFrom->requires(optInputFileName)->requires(optOutputFileName)->requires(optCopyStrapTo);
     optCopyStrapTo->requires(optInputFileName)->requires(optOutputFileName)->requires(optCopyStrapFrom);
+    optReadArea->excludes(optFull);
 }

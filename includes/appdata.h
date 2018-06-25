@@ -5,8 +5,6 @@
 #include <stack>
 #include <stdexcept>
 #include <functional>
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/replace.hpp>
 #include <cstdint>
 #include <fstream>
 #include <cstdlib>

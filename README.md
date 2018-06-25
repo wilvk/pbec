@@ -49,12 +49,12 @@ Install the gcc compiler tools:
 
 #### Ubuntu
 
-`apt-get -y install gcc make g++ libboost-dev`
+`apt-get -y install gcc make g++`
 
 
 #### Centos/Fedora
 
-`yum install gcc gcc-c++ boost-devel`
+`yum install gcc gcc-c++`
 
 
 ### To build:

@@ -3,7 +3,6 @@
 #include <iostream>
 #include "CLI11.hpp"
 #include "appdata.h"
-#include "console.h"
 
 class CliOptions
 {

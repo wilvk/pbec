@@ -7,7 +7,6 @@
 #include <iomanip>
 #include <iterator>
 
-#include "typedefs.h"
 #include "byteutils.h"
 
 class Buffer

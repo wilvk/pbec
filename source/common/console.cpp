@@ -1,5 +1,4 @@
 #include "console.h"
-#include "typedefs.h"
 
 void Console::PrintAtomRomHeaderInfo(ATOM_ROM_HEADER AtomRomHeader)
 {

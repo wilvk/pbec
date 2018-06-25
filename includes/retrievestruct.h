@@ -4,7 +4,6 @@
 
 #include "structs.h"
 #include "buffer.h"
-#include "byteutils.h"
 
 class RetrieveStruct
 {

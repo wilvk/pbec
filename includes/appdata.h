@@ -12,7 +12,6 @@
 #include <iostream>
 #include <iomanip>
 
-#include "byteutils.h"
 #include "structs.h"
 #include "retrievestruct.h"
 #include "savestruct.h"

@@ -13,7 +13,7 @@ T RetrieveStruct::fromBytes(std::vector<BYTE> &StringArray)
 ATOM_ROM_HEADER RetrieveStruct::AtomRomHeader(Buffer* Buffer)
 {
     std::vector<BYTE> bufferSubset;
-    int atom_rom_header_offset = Buffer->GetValueAtPosition(16, atom_rom_header_ptr, false);
+    int atom_rom_header_offset = Buffer->GetValueAtPosition(16, ATOM_ROM_HEADER_PTR, false);
     bufferSubset = Buffer->GetSubset(atom_rom_header_offset);
     ATOM_ROM_HEADER atom_rom_header = fromBytes<ATOM_ROM_HEADER>(bufferSubset);
 

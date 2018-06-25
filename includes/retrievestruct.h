@@ -10,9 +10,6 @@ class RetrieveStruct
 
 private:
 
-    const int atom_rom_header_ptr = 0x48;
-    const int MAX_VRAM_ENTRIES = 48;
-
     template<typename T>
     T fromBytes(std::vector<BYTE> &StringArray);
 

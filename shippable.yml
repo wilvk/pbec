@@ -1,0 +1,12 @@
+language: c
+
+compiler:
+  - gcc
+
+branches:
+  only:
+    - master
+
+build:
+  ci:
+    - make && ./tests

@@ -23,6 +23,7 @@ private:
     std::string readArea;
 
     void setCliOptions();
+    void setDefaultReadArea();
     void loadInputFile();
     void printSummary();
     void printVerbose();

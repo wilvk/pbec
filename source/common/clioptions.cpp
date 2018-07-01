@@ -2,8 +2,9 @@
 
 int CliOptions::ParseCommandLine(int argc, char** argv)
 {
-    app = new CLI::App("Polaris Bios Editor for the Console");
+    app = new CLI::App("Polaris Bios Editor for the Console (PBEC)");
     setCliOptions();
+    setDefaultReadArea();
     CLI11_PARSE(*app, argc, argv);
 
     printHelp(argc);
@@ -34,15 +35,18 @@ void CliOptions::loadInputFile()
     }
 }
 
+void CliOptions::setDefaultReadArea()
+{
+  if(readArea == "")
+  {
+    readArea = "ALL";
+  }
+}
+
 void CliOptions::printSummary()
 {
     if(summary)
     {
-      if(readArea == "")
-      {
-        readArea = "ALL";
-      }
-
       appData->PrintSummary(readArea);
     }
 }

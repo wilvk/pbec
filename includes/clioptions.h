@@ -10,6 +10,17 @@ class CliOptions
 private:
 
     CLI::App *app;
+    CLI::Option* optSummary;
+    CLI::Option* optFull;
+    CLI::Option* optAttributes;
+    CLI::Option* optInputFileName;
+    CLI::Option* optOutputFileName;
+    CLI::Option* optAttributeToSet;
+    CLI::Option* optNewAttributeValue;
+    CLI::Option* optCopyStrapFrom;
+    CLI::Option* optCopyStrapTo;
+    CLI::Option* optReadArea;
+
     AppData *appData;
     bool summary;
     bool verbose;
@@ -24,6 +35,7 @@ private:
 
     void setCliOptions();
     void setDefaultReadArea();
+    void setOptionDependencies();
     void loadInputFile();
     void printSummary();
     void printVerbose();

@@ -7,15 +7,12 @@ int CliOptions::ParseCommandLine(int argc, char** argv)
   setOptionDependencies();
   setDefaultReadArea();
   CLI11_PARSE(*app, argc, argv);
-
   printHelp(argc);
   printAttributes();
   loadInputFile();
   printSummary();
   printVerbose();
-
   writeTimingStraps();
-
   return 0;
 }
 

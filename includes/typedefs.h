@@ -13,5 +13,8 @@ typedef uint32_t DWORD;
 #define EXPECTED_FILE_SIZE_BYTES 524288
 #define ATOM_ROM_HEADER_PTR 0x48
 #define MAX_VRAM_ENTRIES 48
+#define ATOM_ROM_CHECKSUM_OFFSET 0x21
+#define VRAM_TIMING_ENTRIES_OFFSET 0x2E
+#define TIMING_STRAPS_LENGTH 48
 
 #endif /* end of include guard: TYPEDEFS_H */

@@ -5,10 +5,8 @@ std::vector<BYTE> SaveStruct::toBytes(T &memStruct)
 {
   int arraySize = sizeof(T);
   BYTE byteArray[arraySize];
-
   memcpy(byteArray, &memStruct, arraySize);
   std::vector<BYTE> returnVector(byteArray, byteArray + arraySize);
-
   return returnVector;
 }
 

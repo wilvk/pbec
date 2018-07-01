@@ -7,14 +7,10 @@
 
 class SaveStruct
 {
-
 private:
-
-    template<typename T>
-    static std::vector<BYTE> toBytes(T &memStruct);
+  template<typename T>
+  static std::vector<BYTE> toBytes(T &memStruct);
 
 public:
-
-    static void SaveTimingStraps(Buffer *BufferPtr, std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries, int AtomVramTimingOffset);
-
+  static void SaveTimingStraps(Buffer *BufferPtr, std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries, int AtomVramTimingOffset);
 };

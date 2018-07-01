@@ -1,6 +1,5 @@
 ﻿#pragma once
-
-#include <stdexcept>
+#include "headers.h"
 
 class InvalidDataException : public std::exception
 {

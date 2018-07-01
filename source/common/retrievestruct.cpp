@@ -1,4 +1,4 @@
-#include "retrievestruct.h"
+#include "headers.h"
 
 template<typename T>
 T RetrieveStruct::fromBytes(std::vector<BYTE> &StringArray)

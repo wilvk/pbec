@@ -1,7 +1,6 @@
-#ifndef STRUCTS_H
-#define STRUCTS_H
+#pragma once
+#include "headers.h"
 
-#include "typedefs.h"
 #pragma pack(push, 1)
 
 enum ROM_STRUCTS : std::int32_t
@@ -281,5 +280,3 @@ struct ATOM_VRAM_INFO
 };
 
 #pragma pack(pop)
-
-#endif /* end of include guard: STRUCTS_H */

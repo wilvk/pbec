@@ -1,12 +1,5 @@
 #pragma once
-
-#include <vector>
-#include <iomanip>
-#include <sstream>
-#include <iostream>
-#include <string>
-
-#include "typedefs.h"
+#include "headers.h"
 
 class ByteUtils
 {

@@ -1,4 +1,4 @@
-#include "buffer.h"
+#include "headers.h"
 
 std::vector<BYTE> Buffer::ReadFile(std::string Filename)
 {

@@ -1,24 +1,5 @@
 ﻿#pragma once
-
-#include <string>
-#include <vector>
-#include <stack>
-#include <stdexcept>
-#include <functional>
-#include <cstdint>
-#include <fstream>
-#include <cstdlib>
-#include <cstdio>
-#include <iostream>
-#include <iomanip>
-
-#include "structs.h"
-#include "retrievestruct.h"
-#include "savestruct.h"
-#include "exceptionhelper.h"
-#include "buffer.h"
-#include "console.h"
-#include "typedefs.h"
+#include "headers.h"
 
 class AppData
 {

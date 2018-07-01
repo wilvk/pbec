@@ -1,7 +1,4 @@
-#ifndef TYPEDEFS_H
-#define TYPEDEFS_H
-
-#include <cstdint>
+#pragma once
 
 typedef uint8_t BYTE;
 typedef uint16_t WORD;
@@ -16,5 +13,3 @@ typedef uint32_t DWORD;
 #define ATOM_ROM_CHECKSUM_OFFSET 0x21
 #define VRAM_TIMING_ENTRIES_OFFSET 0x2E
 #define TIMING_STRAPS_LENGTH 48
-
-#endif /* end of include guard: TYPEDEFS_H */

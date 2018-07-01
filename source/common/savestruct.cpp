@@ -1,4 +1,4 @@
-#include "savestruct.h"
+#include "headers.h"
 
 template<typename T>
 std::vector<BYTE> SaveStruct::toBytes(T &memStruct)

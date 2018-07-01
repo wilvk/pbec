@@ -1,10 +1,5 @@
-# pragma once
-
-#include <iostream>
-#include <algorithm>
-#include "typedefs.h"
-#include "structs.h"
-#include "byteutils.h"
+#pragma once
+#include "headers.h"
 
 class Console
 {

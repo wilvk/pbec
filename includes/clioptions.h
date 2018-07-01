@@ -1,8 +1,6 @@
 #pragma once
-
-#include <iostream>
+#include "headers.h"
 #include "CLI11.hpp"
-#include "appdata.h"
 
 class CliOptions
 {

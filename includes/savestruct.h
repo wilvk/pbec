@@ -1,9 +1,5 @@
 #pragma once
-
-#include<cstring>
-
-#include "structs.h"
-#include "buffer.h"
+#include "headers.h"
 
 class SaveStruct
 {

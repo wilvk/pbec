@@ -1,13 +1,6 @@
-#ifndef BUFFER_H
-#define BUFFER_H
-
-#include <vector>
-#include <fstream>
-#include <iostream>
-#include <iomanip>
-#include <iterator>
-
-#include "byteutils.h"
+#pragma once
+#include "typedefs.h"
+#include "headers.h"
 
 class Buffer
 {
@@ -30,6 +23,3 @@ public:
   std::string TableWalk(int Offset, std::vector<int> ByteSizes, bool IsFrequency);
   BYTE GetByteAtPosition(int Position);
 };
-
-
-#endif /* end of include guard: BUFFER_H */

@@ -1,0 +1,32 @@
+#pragma once
+
+#include <cstdint>
+#include <string>
+#include <vector>
+#include <stack>
+#include <stdexcept>
+#include <functional>
+#include <cstdint>
+#include <fstream>
+#include <cstdlib>
+#include <cstdio>
+#include <iostream>
+#include <iomanip>
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <cstring>
+#include <algorithm>
+#include <stdexcept>
+
+#include "buffer.h"
+#include "typedefs.h"
+#include "structs.h"
+#include "retrievestruct.h"
+#include "savestruct.h"
+#include "exceptionhelper.h"
+#include "console.h"
+#include "byteutils.h"
+#include "typedefs.h"
+#include "appdata.h"
+#include "clioptions.h"

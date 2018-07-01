@@ -1,3 +1,5 @@
+[![Run Status](https://api.shippable.com/projects/5b2b5de13626c20700cc6dd3/badge?branch=master)](https://app.shippable.com/github/wilvk/pbec)
+
 # Polaris Bios Editor for the console (Linux/MacOS/Windows, etc.)
 
 ---

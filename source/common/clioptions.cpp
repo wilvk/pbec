@@ -75,32 +75,79 @@ void CliOptions::writeTimingStraps()
 
 void CliOptions::setCliOptions()
 {
-    CLI::Option* optSummary = app->add_flag("--summary,-s", summary, "Print a summary of the ROM image")->group("File Read")->ignore_case();
-    CLI::Option* optFull = app->add_flag("--full,-f", verbose, "Print verbose details of the ROM image")->group("File Read")->ignore_case();
-    CLI::Option* optAttributes = app->add_flag("--attributes,-t", attributes, "Print a list of attributes that can be modified")
-      ->group("Information")->ignore_case();
-    CLI::Option* optInputFileName = app->add_option("--inputFile,-i", inputFileName, "Specifies the input ROM image filename")->expected(1)
-      ->check(CLI::ExistingFile)->group("File Read/Write")->ignore_case();
-    CLI::Option* optOutputFileName = app->add_option("--outputFile,-o", outputFileName, "Specifies the output ROM image filename")->expected(1)
-      ->group("File Write")->ignore_case();
-    CLI::Option* optAttributeToSet = app->add_option("--setAttribute,-a", attributeToSet, "Specify the name of the attribute to set")->expected(1)
-      ->group("File Write")->ignore_case();
+    CLI::Option* optSummary =           app->add_flag("--summary,-s", summary, "Print summary details of the ROM image")
+                                          ->group("File Read")
+                                          ->ignore_case();
+    CLI::Option* optFull =              app->add_flag("--full,-f", verbose, "Print verbose details of the ROM image")->group("File Read")
+                                          ->ignore_case();
+    CLI::Option* optAttributes =        app->add_flag("--attributes,-t", attributes, "Print a list of attributes that can be modified")
+                                          ->group("Information")
+                                          ->ignore_case();
+    CLI::Option* optInputFileName =     app->add_option("--inputFile,-i", inputFileName, "Specifies the input ROM image filename")
+                                          ->expected(1)
+                                          ->check(CLI::ExistingFile)
+                                          ->group("File Read/Write")
+                                          ->ignore_case();
+    CLI::Option* optOutputFileName =    app->add_option("--outputFile,-o", outputFileName, "Specifies the output ROM image filename")
+                                          ->expected(1)
+                                          ->group("File Write")
+                                          ->ignore_case();
+    CLI::Option* optAttributeToSet =    app->add_option("--setAttribute,-a", attributeToSet, "Specify the name of the attribute to set")
+                                          ->expected(1)
+                                          ->group("File Write")
+                                          ->ignore_case();
     CLI::Option* optNewAttributeValue = app->add_option("--setValue,-v", newAttributeValue, "Specify the value for the attribute specified with -s")
-      ->expected(1)->group("File Write")->ignore_case();
-    CLI::Option* optCopyStrapFrom = app->add_option("--copyStrapFrom,-c", copyStrapFrom, "Specify the array number of the timing strap to copy from")
-      ->expected(1)->group("File Write")->ignore_case();
-    CLI::Option* optCopyStrapTo = app->add_option("--copyStrapTo,-p", copyStrapTo, "Specify the array number(s) of the timing strap to copy to")
-      ->group("File Write")->ignore_case();
-    CLI::Option* optReadArea = app->add_set("-r,--readArea", readArea,
-      { "ALL", "HEADER", "DATA", "POWERPLAY", "POWERTUNE", "FAN", "SYSTEM_CLOCK", "MEMORY_CLOCK", "VRAM_INFO", "VRAM_TIMING", "STRINGS" }, "", "ALL")
-      ->group("File Read");
+                                          ->expected(1)
+                                          ->group("File Write")
+                                          ->ignore_case();
+    CLI::Option* optCopyStrapFrom =     app->add_option("--copyStrapFrom,-c", copyStrapFrom, "Specify the array number of the timing strap to copy from")
+                                          ->expected(1)
+                                          ->group("File Write")
+                                          ->ignore_case();
+    CLI::Option* optCopyStrapTo =       app->add_option("--copyStrapTo,-p", copyStrapTo, "Specify the array number(s) of the timing strap to copy to")
+                                          ->group("File Write")
+                                          ->ignore_case();
+    CLI::Option* optReadArea =          app->add_set("-r,--readArea", readArea,
+                                          { "ALL",
+                                            "HEADER",
+                                            "DATA",
+                                            "POWERPLAY",
+                                            "POWERTUNE",
+                                            "FAN",
+                                            "SYSTEM_CLOCK",
+                                            "MEMORY_CLOCK",
+                                            "VRAM_INFO",
+                                            "VRAM_TIMING",
+                                            "STRINGS"
+                                           },
+                                             "",
+                                             "ALL" )
+                                         ->group("File Read");
 
-    optSummary->requires(optInputFileName)->excludes(optOutputFileName);
-    optFull->requires(optInputFileName)->excludes(optOutputFileName);
-    optAttributes->excludes(optInputFileName)->excludes(optOutputFileName);
-    optAttributeToSet->requires(optInputFileName)->requires(optOutputFileName)->requires(optNewAttributeValue);
-    optNewAttributeValue->requires(optInputFileName)->requires(optOutputFileName)->requires(optAttributeToSet);
-    optCopyStrapFrom->requires(optInputFileName)->requires(optOutputFileName)->requires(optCopyStrapTo);
-    optCopyStrapTo->requires(optInputFileName)->requires(optOutputFileName)->requires(optCopyStrapFrom);
-    optReadArea->excludes(optFull);
+    optSummary
+      ->requires(optInputFileName)
+      ->excludes(optOutputFileName);
+    optFull
+      ->requires(optInputFileName)
+      ->excludes(optOutputFileName)
+      ->excludes(optReadArea);
+    optAttributes
+      ->excludes(optInputFileName)
+      ->excludes(optOutputFileName);
+    optAttributeToSet
+      ->requires(optInputFileName)
+      ->requires(optOutputFileName)
+      ->requires(optNewAttributeValue);
+    optNewAttributeValue
+      ->requires(optInputFileName)
+      ->requires(optOutputFileName)
+      ->requires(optAttributeToSet);
+    optCopyStrapFrom
+      ->requires(optInputFileName)
+      ->requires(optOutputFileName)
+      ->requires(optCopyStrapTo);
+    optCopyStrapTo
+      ->requires(optInputFileName)
+      ->requires(optOutputFileName)
+      ->requires(optCopyStrapFrom);
 }

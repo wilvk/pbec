@@ -1,9 +1,20 @@
 #include "console.h"
 
+void Console::printSectionHeader(const char* headerText)
+{
+  std::cout << std::endl << "----";
+  std::cout << std::endl << headerText;
+  std::cout << std::endl << "----" << std::endl;
+}
+
+void Console::printSectionFooter()
+{
+  std::cout << std::endl << "----" << std::endl;
+}
+
 void Console::PrintAtomRomHeaderInfo(ATOM_ROM_HEADER AtomRomHeader)
 {
-  std::cout << std::endl;
-  std::cout << std::endl << "ATOM_ROM_HEADER (dec,hex)";
+  printSectionHeader("ATOM_ROM_HEADER (dec, hex)");
   std::cout << std::endl << "ATOM_COMMON_TABLE_HEADER sHeader";
   std::cout << std::endl << "sHeader.usStructureSize: " << ByteUtils::PrintDecHexString(AtomRomHeader.sHeader.usStructureSize);
   std::cout << std::endl << "sHeader.ucTableFormatRevision: " << ByteUtils::PrintDecHexString(AtomRomHeader.sHeader.ucTableFormatRevision);
@@ -26,12 +37,12 @@ void Console::PrintAtomRomHeaderInfo(ATOM_ROM_HEADER AtomRomHeader)
   std::cout << std::endl << "ulPSPDirTableOffset: " << ByteUtils::PrintDecHexString(AtomRomHeader.ulPSPDirTableOffset);
   std::cout << std::endl << "usVendorID: " << ByteUtils::PrintDecHexString(AtomRomHeader.usVendorID);
   std::cout << std::endl << "usDeviceID: " << ByteUtils::PrintDecHexString(AtomRomHeader.usDeviceID);
+  printSectionFooter();
 }
 
 void Console::PrintAtomDataTableInfo(ATOM_DATA_TABLES AtomDataTable)
 {
-  std::cout << std::endl;
-  std::cout << std::endl << "ATOM_DATA_TABLE (dec,hex)";
+  printSectionHeader("ATOM_ATOM_DATA_TABLE (dec, hex)");
   std::cout << std::endl << "ATOM_COMMON_TABLE_HEADER sHeader";
   std::cout << std::endl << "sHeader.usStructureSize: " << ByteUtils::PrintDecHexString(AtomDataTable.sHeader.usStructureSize);
   std::cout << std::endl << "sHeader.ucTableFormatRevision: " << ByteUtils::PrintDecHexString(AtomDataTable.sHeader.ucTableFormatRevision);
@@ -71,12 +82,12 @@ void Console::PrintAtomDataTableInfo(ATOM_DATA_TABLES AtomDataTable)
   std::cout << std::endl << "VoltageObjectInfo: " << ByteUtils::PrintDecHexString(AtomDataTable.VoltageObjectInfo);
   std::cout << std::endl << "PowerSourceInfoe: " << ByteUtils::PrintDecHexString(AtomDataTable.PowerSourceInfo);
   std::cout << std::endl << "ServiceInfo: " << ByteUtils::PrintDecHexString(AtomDataTable.ServiceInfo);
+  printSectionFooter();
 }
 
 void Console::PrintAtomPowerplayTableInfo(ATOM_POWERPLAY_TABLE AtomPowerplayTable)
 {
-  std::cout << std::endl;
-  std::cout << std::endl << "ATOM_POWERPLAY_TABLE (dec,hex)";
+  printSectionHeader("ATOM_POWERPLAY_TABLE (dec, hex)");
   std::cout << std::endl << "sHeader.usStructureSize: " << ByteUtils::PrintDecHexString(AtomPowerplayTable.sHeader.usStructureSize);
   std::cout << std::endl << "sHeader.ucTableFormatRevision: " << ByteUtils::PrintDecHexString(AtomPowerplayTable.sHeader.ucTableFormatRevision);
   std::cout << std::endl << "sHeader.ucTableContentRevision: " << ByteUtils::PrintDecHexString(AtomPowerplayTable.sHeader.ucTableContentRevision);
@@ -112,12 +123,12 @@ void Console::PrintAtomPowerplayTableInfo(ATOM_POWERPLAY_TABLE AtomPowerplayTabl
   std::cout << std::endl << "usReserved[3]: " << ByteUtils::PrintDecHexString(AtomPowerplayTable.usReserved[3]);
   std::cout << std::endl << "usReserved[4]: " << ByteUtils::PrintDecHexString(AtomPowerplayTable.usReserved[4]);
   std::cout << std::endl << "usReserved[5]: " << ByteUtils::PrintDecHexString(AtomPowerplayTable.usReserved[5]);
+  printSectionFooter();
 }
 
 void Console::PrintAtomPowertuneTableInfo(ATOM_POWERTUNE_TABLE AtomPowertuneTable)
 {
-  std::cout << std::endl;
-  std::cout << std::endl << "ATOM_POWERTUNE_TABLE (dec,hex)";
+  printSectionHeader("ATOM_POWERTUNE_TABLE (dec, hex)");
   std::cout << std::endl << "ucRevId: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.ucRevId);
   std::cout << std::endl << "usTDP: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usTDP);
   std::cout << std::endl << "usConfigurableTDP: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usConfigurableTDP);
@@ -146,12 +157,12 @@ void Console::PrintAtomPowertuneTableInfo(ATOM_POWERTUNE_TABLE AtomPowertuneTabl
   std::cout << std::endl << "ucPlx_I2C_address: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.ucPlx_I2C_address);
   std::cout << std::endl << "ucPlx_I2C_Line: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.ucPlx_I2C_Line);
   std::cout << std::endl << "usReserved: " << ByteUtils::PrintDecHexString(AtomPowertuneTable.usReserved);
+  printSectionFooter();
 }
 
 void Console::PrintAtomFanTableInfo(ATOM_FAN_TABLE AtomFanTable)
 {
-  std::cout << std::endl;
-  std::cout << std::endl << "ATOM_FAN_TABLE (dec,hex)";
+  printSectionHeader("ATOM_FAN_TABLE (dec, hex)");
   std::cout << std::endl << "ucRevId: " << ByteUtils::PrintDecHexString(AtomFanTable.ucRevId);
   std::cout << std::endl << "ucTHyst: " << ByteUtils::PrintDecHexString(AtomFanTable.ucTHyst);
   std::cout << std::endl << "usTMin: " << ByteUtils::PrintDecHexString(AtomFanTable.usTMin);
@@ -176,36 +187,44 @@ void Console::PrintAtomFanTableInfo(ATOM_FAN_TABLE AtomFanTable)
   std::cout << std::endl << "usFanGainPlx: " << ByteUtils::PrintDecHexString(AtomFanTable.usFanGainPlx);
   std::cout << std::endl << "usFanGainHbm: " << ByteUtils::PrintDecHexString(AtomFanTable.usFanGainHbm);
   std::cout << std::endl << "usReserved: " << ByteUtils::PrintDecHexString(AtomFanTable. usReserved);
+  printSectionFooter();
 }
 
 void Console::PrintDefaultAtomRomHeaderInfo(ATOM_ROM_HEADER AtomRomHeader)
 {
+  printSectionHeader("[DEFAULT] ATOM_ROM_HEADER (dec, hex)");
   std::cout << std::endl << "Vendor ID: " << ByteUtils::PrintDecHexString(AtomRomHeader.usVendorID);
   std::cout << std::endl << "Device ID: " << ByteUtils::PrintDecHexString(AtomRomHeader.usDeviceID);
   std::cout << std::endl << "Subsystem ID: " << ByteUtils::PrintDecHexString(AtomRomHeader.usSubsystemID);
   std::cout << std::endl << "Subsystem Vendor ID: " << ByteUtils::PrintDecHexString(AtomRomHeader.usSubsystemVendorID);
   std::cout << std::endl << "Firmware Signature: " << ByteUtils::PrintDecHexString(AtomRomHeader.uaFirmWareSignature);
+  printSectionFooter();
 }
 
 void Console::PrintDefaultAtomPowerplayTableInfo(ATOM_POWERPLAY_TABLE AtomPowerplayTable)
 {
+  printSectionHeader("[DEFAULT] ATOM_POWERPLAY_TABLE (dec, hex)");
   std::cout << std::endl << "Max GPU Freq. (MHz * 100): " << ByteUtils::PrintDecHexString(AtomPowerplayTable.ulMaxODEngineClock);
   std::cout << std::endl << "Max Memory Freq.(MHz * 100): " << ByteUtils::PrintDecHexString(AtomPowerplayTable.ulMaxODMemoryClock);
   std::cout << std::endl << "Power Control Limit (%): " << ByteUtils::PrintDecHexString(AtomPowerplayTable.usPowerControlLimit);
+  printSectionFooter();
 }
 
 void Console::PrintDefaultAtomPowertuneTableInfo(ATOM_POWERTUNE_TABLE AtomPowertuneTable)
 {
+  printSectionHeader("[DEFAULT] ATOM_POWERTUNE_TABLE (dec, hex)");
   std::cout << std::endl << "TDP (W): " << AtomPowertuneTable.usTDP;
   std::cout << std::endl << "TDC (A): " << AtomPowertuneTable.usTDC;
   std::cout << std::endl << "Max Power Limit (W): " << AtomPowertuneTable.usMaximumPowerDeliveryLimit;
   std::cout << std::endl << "Max Temp. (C): " << AtomPowertuneTable.usTjMax;
   std::cout << std::endl << "Shutdown Temp. (C): " << AtomPowertuneTable.usSoftwareShutdownTemp;
   std::cout << std::endl << "Hotspot Temp. (C): " << AtomPowertuneTable.usTemperatureLimitHotspot;
+  printSectionFooter();
 }
 
 void Console::PrintDefaultAtomFanTableInfo(ATOM_FAN_TABLE AtomFanTable)
 {
+  printSectionHeader("[DEFAULT] ATOM_FAN_TABLE (dec, hex)");
   std::cout << std::endl << "Temp. Hysteresis: " << AtomFanTable.ucTHyst;
   std::cout << std::endl << "Min Temp. (C * 100): " << AtomFanTable.usTMin;
   std::cout << std::endl << "Med Temp. (C * 100): " << AtomFanTable.usTMed;
@@ -218,12 +237,12 @@ void Console::PrintDefaultAtomFanTableInfo(ATOM_FAN_TABLE AtomFanTable)
   std::cout << std::endl << "Max RPM: " << AtomFanTable.usFanRPMMax;
   std::cout << std::endl << "Sensitivity: " << AtomFanTable.usFanOutputSensitivity;
   std::cout << std::endl << "Acoustic Limit (MHz * 100): " << AtomFanTable.ulMinFanSCLKAcousticLimit;
+  printSectionFooter();
 }
 
 void Console::PrintDeviceValidation(std::vector<WORD> SupportedDeviceIDs, WORD DeviceId)
 {
   bool exists = std::find(std::begin(SupportedDeviceIDs), std::end(SupportedDeviceIDs), DeviceId) != std::end(SupportedDeviceIDs);
-
   std::string deviceIdString = ByteUtils::ToHexString(DeviceId);
 
   if(!exists)
@@ -263,32 +282,39 @@ void Console::PrintFileDetails(const char* Filename, int Filesize)
 void Console::PrintDefaultAtomSysClockEntriesInfo(ATOM_SCLK_TABLE AtomSysClockTable, std::vector<ATOM_SCLK_ENTRY> AtomSysClockEntries,
   std::vector<ATOM_VOLTAGE_ENTRY> AtomVoltageEntries)
 {
+  printSectionHeader("[DEFAULT] ATOM_SCLK_ENTRY Array");
   for (int i = 0; i < AtomSysClockTable.ucNumEntries; i++)
   {
       std::cout << std::endl << "(" << i << ")[ System Clock: " << AtomSysClockEntries[i].ulSclk / 100 <<
         " MHz, " << AtomVoltageEntries[AtomSysClockEntries[i].ucVddInd].usVdd << " MV ]";
   }
+  printSectionFooter();
 }
 
 void Console::PrintDefaultAtomMemClockEntriesInfo(ATOM_MCLK_TABLE AtomMemClockTable, std::vector<ATOM_MCLK_ENTRY> AtomMemClockEntries)
 {
+  printSectionHeader("[DEFAULT] ATOM_MCLK_ENTRY Array");
   for (int i = 0; i < AtomMemClockTable.ucNumEntries; i++)
   {
     std::cout << std::endl << "(" << i << ")[ Memory Clock. MHz " << AtomMemClockEntries[i].ulMclk / 100;
     std::cout << ", Memory Clock. " << AtomMemClockEntries[i].usMvdd << " MV ] ";
   }
+  printSectionFooter();
 }
 
 void Console::PrintDefaultAtomVramInfo(ATOM_VRAM_INFO AtomVramInfo, std::vector<ATOM_VRAM_ENTRY> AtomVramEntries)
 {
+  printSectionHeader("[DEFAULT] ATOM_VRAM_INFO Array");
   for (int i = 0; i < AtomVramInfo.ucNumOfVRAMModule; i++)
   {
     std::cout << std::endl << "(" << i << ")[VRAM Table " << i << " Name: " << AtomVramEntries[i].strMemPNString << "]";
   }
+  printSectionFooter();
 }
 
 void Console::PrintDefaultAtomVramEntriesInfo(ATOM_VRAM_INFO AtomVramInfo, std::vector<ATOM_VRAM_ENTRY> AtomVramEntries)
 {
+  printSectionHeader("[DEFAULT] ATOM_VRAM_ENTRY Array");
   for (int i = 0; i < AtomVramInfo.ucNumOfVRAMModule; i++)
   {
     std::cout << std::endl << "(" << i << ")[VRAM Table " << i <<
@@ -297,48 +323,121 @@ void Console::PrintDefaultAtomVramEntriesInfo(ATOM_VRAM_INFO AtomVramInfo, std::
     ", Density: 0x"  << std::hex << (int)AtomVramEntries[i].ucDensity <<
     ", Type: 0x"  << std::hex << (int)AtomVramEntries[i].ucMemoryType << "]";
   }
+  printSectionFooter();
 }
 
 void Console::PrintDefaultAtomVramTimingEntriesInfo(std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries)
 {
+  printSectionHeader("[DEFAULT] ATOM_VRAM_TIMING_ENTRY Array");
   for (int i = 0; i < AtomVramTimingEntries.size(); i++)
   {
     DWORD table = AtomVramTimingEntries[i].ulClkRange >> 24;
     std::cout << std::endl << "(" << std::dec << i << ")[{Table: " << std::to_string(table) << " , MHz: " << std::to_string((AtomVramTimingEntries[i].ulClkRange & 0x00FFFFFF) / 100);
     std::cout << "}, Timing Strap: " << ByteUtils::PrintByteArray(AtomVramTimingEntries[i].ucLatency, 48) << "]";
   }
+  printSectionFooter();
 }
 
 void Console::PrintAttributes()
 {
-    std::cout << "Currently supported areas for modification:" << std::endl <<
-    "\tHEADER" << std::endl << "\tDATA" << std::endl << "\tPOWERPLAY" << std::endl << "\tPOWERTUNE" << std::endl << "\tFAN" << std::endl <<
-    "\tSYSTEM_CLOCK" << std::endl << "\tMEMORY_CLOCK" << std::endl << "\tVRAM_INFO" << std::endl << "\tVRAM_TIMING" << std::endl << "\tSTRINGS";
-    std::cout << std::endl << "Currently supported attributes for modification by area:" << std::endl <<
-    "\tHEADER:" << std::endl << "\t\tHEADER.uaFirmWareSignature" << std::endl << "\t\tHEADER.usBiosRuntimeSegmentAddress" << std::endl <<
-    "\t\tHEADER.usProtectedModeInfoOffset" << std::endl << "\t\tHEADER.usConfigFilenameOffset" << std::endl << "\t\tHEADER.usCRC_BlockOffset" << std::endl <<
-    "\t\tHEADER.usBIOS_BootupMessageOffset" << std::endl << "\t\tHEADER.usInt10Offset" << std::endl << "\t\tHEADER.usPciBusDevInitCode" << std::endl <<
-    "\t\tHEADER.usIoBaseAddress" << std::endl << "\t\tHEADER.usSubsystemVendorID" << std::endl << "\t\tHEADER.usSubsystemID" << std::endl <<
-    "\t\tHEADER.usPCI_InfoOffset" << std::endl << "\t\tHEADER.usMasterCommandTableOffset" << std::endl << "\t\tHEADER.usMasterDataTableOffset" << std::endl <<
-    "\t\tHEADER.ucExtendedFunctionCode" << std::endl << "\t\tHEADER.ulPSPDirTableOffset" << std::endl << "\t\tHEADER.usVendorID" << std::endl <<
-    "\t\tHEADER.usDeviceID" << std::endl << std::endl <<
-    "\tDATA:" << std::endl << "\tPOWERPLAY:" << std::endl << "\t\tPOWERPLAY.ucTableRevision" << std::endl << "\t\tPOWERPLAY.usTableSize" << std::endl <<
-    "\t\tPOWERPLAY.ulGoldenPPID" << std::endl << "\t\tPOWERPLAY.ulGoldenRevision" << std::endl << "\t\tPOWERPLAY.usFormatID" << std::endl <<
-    "\t\tPOWERPLAY.usVoltageTime" << std::endl << "\t\tPOWERPLAY.ulPlatformCaps" << std::endl << "\t\tPOWERPLAY.ulMaxODEngineClock" << std::endl <<
-    "\t\tPOWERPLAY.ulMaxODMemoryClock" << std::endl << "\t\tPOWERPLAY.usPowerControlLimit" << std::endl << "\t\tPOWERPLAY.usUlvVoltageOffset" << std::endl <<
-    "\t\tPOWERPLAY.usStateArrayOffset" << std::endl << "\t\tPOWERPLAY.usFanTableOffset" << std::endl << "\t\tPOWERPLAY.usThermalControllerOffset" << std::endl <<
-    "\t\tPOWERPLAY.usReserv" << std::endl << "\t\tPOWERPLAY.usMclkDependencyTableOffset" << std::endl << "\t\tPOWERPLAY.usSclkDependencyTableOffset" << std::endl <<
-    "\t\tPOWERPLAY.usVddcLookupTableOffset" << std::endl << "\t\tPOWERPLAY.usVddgfxLookupTableOffset" << std::endl << "\t\tPOWERPLAY.usMMDependencyTableOffset" << std::endl <<
-    "\t\tPOWERPLAY.usVCEStateTableOffset" << std::endl << "\t\tPOWERPLAY.usPPMTableOffset" << std::endl << "\t\tPOWERPLAY.usPowerTuneTableOffset" << std::endl <<
-    "\t\tPOWERPLAY.usHardLimitTableOffset" << std::endl << "\t\tPOWERPLAY.usPCIETableOffset" << std::endl << "\t\tPOWERPLAY.usGPIOTableOffset" << std::endl <<
-    "\t\tPOWERPLAY.usReserved[0]" << std::endl << "\t\tPOWERPLAY.usReserved[1]" << std::endl << "\t\tPOWERPLAY.usReserved[2]" << std::endl <<
-    "\t\tPOWERPLAY.usReserved[3]" << std::endl << "\t\tPOWERPLAY.usReserved[4]" << std::endl << "\t\tPOWERPLAY.usReserved[5]" << std::endl <<
-    "\tPOWERTUNE:" << std::endl << "\tFAN:" << std::endl << "\t\tFAN.ucRevId" << std::endl << "\t\tFAN.ucTHyst" << std::endl << "\t\tFAN.usTMin" << std::endl <<
-    "\t\tFAN.usTMed" << std::endl << "\t\tFAN.usTHigh" << std::endl << "\t\tFAN.usPWMMin" << std::endl << "\t\tFAN.usPWMMed" << std::endl <<
-    "\t\tFAN.usPWMHigh" << std::endl << "\t\tFAN.usTMax" << std::endl << "\t\tFAN.ucFanControlMode" << std::endl << "\t\tFAN.usFanPWMMax" << std::endl <<
-    "\t\tFAN.usFanOutputSensitivity" << std::endl << "\t\tFAN.ulMinFanSCLKAcousticLimit" << std::endl << "\t\tFAN.ucTargetTemperature" << std::endl <<
-    "\t\tFAN.ucMinimumPWMLimit" << std::endl << "\t\tFAN.usFanGainEdge" << std::endl << "\t\tFAN.usFanGainHotspot" << std::endl << "\t\tFAN.usFanGainLiquid" << std::endl <<
-    "\t\tFAN.usFanGainVrVddc" << std::endl << "\t\tFAN.usFanGainVrMvdd" << std::endl << "\t\tFAN.usFanGainPlx" << std::endl << "\t\tFAN.usFanGainHbm" << std::endl <<
-    "\t\tFAN.usReserved" << std::endl << "\tSYSTEM_CLOCK:" << std::endl << "\tMEMORY_CLOCK:" << std::endl << "\tVRAM_INFO:" << std::endl <<  "\tVRAM_TIMING:" << std::endl <<
-    "\tSTRINGS:";
+    printSectionHeader("Currently supported areas for modification");
+    std::cout <<
+      "\tHEADER" << std::endl <<
+      "\tDATA" << std::endl <<
+      "\tPOWERPLAY" << std::endl <<
+      "\tPOWERTUNE" << std::endl <<
+      "\tFAN" << std::endl <<
+      "\tSYSTEM_CLOCK" << std::endl <<
+      "\tMEMORY_CLOCK" << std::endl <<
+      "\tVRAM_INFO" << std::endl <<
+      "\tVRAM_TIMING" << std::endl <<
+      "\tSTRINGS";
+
+    printSectionHeader("Currently supported attributes for modification by area");
+
+    std::cout <<
+      "\tHEADER:" << std::endl <<
+      "\t\tHEADER.uaFirmWareSignature" << std::endl <<
+      "\t\tHEADER.usBiosRuntimeSegmentAddress" << std::endl <<
+      "\t\tHEADER.usProtectedModeInfoOffset" << std::endl <<
+      "\t\tHEADER.usConfigFilenameOffset" << std::endl <<
+      "\t\tHEADER.usCRC_BlockOffset" << std::endl <<
+      "\t\tHEADER.usBIOS_BootupMessageOffset" << std::endl <<
+      "\t\tHEADER.usInt10Offset" << std::endl <<
+      "\t\tHEADER.usPciBusDevInitCode" << std::endl <<
+      "\t\tHEADER.usIoBaseAddress" << std::endl <<
+      "\t\tHEADER.usSubsystemVendorID" << std::endl <<
+      "\t\tHEADER.usSubsystemID" << std::endl <<
+      "\t\tHEADER.usPCI_InfoOffset" << std::endl <<
+      "\t\tHEADER.usMasterCommandTableOffset" << std::endl <<
+      "\t\tHEADER.usMasterDataTableOffset" << std::endl <<
+      "\t\tHEADER.ucExtendedFunctionCode" << std::endl <<
+      "\t\tHEADER.ulPSPDirTableOffset" << std::endl <<
+      "\t\tHEADER.usVendorID" << std::endl <<
+      "\t\tHEADER.usDeviceID" << std::endl <<
+      "\tDATA:" << std::endl <<
+      "\tPOWERPLAY:" << std::endl <<
+      "\t\tPOWERPLAY.ucTableRevision" << std::endl <<
+      "\t\tPOWERPLAY.usTableSize" << std::endl <<
+      "\t\tPOWERPLAY.ulGoldenPPID" << std::endl <<
+      "\t\tPOWERPLAY.ulGoldenRevision" << std::endl <<
+      "\t\tPOWERPLAY.usFormatID" << std::endl <<
+      "\t\tPOWERPLAY.usVoltageTime" << std::endl <<
+      "\t\tPOWERPLAY.ulPlatformCaps" << std::endl <<
+      "\t\tPOWERPLAY.ulMaxODEngineClock" << std::endl <<
+      "\t\tPOWERPLAY.ulMaxODMemoryClock" << std::endl <<
+      "\t\tPOWERPLAY.usPowerControlLimit" << std::endl <<
+      "\t\tPOWERPLAY.usUlvVoltageOffset" << std::endl <<
+      "\t\tPOWERPLAY.usStateArrayOffset" << std::endl <<
+      "\t\tPOWERPLAY.usFanTableOffset" << std::endl <<
+      "\t\tPOWERPLAY.usThermalControllerOffset" << std::endl <<
+      "\t\tPOWERPLAY.usReserv" << std::endl <<
+      "\t\tPOWERPLAY.usMclkDependencyTableOffset" << std::endl <<
+      "\t\tPOWERPLAY.usSclkDependencyTableOffset" << std::endl <<
+      "\t\tPOWERPLAY.usVddcLookupTableOffset" << std::endl <<
+      "\t\tPOWERPLAY.usVddgfxLookupTableOffset" << std::endl <<
+      "\t\tPOWERPLAY.usMMDependencyTableOffset" << std::endl <<
+      "\t\tPOWERPLAY.usVCEStateTableOffset" << std::endl <<
+      "\t\tPOWERPLAY.usPPMTableOffset" << std::endl <<
+      "\t\tPOWERPLAY.usPowerTuneTableOffset" << std::endl <<
+      "\t\tPOWERPLAY.usHardLimitTableOffset" << std::endl <<
+      "\t\tPOWERPLAY.usPCIETableOffset" << std::endl <<
+      "\t\tPOWERPLAY.usGPIOTableOffset" << std::endl <<
+      "\t\tPOWERPLAY.usReserved[0]" << std::endl <<
+      "\t\tPOWERPLAY.usReserved[1]" << std::endl <<
+      "\t\tPOWERPLAY.usReserved[2]" << std::endl <<
+      "\t\tPOWERPLAY.usReserved[3]" << std::endl <<
+      "\t\tPOWERPLAY.usReserved[4]" << std::endl <<
+      "\t\tPOWERPLAY.usReserved[5]" << std::endl <<
+      "\tPOWERTUNE:" << std::endl <<
+      "\tFAN:" << std::endl <<
+      "\t\tFAN.ucRevId" << std::endl <<
+      "\t\tFAN.ucTHyst" << std::endl <<
+      "\t\tFAN.usTMin" << std::endl <<
+      "\t\tFAN.usTMed" << std::endl <<
+      "\t\tFAN.usTHigh" << std::endl <<
+      "\t\tFAN.usPWMMin" << std::endl <<
+      "\t\tFAN.usPWMMed" << std::endl <<
+      "\t\tFAN.usPWMHigh" << std::endl <<
+      "\t\tFAN.usTMax" << std::endl <<
+      "\t\tFAN.ucFanControlMode" << std::endl <<
+      "\t\tFAN.usFanPWMMax" << std::endl <<
+      "\t\tFAN.usFanOutputSensitivity" << std::endl <<
+      "\t\tFAN.ulMinFanSCLKAcousticLimit" << std::endl <<
+      "\t\tFAN.ucTargetTemperature" << std::endl <<
+      "\t\tFAN.ucMinimumPWMLimit" << std::endl <<
+      "\t\tFAN.usFanGainEdge" << std::endl <<
+      "\t\tFAN.usFanGainHotspot" << std::endl <<
+      "\t\tFAN.usFanGainLiquid" << std::endl <<
+      "\t\tFAN.usFanGainVrVddc" << std::endl <<
+      "\t\tFAN.usFanGainVrMvdd" << std::endl <<
+      "\t\tFAN.usFanGainPlx" << std::endl <<
+      "\t\tFAN.usFanGainHbm" << std::endl <<
+      "\t\tFAN.usReserved" << std::endl <<
+      "\tSYSTEM_CLOCK:" << std::endl <<
+      "\tMEMORY_CLOCK:" << std::endl <<
+      "\tVRAM_INFO:" << std::endl <<
+      "\tVRAM_TIMING:" << std::endl <<
+      "\tSTRINGS:";
+    printSectionFooter();
 }

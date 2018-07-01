@@ -11,6 +11,9 @@ class Console
 
 private:
 
+    static void printSectionHeader(const char* headerText);
+    static void printSectionFooter();
+
 public:
 
 // verbose structs

@@ -160,6 +160,25 @@ void AppData::PrintVerbose(std::string ReadArea)
   }
 }
 
+void AppData::SetTimingStraps(BYTE* InsertData, std::vector<int> To)
+{
+  for(std::vector<int>::iterator it = To.begin(); it != To.end(); it++)
+  {
+    std::cout << std::endl <<
+      "Copying strap to array item #" << *it << std::endl <<
+      "Value Before: " << ByteUtils::PrintByteArray( atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH );
+    memcpy( atom_vram_timing_entries.at(*it).ucLatency, InsertData, VRAM_TIMING_LATENCY_LENGTH * sizeof(BYTE) );
+    std::cout << std::endl <<
+      "Value After:  " << ByteUtils::PrintByteArray( atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH );
+  }
+}
+
+void AppData::SetTimingStraps(std::string InsertData, std::vector<int> To)
+{
+  char const *insertData = InsertData.c_str();
+  this->SetTimingStraps((BYTE*)insertData, To);
+}
+
 void AppData::SetTimingStraps(int From, std::vector<int> To)
 {
   BYTE* fromStrap;
@@ -175,15 +194,7 @@ void AppData::SetTimingStraps(int From, std::vector<int> To)
     return;
   }
 
-  for(std::vector<int>::iterator it = To.begin(); it != To.end(); it++)
-  {
-    std::cout << std::endl <<
-      "Copying strap to array item #" << *it << std::endl <<
-      "Value Before: " << ByteUtils::PrintByteArray( atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH );
-    memcpy( atom_vram_timing_entries.at(*it).ucLatency, fromStrap, VRAM_TIMING_LATENCY_LENGTH * sizeof(BYTE) );
-    std::cout << std::endl <<
-      "Value After:  " << ByteUtils::PrintByteArray( atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH );
-  }
+  this->SetTimingStraps( fromStrap, To);
 }
 
 void AppData::WriteTimingStrapsToBuffer()

@@ -25,7 +25,7 @@ TEST_CASE( "Device Id is correct", "[DeviceId]" )
   buffer->ReadFile(TEST_ROM_PATH);
   ATOM_ROM_HEADER atom_rom_header = retriever->AtomRomHeader(buffer);
 
-	REQUIRE( atom_rom_header.usDeviceID == 0x67DF );
+  REQUIRE( atom_rom_header.usDeviceID == 0x67DF );
 }
 
 TEST_CASE( "Subsystem Id is correct", "[SubsystemId]" )
@@ -344,4 +344,10 @@ TEST_CASE( "Acoustic Limit (MHz * 100):", "[ulMinFanSCLKAcousticLimit]" )
   ATOM_FAN_TABLE atom_fan_table = retriever->AtomFanTable(buffer, (atom_data_table.PowerPlayInfo + atom_powerplay_table.usFanTableOffset));
 
   REQUIRE( atom_fan_table.ulMinFanSCLKAcousticLimit == 91800 );
+}
+
+TEST_CASE( "cli timing strap", "value is updated" )
+{
+
+  REQUIRE( 1 == 1 );
 }

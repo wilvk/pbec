@@ -69,7 +69,14 @@ void CliOptions::writeTimingStraps()
 {
   if(copyStrapTo.size() > 0)
   {
-    appData->SetTimingStraps(copyStrapFrom, copyStrapTo);
+    if(copyStrapFrom >= 0)
+    {
+      appData->SetTimingStraps(copyStrapFrom, copyStrapTo);
+    }
+    else if(insertStrapData.length() > 0)
+    {
+      appData->SetTimingStraps(insertStrapData, copyStrapTo);
+    }
     appData->WriteTimingStrapsToBuffer();
     appData->WriteBufferToFile(outputFileName);
   }
@@ -99,6 +106,10 @@ void CliOptions::setCliOptions()
                            ->group("File Write")
                            ->ignore_case();
   optNewAttributeValue = app->add_option("--setValue,-v", newAttributeValue, "Specify the value for the attribute specified with -s")
+                           ->expected(1)
+                           ->group("File Write")
+                           ->ignore_case();
+  optInsertStrapData   = app->add_option("--insertStrapData,-n", insertStrapData, "Specify a string of values to insert as a timing strap")
                            ->expected(1)
                            ->group("File Write")
                            ->ignore_case();
@@ -147,12 +158,17 @@ void CliOptions::setOptionDependencies()
     ->requires(optInputFileName)
     ->requires(optOutputFileName)
     ->requires(optAttributeToSet);
+  optInsertStrapData
+    ->requires(optInputFileName)
+    ->requires(optOutputFileName)
+    ->requires(optCopyStrapTo)
+    ->excludes(optCopyStrapFrom);
   optCopyStrapFrom
     ->requires(optInputFileName)
     ->requires(optOutputFileName)
-    ->requires(optCopyStrapTo);
+    ->requires(optCopyStrapTo)
+    ->excludes(optInsertStrapData);
   optCopyStrapTo
     ->requires(optInputFileName)
-    ->requires(optOutputFileName)
-    ->requires(optCopyStrapFrom);
+    ->requires(optOutputFileName);
 }

@@ -35,9 +35,19 @@ or
 
 ### Timing Straps
 
+#### Copying:
+
 Copying timing straps from array 0 to arrays 1, 2, 3 from support/test.rom to test2.rom:
 
 `./pbec -i support/test.rom -c 0 -p 1 2 3 -o test2.rom`
+
+#### Editing
+
+You can also specify the hexadecimal byte form of a timing strap from the command line using the `-n` option. The length of the strap should be 96 hexadecimal characters (0-9, a-f).
+
+The following example sets the first timing strap to the value specified.
+
+`./pbec -i support/test.rom -o test3.rom -n aaaaaaaaaabbbbbbbbbbcccccccccc333333333344444444445555555555666666666677777777778888888889abcdef -p 1`
 
 ## Building:
 

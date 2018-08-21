@@ -160,10 +160,31 @@ void AppData::PrintVerbose(std::string ReadArea)
   }
 }
 
+void AppData::SetTimingStraps(BYTE* InsertData, std::vector<int> To)
+{
+  int i = 0;
+  BYTE* insertDataBytes = ByteUtils::HexStringToBytes(InsertData, 2*VRAM_TIMING_LATENCY_LENGTH);
+
+  for(std::vector<int>::iterator it = To.begin(); it != To.end(); it++,i++)
+  {
+    std::cout << std::endl <<
+      "Copying strap to array item #" << *it << std::endl <<
+      "Value Before: " << ByteUtils::PrintByteArray( atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH );
+    memcpy( atom_vram_timing_entries.at(*it).ucLatency, insertDataBytes, sizeof(atom_vram_timing_entries.at(*it).ucLatency) );
+    std::cout << std::endl <<
+      "Value After:  " << ByteUtils::PrintByteArray( atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH );
+  }
+}
+
+void AppData::SetTimingStraps(std::string InsertData, std::vector<int> To)
+{
+  char const *insertData = InsertData.c_str();
+  this->SetTimingStraps((BYTE*)insertData, To);
+}
+
 void AppData::SetTimingStraps(int From, std::vector<int> To)
 {
-  BYTE* fromStrap;
-  fromStrap = atom_vram_timing_entries.at(From).ucLatency;
+  BYTE* fromStrap = atom_vram_timing_entries.at(From).ucLatency;
 
   std::cout << std::endl <<
     "Copying strap from array item #" << From << std::endl <<
@@ -175,20 +196,12 @@ void AppData::SetTimingStraps(int From, std::vector<int> To)
     return;
   }
 
-  for(std::vector<int>::iterator it = To.begin(); it != To.end(); it++)
-  {
-    std::cout << std::endl <<
-      "Copying strap to array item #" << *it << std::endl <<
-      "Value Before: " << ByteUtils::PrintByteArray( atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH );
-    memcpy( atom_vram_timing_entries.at(*it).ucLatency, fromStrap, VRAM_TIMING_LATENCY_LENGTH * sizeof(BYTE) );
-    std::cout << std::endl <<
-      "Value After:  " << ByteUtils::PrintByteArray( atom_vram_timing_entries.at(*it).ucLatency, VRAM_TIMING_LATENCY_LENGTH );
-  }
+  this->SetTimingStraps(fromStrap, To);
 }
 
 void AppData::WriteTimingStrapsToBuffer()
 {
-  SaveStruct::SaveTimingStraps(buffer, atom_vram_timing_entries, AtomVramTimingOffset);
+  SaveStruct::AtomVramTimingEntries(buffer, atom_vram_timing_entries, AtomVramTimingOffset);
 }
 
 void AppData::WriteBufferToFile(std::string FileName)

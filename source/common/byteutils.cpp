@@ -60,3 +60,50 @@ std::string ByteUtils::PrintByteArray(BYTE* ByteArray, int ArrayLength)
   }
   return returnString;
 }
+
+int ByteUtils::HexAsciiToDec(int value)
+{
+  if(value > 47 && value < 59)
+  {
+    value -= 48;
+  }
+  else if(value > 96 && value < 103)
+  {
+    value -= 97;
+    value += 10;
+  }
+  else if(value > 64 && value < 71)
+  {
+    value -= 65;
+    value += 10;
+  }
+  else
+  {
+    value = 0;
+  }
+  return value;
+}
+
+BYTE* ByteUtils::HexStringToBytes(BYTE* HexString, int ArrayLength)
+{
+  BYTE* returnBytes;
+  returnBytes = (BYTE*) malloc(ArrayLength/2);
+  int j=0;
+
+  for(int i = 0; i < ArrayLength; i++)
+  {
+    if(i % 2 == 0)
+    {
+      int valueHigh = (int)(*(HexString+i));
+      int valueLow =  (int)(*(HexString+i+1));
+
+      valueHigh = ByteUtils::HexAsciiToDec(valueHigh);
+      valueLow =  ByteUtils::HexAsciiToDec(valueLow);
+
+      valueHigh *= 16;
+      int total = valueHigh + valueLow;
+      *(returnBytes+j++) = (BYTE)total;
+    }
+  }
+  return returnBytes;
+}

@@ -8,5 +8,5 @@ private:
   static std::vector<BYTE> toBytes(T &memStruct);
 
 public:
-  static void SaveTimingStraps(Buffer *BufferPtr, std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries, int AtomVramTimingOffset);
+  static void AtomVramTimingEntries(Buffer *BufferPtr, std::vector<ATOM_VRAM_TIMING_ENTRY> AtomVramTimingEntries, int AtomVramTimingOffset);
 };

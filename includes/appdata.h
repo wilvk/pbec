@@ -53,6 +53,8 @@ public:
   void OpenFile(std::string Filename);
   void PrintSummary(std::string ReadArea);
   void PrintVerbose(std::string ReadArea);
+  void SetTimingStraps(BYTE* InsertData, std::vector<int> To);
+  void SetTimingStraps(std::string InsertData, std::vector<int> To);
   void SetTimingStraps(int From, std::vector<int> To);
   void WriteTimingStrapsToBuffer();
   void WriteBufferToFile(std::string FileName);

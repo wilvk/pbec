@@ -17,6 +17,8 @@ std::vector<BYTE> Buffer::ReadFile(std::string Filename)
 
 void Buffer::WriteFile(std::string FileName)
 {
+  std::cout << std::endl << "Writing to file: " << FileName;
+
   std::ofstream outFile(FileName, std::ios::out | std::ios::binary);
   outFile.write(reinterpret_cast<const char*>(&FileData[0]), FileData.size() * sizeof(BYTE));
   outFile.close();
@@ -26,6 +28,16 @@ std::vector<BYTE> Buffer::GetSubset(int &Offset)
 {
   std::vector<BYTE> subset(FileData.begin() + Offset, FileData.end());
   return subset;
+}
+
+void Buffer::SetSubset(int &Offset, std::vector<BYTE> Bytes)
+{
+  int i = 0;
+  for (std::vector<BYTE>::iterator it = Bytes.begin() ; it != Bytes.end(); ++it,i++)
+  {
+    int fullOffset = Offset + i;
+    FileData[fullOffset] = (BYTE)*it;
+  }
 }
 
 void Buffer::SetBufferPosition(int NewPosition)
@@ -166,7 +178,7 @@ std::string Buffer::GetStringFromOffset(int Offset)
       break;
     }
 
-    if(bufferOffset >= 10000)
+    if(bufferOffset >= MAX_BUFFER_OFFSET)
     {
       break;
     }

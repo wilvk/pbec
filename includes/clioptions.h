@@ -16,6 +16,7 @@ private:
   CLI::Option* optCopyStrapFrom;
   CLI::Option* optCopyStrapTo;
   CLI::Option* optReadArea;
+  CLI::Option* optInsertStrapData;
 
   AppData *appData;
   bool summary;
@@ -25,9 +26,10 @@ private:
   std::string outputFileName;
   std::string attributeToSet;
   std::string newAttributeValue;
-  int copyStrapFrom;
+  int copyStrapFrom = -1;
   std::vector<int> copyStrapTo;
   std::string readArea;
+  std::string insertStrapData;
 
   void setCliOptions();
   void setDefaultReadArea();

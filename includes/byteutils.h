@@ -4,6 +4,7 @@
 class ByteUtils
 {
 private:
+  static int HexAsciiToDec(int value);
 
 public:
   std::vector<BYTE> GetBytes(void *Object);
@@ -14,4 +15,5 @@ public:
   static std::string PrintDecHexString(WORD HexValue);
   static std::string PrintDecHexString(DWORD HexValue);
   static std::string PrintByteArray(BYTE* ByteArray, int ArrayLength);
+  static BYTE* HexStringToBytes(BYTE* HexString, int ArrayLength);
 };

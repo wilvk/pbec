@@ -12,6 +12,7 @@ public:
   std::vector<BYTE> ReadFile(std::string Filename);
   void WriteFile(std::string FileName);
   std::vector<BYTE> GetSubset(int &Offset);
+  void SetSubset(int &Offset, std::vector<BYTE>Bytes);
   void SetBufferPosition(int NewPosition);
   int GetBufferPosition();
   void FixChecksum(bool Save);

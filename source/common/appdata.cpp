@@ -162,11 +162,8 @@ void AppData::PrintVerbose(std::string ReadArea)
 
 void AppData::SetTimingStraps(BYTE* InsertData, std::vector<int> To)
 {
-  std::cout << std::endl << "Data to insert: " << InsertData <<std::endl;
-  BYTE* insertDataBytes = ByteUtils::HexStringToBytes(InsertData, 2*VRAM_TIMING_LATENCY_LENGTH);
-  std::cout << std::endl << "Conv to insert: " << insertDataBytes <<std::endl;
-
   int i = 0;
+  BYTE* insertDataBytes = ByteUtils::HexStringToBytes(InsertData, 2*VRAM_TIMING_LATENCY_LENGTH);
 
   for(std::vector<int>::iterator it = To.begin(); it != To.end(); it++,i++)
   {

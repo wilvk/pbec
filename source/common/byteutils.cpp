@@ -102,8 +102,7 @@ BYTE* ByteUtils::HexStringToBytes(BYTE* HexString, int ArrayLength)
 
       valueHigh *= 16;
       int total = valueHigh + valueLow;
-      *(returnBytes+j) = (BYTE)total;
-      j++;
+      *(returnBytes+j++) = (BYTE)total;
     }
   }
   return returnBytes;

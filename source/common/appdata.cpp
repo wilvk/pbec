@@ -206,5 +206,6 @@ void AppData::WriteTimingStrapsToBuffer()
 
 void AppData::WriteBufferToFile(std::string FileName)
 {
+  buffer->FixChecksum(true);
   buffer->WriteFile(FileName);
 }
